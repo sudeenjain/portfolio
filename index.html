@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sudeen Jain Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      line-height: 1.8;
+      padding: 0;
+      margin: 0;
+      background-color: #1f1f2b;
+      color: #fff;
+    }
+    header {
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+      font-size: 20px;
+    }
+    nav a.active {
+      font-weight: bold;
+    }
+    section {
+      padding: 50px 25px;
+    }
+    h1, h2, h3 {
+      color: #fff;
+    }
+    .home-img {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .home-img img {
+      width: 250px;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 10px #00ffff;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    /* One-time lighting effect on hover */
+    .home-img img:hover {
+      transform: scale(1.03); /* slight zoom in */
+      box-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff;
+      animation: flash-glow 0.5s ease-in-out 1;
+    }
+    @keyframes flash-glow {
+      0% {
+        box-shadow: 0 0 10px #00ffff;
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 60px #00ffff;
+        transform: scale(1.05);
+      }
+      100% {
+        box-shadow: 0 0 30px #00ffff;
+        transform: scale(1.03);
+      }
+    }
+    .social-icons a {
+      margin-right: 10px;
+      font-size: 24px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #1da1f2;
+    }
+    #certifications ul li a {
+      color: #1e90ff;
+      text-decoration: none;
+    }
+    #certifications ul li a:visited {
+      color: #1e90ff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">Portfolio</a>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="home">
+    <div class="home-img">
+      <img src="main.jpg" alt="Profile photo of Sudeen Jain" />
+    </div>
+    <div class="home-content">
+      <h1>Hi, It's <span>Sudeen</span></h1>
+      <h3 class="typing-text">I'm a B.Tech AIML Student</h3>
+      <p>Highly motivated B.Tech student specializing in Artificial Intelligence and Machine Learning, with strong problem-solving and coding skills. Passionate about developing innovative solutions and eager to apply knowledge in real-world projects.</p>
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/sudeen-jain-01su23ai094" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://github.com/sudeenjain" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+        <a href="mailto:sudinhr1@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://instagram.com/sudeen_jain" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <p>Explore my projects on <a href="https://github.com/sudeenjain" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <p>Python, HTML, CSS, Databases, Video Editing, Firebase</p>
+  </section>
+
+  <section id="certifications">
+    <h2>Certifications</h2>
+    <ul>
+      <li>AWS Cloud Foundations – <a href="https://www.credly.com/go/8L0X6SCq" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>Microsoft Azure Fundamentals-Cloud Computing – <a href="https://skillsoft.digitalbadges.skillsoft.com/481daa56-525f-46d3-b249-ff884ef8ee85" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>Data Visualisation – <a href="https://courses.ibmcep.cognitiveclass.ai/certificates/ed9a7d7e3bcb4af0902ba28cc588815a" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>RDBMS – <a href="https://courses.ibmcep.cognitiveclass.ai/certificates/b26690bdc8cb45cfae474e816c6c13b3" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>Solutions Architecture Job Simulation – <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/pmnMSL4QiQ9JCgE3W/kkE9HyeNcw6rwCRGw_pmnMSL4QiQ9JCgE3W_smkWjxWA8udPFBT6r_1749614880911_completion_certificate.pdf" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>Intel® Edge AI Certification – <a href="https://edgate.in/intel-unnati.php" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+      <li>Ethnotech-Machine Learning – <a href="https://www.verify.ethnotech.in/?search=ETHSU03659" target="_blank" rel="noopener noreferrer">View Certificate</a></li>
+    </ul>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <p>Bachelor of Technology (B.Tech) in Artificial Intelligence and Machine Learning<br>Srinivas University, Mangalore, Karnataka</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>Phone: +91 87628 62509</p>
+    <p>Email: <a href="mailto:sudinhr1@gmail.com">sudinhr1@gmail.com</a></p>
+  </section>
+
+</body>
+</html>
