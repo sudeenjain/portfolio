@@ -29,20 +29,6 @@ This portfolio website is a clean, modern, and mobile-friendly site designed to 
 
 ---
 
-## 📁 Project Structure
-├── index.html # Home page
-├── skills.html # Skills page
-├── projects.html # Projects page
-├── certifications.html # Certifications page
-├── internship.html # Internship page
-├── contact.html # Contact page
-├── style.css # Stylesheet for all pages
-├── script.js # JavaScript for hamburger menu
-├── main.jpg # Profile picture
-└── README.md # Project description and instruction
-
----
-
 ## 🚀 How to Run Locally
 
 1. Clone the repository or download all files.
