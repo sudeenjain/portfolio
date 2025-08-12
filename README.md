@@ -30,4 +30,54 @@ This portfolio website is a clean, modern, and mobile-friendly site designed to 
 ---
 
 ## 📁 Project Structure
+├── index.html # Home page
+├── skills.html # Skills page
+├── projects.html # Projects page
+├── certifications.html # Certifications page
+├── internship.html # Internship page
+├── contact.html # Contact page
+├── style.css # Stylesheet for all pages
+├── script.js # JavaScript for hamburger menu
+├── main.jpg # Profile picture
+└── README.md # Project description and instruction
+
+---
+
+## 🚀 How to Run Locally
+
+1. Clone the repository or download all files.
+2. Make sure all files are in the same folder.
+3. Open `index.html` in any modern web browser.
+4. Navigate through pages using the header menu.
+5. Resize the browser window or open on a mobile device to test responsiveness.
+
+---
+
+## 📱 Responsive Design
+
+The portfolio is fully responsive:
+
+- Desktop: Horizontal navigation menu
+- Tablet & Mobile: Hamburger menu toggles the navigation sidebar
+- Content and images resize gracefully to fit screen size
+
+---
+
+## 📧 Contact
+
+Feel free to reach out!
+
+- Email: [sudinhr1@gmail.com](mailto:sudinhr1@gmail.com)
+- LinkedIn: [https://www.linkedin.com/in/sudeen-jain-01su23ai094](https://www.linkedin.com/in/sudeen-jain-01su23ai094)
+- GitHub: [https://github.com/sudeenjain](https://github.com/sudeenjain)
+
+---
+
+## License
+
+This project is open source and free to use.
+
+---
+
+*Created by Sudeen Jain*
 
