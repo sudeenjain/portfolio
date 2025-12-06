@@ -43,4 +43,4 @@ This is a static website and requires no backend server setup.
 
 ```bash
 git clone [https://sudeenjain.github.io/portfolio/]
-cd portfolio-root
+cd portfolio
