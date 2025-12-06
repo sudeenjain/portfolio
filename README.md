@@ -33,3 +33,14 @@ The design is modern, cyber-themed, featuring a dark mode aesthetic with vibrant
 ## 📂 Project Structure
 
 The project is meticulously organized into logical directories for enhanced maintainability:
+portfolio-root/ ├── index.html # Main entry point, links, and layout placeholders ├── profile.jpg # Profile picture asset ├── resume.pdf # Resume file (linked in the Contact section) ├── css/ │ └── style.css # All custom CSS and styling ├── js/ │ ├── particles.js # Three.js particle background logic │ └── scripts.js # DOM loading logic, menu handlers, AOS initialization └── includes/ # Separate HTML fragments for each major section ├── nav.html # Navigation Bar ├── home.html # Hero Section ├── about.html # About Me & Stats ├── skills.html # Technical Skills Badges ├── certifications.html # Certifications cards ├── projects.html # Project cards ├── contact.html # Socials and Resume Download └── get-in-touch.html # Contact Form
+
+## ⚙️ Setup and Installation
+
+This is a static website and requires no backend server setup.
+
+### 1. Clone the Repository
+
+```bash
+git clone [https://sudeenjain.github.io/portfolio/]
+cd portfolio-root
