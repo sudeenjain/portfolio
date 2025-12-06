@@ -40,29 +40,32 @@ This repository contains the source code for a professional portfolio website de
 
 The project is meticulously organized into logical directories, utilizing modular HTML fragments to simplify content management.
 
-portfolio 
-├── index.html # Main entry point, links, and layout placeholders 
-├── profile.jpg # Profile picture asset 
-├── resume.pdf # Resume file (linked in the Contact section) 
-├── css/ │ └── style.css # All custom CSS and styling 
-├── js/ 
-│ ├── particles.js # Three.js particle background logic 
-│ └── scripts.js # DOM loading logic, menu handlers, AOS initialization 
-├──includes/ # Separate HTML fragments for each major section 
-| ├── nav.html # Navigation Bar ├── home.html # Hero Section 
-| ├── about.html # About Me & Stats 
-| ├── skills.html # Technical Skills Badges 
-| ├── certifications.html # Certifications cards 
-| ├── projects.html # Project cards 
-| ├── contact.html # Socials and Resume Download 
-| └── get-in-touch.html # Contact Form
-
+```text
+portfolio/
+├── index.html             # Main entry point, links, and layout placeholders
+├── profile.jpg            # Profile picture asset
+├── resume.pdf             # Resume file (linked in the Contact section)
+├── css/
+│   └── style.css          # All custom CSS and styling
+├── js/
+│   ├── particles.js       # Three.js particle background logic
+│   └── scripts.js         # DOM loading logic, menu handlers, AOS initialization
+├── includes/              # Separate HTML fragments for each major section
+│   ├── nav.html           # Navigation Bar
+│   ├── home.html          # Hero Section
+│   ├── about.html         # About Me & Stats
+│   ├── skills.html        # Technical Skills Badges
+│   ├── certifications.html# Certifications cards
+│   ├── projects.html      # Project cards
+│   ├── contact.html       # Socials and Resume Download
+│   └── get-in-touch.html  # Contact Form
+```
 
 ---
 
 ## 🧭 File Descriptions
 
-### Root Directory (`portfolio-root/`)
+### Root Directory (`portfolio/`)
 
 | File/Directory | Description |
 | :--- | :--- |
