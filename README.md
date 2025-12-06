@@ -30,10 +30,79 @@ The design is modern, cyber-themed, featuring a dark mode aesthetic with vibrant
 
 ---
 
+## 🚀 Project Name: Professional Portfolio Website
+
+This repository contains the source code for a professional portfolio website designed to showcase skills, projects, and educational background. The project employs a modular and organized structure for enhanced maintainability and clear separation of concerns.
+
+---
+
 ## 📂 Project Structure
 
-The project is meticulously organized into logical directories for enhanced maintainability:
-portfolio-root/ ├── index.html # Main entry point, links, and layout placeholders ├── profile.jpg # Profile picture asset ├── resume.pdf # Resume file (linked in the Contact section) ├── css/ │ └── style.css # All custom CSS and styling ├── js/ │ ├── particles.js # Three.js particle background logic │ └── scripts.js # DOM loading logic, menu handlers, AOS initialization └── includes/ # Separate HTML fragments for each major section ├── nav.html # Navigation Bar ├── home.html # Hero Section ├── about.html # About Me & Stats ├── skills.html # Technical Skills Badges ├── certifications.html # Certifications cards ├── projects.html # Project cards ├── contact.html # Socials and Resume Download └── get-in-touch.html # Contact Form
+The project is meticulously organized into logical directories, utilizing modular HTML fragments to simplify content management.
+
+portfolio 
+├── index.html # Main entry point, links, and layout placeholders 
+├── profile.jpg # Profile picture asset 
+├── resume.pdf # Resume file (linked in the Contact section) 
+├── css/ │ └── style.css # All custom CSS and styling 
+├── js/ 
+│ ├── particles.js # Three.js particle background logic 
+│ └── scripts.js # DOM loading logic, menu handlers, AOS initialization 
+├──includes/ # Separate HTML fragments for each major section 
+| ├── nav.html # Navigation Bar ├── home.html # Hero Section 
+| ├── about.html # About Me & Stats 
+| ├── skills.html # Technical Skills Badges 
+| ├── certifications.html # Certifications cards 
+| ├── projects.html # Project cards 
+| ├── contact.html # Socials and Resume Download 
+| └── get-in-touch.html # Contact Form
+
+
+---
+
+## 🧭 File Descriptions
+
+### Root Directory (`portfolio-root/`)
+
+| File/Directory | Description |
+| :--- | :--- |
+| `index.html` | The **main entry point** and core template, linking all assets and integrating the HTML fragments. |
+| `profile.jpg` | The primary **profile picture** asset. |
+| `resume.pdf` | The downloadable **resume file** for visitors. |
+
+### `css/`
+
+| File | Description |
+| :--- | :--- |
+| `style.css` | Contains all **custom styling**, including layout, typography, and responsive design logic. |
+
+### `js/`
+
+| File | Description |
+| :--- | :--- |
+| `particles.js` | Dedicated script for the **Three.js particle background logic**. |
+| `scripts.js` | Main application script for **DOM loading**, **menu handlers**, and initializing libraries like **AOS** (Animate On Scroll). |
+
+### `includes/` (Modular HTML Fragments)
+
+This directory holds reusable HTML partials that make up the content sections of the portfolio.
+
+| File | Section Content |
+| :--- | :--- |
+| `nav.html` | **Navigation Bar** structure. |
+| `home.html` | **Hero Section** content. |
+| `about.html` | **About Me** information and statistics. |
+| `skills.html` | **Technical Skills** display. |
+| `certifications.html` | **Certifications** cards/list. |
+| `projects.html` | **Project** cards/grid. |
+| `contact.html` | **Social media links** and resume download prompt. |
+| `get-in-touch.html` | **Contact Form** structure. |
+
+---
+
+## 🛠️ Usage
+
+To view the portfolio locally, simply open `index.html` in your web browser. A local development server is recommended to ensure that dynamic inclusion of the fragments in the `includes/` directory works correctly.
 
 ## ⚙️ Setup and Installation
 
