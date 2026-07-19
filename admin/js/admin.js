@@ -60,6 +60,12 @@ function setupNavigation() {
     const sidebarItems = document.querySelectorAll('.sidebar-menu .sidebar-item');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    const closeSidebar = () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    };
 
     sidebarItems.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -68,7 +74,7 @@ function setupNavigation() {
             if (!target) return;
 
             // Handle mobile sidebar auto-closing
-            sidebar.classList.remove('active');
+            closeSidebar();
 
             // Switch active menu item
             sidebarItems.forEach(i => i.classList.remove('active'));
@@ -81,8 +87,14 @@ function setupNavigation() {
     // Hamburger toggle for mobile responsive views
     if (hamburgerBtn) {
         hamburgerBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
+            const isOpen = sidebar.classList.toggle('active');
+            overlay.classList.toggle('active', isOpen);
         });
+    }
+
+    // Tap outside overlay to close
+    if (overlay) {
+        overlay.addEventListener('click', closeSidebar);
     }
 
     // Modal close binds
