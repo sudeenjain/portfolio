@@ -1,0 +1,68 @@
+name: Auto-Update Resume
+
+# ─── Triggers ────────────────────────────────────────────────────────────────
+on:
+  # 1. Run every night at midnight IST (18:30 UTC)
+  schedule:
+    - cron: "30 18 * * *"
+
+  # 2. Run whenever you push to main (e.g., after adding data via admin)
+  push:
+    branches:
+      - master
+      - main
+
+  # 3. Manual trigger from GitHub Actions UI
+  workflow_dispatch:
+
+# ─── Permissions ─────────────────────────────────────────────────────────────
+permissions:
+  contents: write   # Needed to commit the generated PDF back to the repo
+
+# ─── Jobs ────────────────────────────────────────────────────────────────────
+jobs:
+  build-resume:
+    name: Generate & Compile Resume
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout the repo ──────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python ─────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── 3. Generate resume.tex from Supabase data ────────────────────────
+      - name: Generate resume.tex
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          cd resume
+          python generate_resume.py
+
+      # ── 4. Install Tectonic (lightweight LaTeX compiler) ─────────────────
+      - name: Install Tectonic
+        run: |
+          curl -LsSf https://drop.casey.li/tectonic/install-tectonic.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # ── 5. Compile resume.tex → resume.pdf ──────────────────────────────
+      - name: Compile LaTeX to PDF
+        run: |
+          cd resume
+          tectonic resume.tex --print
+
+      # ── 6. Commit the updated PDF back to the repo ───────────────────────
+      - name: Commit updated resume.pdf
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resume/resume.pdf resume/resume.tex
+          # Only commit if something actually changed
+          git diff --cached --quiet || git commit -m "chore: auto-update resume [skip ci]"
+          git push

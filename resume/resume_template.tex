@@ -1,0 +1,110 @@
+\documentclass[10pt, letterpaper]{article}
+
+% ─── Packages ────────────────────────────────────────────────────────────────
+\usepackage[
+  top=0.55in, bottom=0.55in,
+  left=0.65in, right=0.65in
+]{geometry}
+\usepackage{hyperref}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% ─── Colors ──────────────────────────────────────────────────────────────────
+\definecolor{accent}{HTML}{0EA5E9}
+\definecolor{muted}{HTML}{64748B}
+\definecolor{dark}{HTML}{1E293B}
+
+% ─── Section Styling ─────────────────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{dark}}
+  {}{0em}{}
+  [\vspace{-6pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
+\titlespacing{\section}{0pt}{10pt}{4pt}
+
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\setlist[itemize]{leftmargin=*, nosep, topsep=2pt, itemsep=1pt}
+
+% ─── Custom Commands ─────────────────────────────────────────────────────────
+\newcommand{\entry}[4]{%
+  \textbf{#1} \hfill \textit{\small\color{muted}#2} \\
+  \textit{\color{muted}#3} \hfill \small\color{muted}#4 \\
+  \vspace{2pt}
+}
+
+% ═════════════════════════════════════════════════════════════════════════════
+\begin{document}
+% ═════════════════════════════════════════════════════════════════════════════
+
+% ─── Header ──────────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries\color{dark} SUDEEN JAIN H R} \\[4pt]
+  {\large\color{accent} AI \& ML Engineer $|$ Full-Stack Developer} \\[6pt]
+  \small
+  \faIcon{map-marker-alt}~India \quad
+  \faIcon{envelope}~\href{mailto:sudeenjain@example.com}{sudeenjain@example.com} \quad
+  \faIcon{github}~\href{https://github.com/sudeenjain}{github.com/sudeenjain} \quad
+  \faIcon{linkedin}~\href{https://linkedin.com/in/sudeenjain}{linkedin.com/in/sudeenjain}
+\end{center}
+
+\vspace{4pt}
+
+% ─── Education ───────────────────────────────────────────────────────────────
+\section{Education}
+\entry{B.Tech in Artificial Intelligence \& Machine Learning}
+      {2022 -- 2026}
+      {Srinivas University, Mangalore, India}
+      {Expected Graduation: May 2026}
+\vspace{2pt}
+
+% ─── Summary ──────────────────────────────────────────────────────────────────
+\section{Summary}
+Driven AI \& ML engineer with hands-on experience in building intelligent systems, cloud deployments, and full-stack web development. Proficient in Python, TensorFlow, AWS, Azure, and modern web frameworks. Passionate about turning data into actionable solutions.
+
+\vspace{2pt}
+
+% ─── Skills ──────────────────────────────────────────────────────────────────
+\section{Technical Skills}
+\begin{multicols}{2}
+\begin{itemize}
+  \item Python, Java, SQL, JavaScript, HTML/CSS
+  \item TensorFlow, Scikit-learn, OpenCV, Pandas
+  \item AWS (EC2, S3, Lambda), Azure, Google Cloud
+  \item React, Node.js, Flask, FastAPI
+  \item MySQL, PostgreSQL, Supabase, MongoDB
+  \item Git, Docker, Linux, REST APIs
+\end{itemize}
+\end{multicols}
+
+\vspace{2pt}
+
+% ─── Projects (AUTO-GENERATED) ───────────────────────────────────────────────
+\section{Projects}
+%%PROJECTS%%
+
+% ─── Experience / Internships ────────────────────────────────────────────────
+\section{Internships \& Experience}
+%%INTERNSHIPS%%
+
+% ─── Certifications (AUTO-GENERATED) ────────────────────────────────────────
+\section{Certifications}
+%%CERTIFICATES%%
+
+% ─── Achievements ────────────────────────────────────────────────────────────
+\section{Achievements \& Badges}
+%%BADGES%%
+
+% ─── Footer note ─────────────────────────────────────────────────────────────
+\vspace{8pt}
+\begin{center}
+  \small\color{muted}
+  Auto-generated on %%GENERATED_DATE%% $\cdot$ Powered by Supabase + GitHub Actions
+\end{center}
+
+\end{document}
