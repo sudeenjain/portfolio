@@ -97,14 +97,6 @@ const PortfolioRenderer = (() => {
     }
 
     function renderCertifications(d) {
-        const cards = d.cards.map((c, i) => `
-<div class="card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
-    <i class="${c.icon}" style="color: var(--secondary); font-size: 2rem; margin-bottom: 10px;"></i>
-    <h3>${c.title}</h3>
-    <p>${c.desc}</p>
-    <a class="card-link" href="${c.linkHref}" target="_blank">${c.linkLabel} <i class="fas fa-external-link-alt"></i></a>
-</div>`).join('');
-
         const gallery = d.gallery.map(cat => {
             const items = cat.items.map(it => `
 <div class="cert-gallery-card" onclick="openCertLightbox(this)">
@@ -123,15 +115,10 @@ const PortfolioRenderer = (() => {
 
         return `
 <div class="container">
-    <h2 data-aos="fade-up">Certifications</h2>
+    <h2 data-aos="fade-up">Certificate Gallery</h2>
     <div class="section-divider" data-aos="fade-up" data-aos-delay="100"></div>
-    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150">Industry-recognized credentials validating my expertise</p>
-    <div class="grid">${cards}</div>
-    <div style="margin-top: 3rem;">
-        <h3 data-aos="fade-up" style="text-align:center; font-size:1.3rem; color:#fff; margin-bottom: 0.5rem;">Certificate Gallery</h3>
-        <p class="section-subtitle" data-aos="fade-up" style="margin-bottom: 2rem;">Click any certificate to view it full size</p>
-        ${gallery}
-    </div>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150" style="margin-bottom: 2rem;">Industry-recognized credentials validating my expertise. Click any certificate to view it full size.</p>
+    ${gallery}
     <div data-aos="fade-up" style="margin-top: 3rem; text-align: center;">
         <a class="btn" href="${d.footerLinkHref}" target="_blank"><i class="fab fa-linkedin"></i> ${d.footerLinkLabel}</a>
     </div>

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio System Control Panel</title>
+
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin Styling -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">SJ</div>
+                <div class="sidebar-title">
+                    <h2>PORTFOLIO</h2>
+                    <p>Subsystem Control</p>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active" data-target="dashboard">
+                    <a href="#"><i class="fas fa-chart-line"></i> Dashboard</a>
+                </li>
+                <li class="sidebar-item" data-target="certificates">
+                    <a href="#"><i class="fas fa-certificate"></i> Certificates</a>
+                </li>
+                <li class="sidebar-item" data-target="badges">
+                    <a href="#"><i class="fas fa-award"></i> Badges</a>
+                </li>
+                <li class="sidebar-item" data-target="internships">
+                    <a href="#"><i class="fas fa-briefcase"></i> Internships</a>
+                </li>
+                <li class="sidebar-item" data-target="projects">
+                    <a href="#"><i class="fas fa-rocket"></i> Projects</a>
+                </li>
+                <li class="sidebar-item" data-target="achievements">
+                    <a href="#"><i class="fas fa-trophy"></i> Achievements</a>
+                </li>
+                <li class="sidebar-item" data-target="skills">
+                    <a href="#"><i class="fas fa-code"></i> Skills</a>
+                </li>
+                <li class="sidebar-item logout">
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="admin-main">
+            <!-- Header bar -->
+            <header class="top-bar">
+                <button class="hamburger-mobile" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="pageTitle">DASHBOARD MODULE</h1>
+                <div class="admin-profile">
+                    <div class="profile-name">sudeenjain</div>
+                    <div class="avatar">
+                        <img src="https://ui-avatars.com/api/?name=Sudeen+Jain&background=000&color=00f3ff&size=100&bold=true"
+                            alt="Admin Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- 1. DASHBOARD SUMMARY SECTION -->
+            <section id="section-dashboard" class="dashboard-section active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Certificates</h3>
+                            <div class="metric-value" id="count-certs">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-certificate"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Badges</h3>
+                            <div class="metric-value" id="count-badges">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-award"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Internships</h3>
+                            <div class="metric-value" id="count-internships">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-briefcase"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Projects</h3>
+                            <div class="metric-value" id="count-projects">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-rocket"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Achievements</h3>
+                            <div class="metric-value" id="count-achievements">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-trophy"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Skills</h3>
+                            <div class="metric-value" id="count-skills">0</div>
+                        </div>
+                        <div class="metric-icon"><i class="fas fa-code"></i></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2 class="form-title"
+                        style="font-family:'Orbitron',sans-serif; font-size:1.1rem; letter-spacing:1px; margin-bottom:15px; color:#fff;">
+                        SYSTEM STATUS</h2>
+                    <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6; margin-bottom:20px;">
+                        Status: Connected to Supabase Instance. Live queries active. Changes published directly to the
+                        portfolio frontend from control structures. RLS rules active.
+                    </p>
+                    <div
+                        style="background-color:rgba(0, 243, 255, 0.03); border:1px solid var(--border-color); border-radius:6px; padding:15px; font-size:0.85rem; font-family:monospace; color:var(--primary);">
+                        $ status-check: ALL PORTS SECURED // RLS VERIFIED
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CERTIFICATES CRUD SECTION -->
+            <section id="section-certificates" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="certs-search" placeholder="Search title or organization...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('certificates')">
+                            <i class="fas fa-plus"></i> Add Certificate
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Organization</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Featured</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="certificates-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. BADGES CRUD SECTION -->
+            <section id="section-badges" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="badges-search" placeholder="Search badges...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('badges')">
+                            <i class="fas fa-plus"></i> Add Badge
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Badge Title</th>
+                                    <th>Issuer</th>
+                                    <th>Skills Set</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="badges-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. INTERNSHIPS CRUD SECTION -->
+            <section id="section-internships" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="internships-search" placeholder="Search company or title...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('internships')">
+                            <i class="fas fa-plus"></i> Add internship
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Role / Title</th>
+                                    <th>Company</th>
+                                    <th>Duration</th>
+                                    <th>Technologies</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="internships-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. PROJECTS CRUD SECTION -->
+            <section id="section-projects" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="projects-search" placeholder="Search projects...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('projects')">
+                            <i class="fas fa-plus"></i> Add Project
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Technologies</th>
+                                    <th>Order</th>
+                                    <th>Status</th>
+                                    <th>Featured</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projects-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. ACHIEVEMENTS CRUD SECTION -->
+            <section id="section-achievements" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="achievements-search" placeholder="Search achievements...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('achievements')">
+                            <i class="fas fa-plus"></i> Add Achievement
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Organization</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="achievements-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. SKILLS CRUD SECTION -->
+            <section id="section-skills" class="dashboard-section">
+                <div class="section-card">
+                    <div class="card-header-actions">
+                        <div class="action-left">
+                            <div class="search-bar">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="skills-search" placeholder="Search skills...">
+                            </div>
+                        </div>
+                        <button class="cyber-btn cyber-btn-primary" onclick="openAddModal('skills')">
+                            <i class="fas fa-plus"></i> Add Skill
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Icon</th>
+                                    <th>Skill Name</th>
+                                    <th>Category</th>
+                                    <th>Proficiency</th>
+                                    <th>Order</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skills-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- =========================================================
+     * MODAL WINDOW FORMS
+     * ========================================================= -->
+
+    <!-- CERTIFICATE MODAL -->
+    <div class="modal" id="modal-certificates">
+        <div class="modal-backdrop" onclick="closeModal('certificates')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title-certificates">Add Certificate</h2>
+                <button class="modal-close-btn" onclick="closeModal('certificates')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="form-certificates">
+                <input type="hidden" id="cert-id">
+                <div class="modal-body">
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label class="required" for="cert-title">Title</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-title" required placeholder="AWS Foundations">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="cert-org">Issuing Organization</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-org" required placeholder="AWS Academy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="cert-issue-date">Issue Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-issue-date" placeholder="Dec 2025">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cert-expiry-date">Expiry Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-expiry-date" placeholder="No Expiration">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="cert-cred-id">Credential ID</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-cred-id" placeholder="AWS-ACADEMY-102">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cert-cred-url">Credential / Verification URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="cert-cred-url" placeholder="https://credly.com/...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="cert-cat">Category</label>
+                            <div class="input-wrapper">
+                                <select id="cert-cat">
+                                    <option value="AI & Machine Learning">AI & Machine Learning</option>
+                                    <option value="Cloud Computing">Cloud Computing</option>
+                                    <option value="Web Development & Software">Web Development & Software</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cert-icon-class">Featured Icon Class</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cert-icon-class" placeholder="fab fa-aws">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cert-skills">Skills (Comma separated list)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="cert-skills" placeholder="AWS, Cloud, Core Services">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cert-desc">Description</label>
+                        <div class="input-wrapper">
+                            <textarea id="cert-desc" placeholder="Details about this certificate..."
+                                style="height:80px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <!-- Image uploader -->
+                        <div class="form-group">
+                            <label>Certificate Image</label>
+                            <input type="file" id="cert-img-file" accept="image/*" class="hidden"
+                                onchange="handleFileSelect(this, 'cert-img-preview', 'cert-img-path')">
+                            <div class="upload-container" onclick="document.getElementById('cert-img-file').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Select image file</p>
+                            </div>
+                            <input type="hidden" id="cert-img-path">
+                            <div class="upload-preview-box" id="cert-img-preview">
+                                <img src="" class="preview-thumb" alt="Preview">
+                                <span class="preview-details"></span>
+                                <button type="button" class="preview-remove"
+                                    onclick="clearFileSelection('cert-img-file', 'cert-img-preview', 'cert-img-path')"><i
+                                        class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="upload-progress-wrapper" id="cert-img-progress">
+                                <div class="progress-label"><span>Uploading image...</span><span class="pct">0%</span>
+                                </div>
+                                <div class="progress-bar-outer">
+                                    <div class="progress-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PDF uploader -->
+                        <div class="form-group">
+                            <label>Certificate PDF</label>
+                            <input type="file" id="cert-pdf-file" accept="application/pdf" class="hidden"
+                                onchange="handleFileSelect(this, 'cert-pdf-preview', 'cert-pdf-path')">
+                            <div class="upload-container" onclick="document.getElementById('cert-pdf-file').click()">
+                                <i class="fas fa-file-pdf"></i>
+                                <p>Select PDF file</p>
+                            </div>
+                            <input type="hidden" id="cert-pdf-path">
+                            <div class="upload-preview-box" id="cert-pdf-preview">
+                                <span class="preview-details" style="margin-left:0;"></span>
+                                <button type="button" class="preview-remove"
+                                    onclick="clearFileSelection('cert-pdf-file', 'cert-pdf-preview', 'cert-pdf-path')"><i
+                                        class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="upload-progress-wrapper" id="cert-pdf-progress">
+                                <div class="progress-label"><span>Uploading PDF...</span><span class="pct">0%</span>
+                                </div>
+                                <div class="progress-bar-outer">
+                                    <div class="progress-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2" style="margin-top:20px;">
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Published</span>
+                            <label class="switch">
+                                <input type="checkbox" id="cert-published" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Featured Card</span>
+                            <label class="switch">
+                                <input type="checkbox" id="cert-featured">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('certificates')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- BADGE MODAL -->
+    <div class="modal" id="modal-badges">
+        <div class="modal-backdrop" onclick="closeModal('badges')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title-badges">Add Badge</h2>
+                <button class="modal-close-btn" onclick="closeModal('badges')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="form-badges">
+                <input type="hidden" id="badge-id">
+                <div class="modal-body">
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label class="required" for="badge-title">Badge Title</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-title" required placeholder="Prepare Data for ML APIs">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="badge-issuer">Issuer</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-issuer" required placeholder="Google Cloud">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="badge-issue-date">Issue Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-issue-date" placeholder="Apr 14, 2026">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="badge-issuer-icon">Issuer Icon Class</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-issuer-icon" placeholder="fab fa-google">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="badge-expiry">Expiry Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-expiry" placeholder="No Expiration">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="badge-expiry-icon">Expiry Icon Class</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-expiry-icon" placeholder="fas fa-infinity">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="badge-cred-id">Credential ID</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="badge-cred-id"
+                                    placeholder="d6534857-e7f5-49d5-be4c-d40a91e5cb48">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="badge-cred-url">Credential URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="badge-cred-url" placeholder="https://www.credly.com/...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="badge-skills">Skills Array (Comma separated)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="badge-skills" placeholder="Python, TensorFlow, Cloud">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="badge-desc">Description</label>
+                        <div class="input-wrapper">
+                            <textarea id="badge-desc" placeholder="Details about this badge..."
+                                style="height:80px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Badge Image</label>
+                        <input type="file" id="badge-img-file" accept="image/*" class="hidden"
+                            onchange="handleFileSelect(this, 'badge-img-preview', 'badge-img-path')">
+                        <div class="upload-container" onclick="document.getElementById('badge-img-file').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Select badge image file</p>
+                        </div>
+                        <input type="hidden" id="badge-img-path">
+                        <div class="upload-preview-box" id="badge-img-preview">
+                            <img src="" class="preview-thumb" alt="Preview">
+                            <span class="preview-details"></span>
+                            <button type="button" class="preview-remove"
+                                onclick="clearFileSelection('badge-img-file', 'badge-img-preview', 'badge-img-path')"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="upload-progress-wrapper" id="badge-img-progress">
+                            <div class="progress-label"><span>Uploading badge...</span><span class="pct">0%</span></div>
+                            <div class="progress-bar-outer">
+                                <div class="progress-bar-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2" style="margin-top:20px;">
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Published</span>
+                            <label class="switch">
+                                <input type="checkbox" id="badge-published" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('badges')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- INTERNSHIP MODAL -->
+    <div class="modal" id="modal-internships">
+        <div class="modal-backdrop" onclick="closeModal('internships')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title-internships">Add Internship</h2>
+                <button class="modal-close-btn" onclick="closeModal('internships')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="form-internships">
+                <input type="hidden" id="internship-id">
+                <div class="modal-body">
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label class="required" for="intern-role">Role / Internship Title</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-role" required placeholder="AI & ML Intern">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="intern-company">Company Name</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-company" required placeholder="Averixis Solutions">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="intern-start-date">Start Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-start-date" placeholder="Aug 2025">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-end-date">End Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-end-date" placeholder="Dec 2025">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="intern-duration">Duration</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-duration" placeholder="6 Weeks">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-status">Status</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="intern-status" placeholder="Completed">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="intern-tech">Technologies (Comma separated)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="intern-tech" placeholder="Python, ML, Data Analysis">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="intern-desc">Description</label>
+                        <div class="input-wrapper">
+                            <textarea id="intern-desc" placeholder="Details about this internship..."
+                                style="height:80px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <!-- Company Logo -->
+                        <div class="form-group">
+                            <label>Company Logo / Image</label>
+                            <input type="file" id="intern-logo-file" accept="image/*" class="hidden"
+                                onchange="handleFileSelect(this, 'intern-logo-preview', 'intern-logo-path')">
+                            <div class="upload-container" onclick="document.getElementById('intern-logo-file').click()">
+                                <i class="fas fa-image"></i>
+                                <p>Select logo image</p>
+                            </div>
+                            <input type="hidden" id="intern-logo-path">
+                            <div class="upload-preview-box" id="intern-logo-preview">
+                                <img src="" class="preview-thumb" alt="Preview">
+                                <span class="preview-details"></span>
+                                <button type="button" class="preview-remove"
+                                    onclick="clearFileSelection('intern-logo-file', 'intern-logo-preview', 'intern-logo-path')"><i
+                                        class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="upload-progress-wrapper" id="intern-logo-progress">
+                                <div class="progress-label"><span>Uploading logo...</span><span class="pct">0%</span>
+                                </div>
+                                <div class="progress-bar-outer">
+                                    <div class="progress-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verification URL -->
+                        <div class="form-group">
+                            <label for="intern-verify-url">Verification URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="intern-verify-url" placeholder="https://verify.corp.com/...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <!-- Internship Cert Image -->
+                        <div class="form-group">
+                            <label>Certificate Image</label>
+                            <input type="file" id="intern-cert-file" accept="image/*" class="hidden"
+                                onchange="handleFileSelect(this, 'intern-cert-preview', 'intern-cert-path')">
+                            <div class="upload-container" onclick="document.getElementById('intern-cert-file').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Select image certificate</p>
+                            </div>
+                            <input type="hidden" id="intern-cert-path">
+                            <div class="upload-preview-box" id="intern-cert-preview">
+                                <img src="" class="preview-thumb" alt="Preview">
+                                <span class="preview-details"></span>
+                                <button type="button" class="preview-remove"
+                                    onclick="clearFileSelection('intern-cert-file', 'intern-cert-preview', 'intern-cert-path')"><i
+                                        class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="upload-progress-wrapper" id="intern-cert-progress">
+                                <div class="progress-label"><span>Uploading certificate...</span><span
+                                        class="pct">0%</span></div>
+                                <div class="progress-bar-outer">
+                                    <div class="progress-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Internship Cert PDF -->
+                        <div class="form-group">
+                            <label>Certificate PDF</label>
+                            <input type="file" id="intern-pdf-file" accept="application/pdf" class="hidden"
+                                onchange="handleFileSelect(this, 'intern-pdf-preview', 'intern-pdf-path')">
+                            <div class="upload-container" onclick="document.getElementById('intern-pdf-file').click()">
+                                <i class="fas fa-file-pdf"></i>
+                                <p>Select PDF certificate</p>
+                            </div>
+                            <input type="hidden" id="intern-pdf-path">
+                            <div class="upload-preview-box" id="intern-pdf-preview">
+                                <span class="preview-details" style="margin-left:0;"></span>
+                                <button type="button" class="preview-remove"
+                                    onclick="clearFileSelection('intern-pdf-file', 'intern-pdf-preview', 'intern-pdf-path')"><i
+                                        class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="upload-progress-wrapper" id="intern-pdf-progress">
+                                <div class="progress-label"><span>Uploading PDF...</span><span class="pct">0%</span>
+                                </div>
+                                <div class="progress-bar-outer">
+                                    <div class="progress-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2" style="margin-top:20px;">
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Published</span>
+                            <label class="switch">
+                                <input type="checkbox" id="intern-published" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('internships')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PROJECT MODAL -->
+    <div class="modal" id="modal-projects">
+        <div class="modal-backdrop" onclick="closeModal('projects')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title-projects">Add Project</h2>
+                <button class="modal-close-btn" onclick="closeModal('projects')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="form-projects">
+                <input type="hidden" id="project-id">
+                <div class="modal-body">
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label class="required" for="project-title">Project Title</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="project-title" required placeholder="Gesture Flow">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-icon">FontAwesome Icon Class</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="project-icon" placeholder="fa-gamepad">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="project-github">GitHub URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="project-github" placeholder="https://github.com/...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-demo">Live Demo URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="project-demo" placeholder="https://demo.vercel.app/">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="project-start-date">Start Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="project-start-date" placeholder="Aug 2025">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-end-date">Completion Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="project-end-date" placeholder="Sep 2025">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="project-tech">Technologies (Comma separated)</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="project-tech" placeholder="Python, OpenCV, Computer Vision">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-order">Display Order</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="project-order" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-short-desc">Short Description (Cards excerpt)</label>
+                        <div class="input-wrapper">
+                            <textarea id="project-short-desc" placeholder="Write a short summary..."
+                                style="height:70px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-full-desc">Full Description</label>
+                        <div class="input-wrapper">
+                            <textarea id="project-full-desc" placeholder="Write the complete technical design..."
+                                style="height:120px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Project Cover Image</label>
+                        <input type="file" id="project-img-file" accept="image/*" class="hidden"
+                            onchange="handleFileSelect(this, 'project-img-preview', 'project-img-path')">
+                        <div class="upload-container" onclick="document.getElementById('project-img-file').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Select cover image</p>
+                        </div>
+                        <input type="hidden" id="project-img-path">
+                        <div class="upload-preview-box" id="project-img-preview">
+                            <img src="" class="preview-thumb" alt="Preview">
+                            <span class="preview-details"></span>
+                            <button type="button" class="preview-remove"
+                                onclick="clearFileSelection('project-img-file', 'project-img-preview', 'project-img-path')"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="upload-progress-wrapper" id="project-img-progress">
+                            <div class="progress-label"><span>Uploading image...</span><span class="pct">0%</span></div>
+                            <div class="progress-bar-outer">
+                                <div class="progress-bar-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2" style="margin-top:20px;">
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Published</span>
+                            <label class="switch">
+                                <input type="checkbox" id="project-published" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Featured Project</span>
+                            <label class="switch">
+                                <input type="checkbox" id="project-featured">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('projects')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ACHIEVEMENT MODAL -->
+    <div class="modal" id="modal-achievements">
+        <div class="modal-backdrop" onclick="closeModal('achievements')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title-achievements">Add Achievement</h2>
+                <button class="modal-close-btn" onclick="closeModal('achievements')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="form-achievements">
+                <input type="hidden" id="achievement-id">
+                <div class="modal-body">
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label class="required" for="ach-title">Title</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="ach-title" required placeholder="First Place in Hackathon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ach-org">Organization</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="ach-org" placeholder="Srinivas University">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="ach-date">Date</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="ach-date" placeholder="Dec 2025">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ach-verify-url">Verification URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="ach-verify-url" placeholder="https://verify.org/...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ach-desc">Description</label>
+                        <div class="input-wrapper">
+                            <textarea id="ach-desc" placeholder="Details about this achievement..."
+                                style="height:80px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Achievement Image</label>
+                        <input type="file" id="ach-img-file" accept="image/*" class="hidden"
+                            onchange="handleFileSelect(this, 'ach-img-preview', 'ach-img-path')">
+                        <div class="upload-container" onclick="document.getElementById('ach-img-file').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Select image file</p>
+                        </div>
+                        <input type="hidden" id="ach-img-path">
+                        <div class="upload-preview-box" id="ach-img-preview">
+                            <img src="" class="preview-thumb" alt="Preview">
+                            <span class="preview-details"></span>
+                            <button type="button" class="preview-remove"
+                                onclick="clearFileSelection('ach-img-file', 'ach-img-preview', 'ach-img-path')"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="upload-progress-wrapper" id="ach-img-progress">
+                            <div class="progress-label"><span>Uploading image...</span><span class="pct">0%</span></div>
+                            <div class="progress-bar-outer">
+                                <div class="progress-bar-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2" style="margin-top:20px;">
+                        <div class="form-group toggle-wrapper">
+                            <span class="switch-label">Published</span>
+                            <label class="switch">
+                                <input type="checkbox" id="ach-published" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('achievements')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SKILL MODAL -->
+    <div class="modal" id="modal-skills">
+        <div class="modal-backdrop" onclick="closeModal('skills')"></div>
+        <div class="modal-content size-sm">
+            <div class="modal-header">
+                <h2 id="modal-title-skills">Add Skill</h2>
+                <button class="modal-close-btn" onclick="closeModal('skills')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="form-skills">
+                <input type="hidden" id="skill-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="required" for="skill-name">Skill Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="skill-name" required placeholder="Python">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill-cat">Category</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="skill-cat" placeholder="Languages & AI">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill-icon">Icon Class (FontAwesome)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="skill-icon" placeholder="fab fa-python">
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-2">
+                        <div class="form-group">
+                            <label for="skill-prof">Proficiency (1-100%)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="skill-prof" min="1" max="100" value="90">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill-order">Display Order</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="skill-order" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group toggle-wrapper" style="margin-top:20px;">
+                        <span class="switch-label">Published</span>
+                        <label class="switch">
+                            <input type="checkbox" id="skill-published" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cyber-btn cyber-btn-secondary"
+                        onclick="closeModal('skills')">Cancel</button>
+                    <button type="submit" class="cyber-btn cyber-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div class="modal" id="modal-delete">
+        <div class="modal-backdrop" onclick="closeDeleteModal()"></div>
+        <div class="modal-content size-sm">
+            <div class="modal-header">
+                <h2>Delete Component</h2>
+                <button class="modal-close-btn" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to permanently delete this record? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="cyber-btn cyber-btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="cyber-btn cyber-btn-danger" id="confirmDeleteBtn"><i class="fas fa-trash"></i> Delete
+                    Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div class="modal lightbox-modal" id="modal-lightbox">
+        <div class="modal-backdrop" onclick="closeLightbox()"></div>
+        <div class="modal-content lightbox-content">
+            <button class="modal-close-btn lightbox-close-btn" onclick="closeLightbox()" title="Close Preview"><i
+                    class="fas fa-times"></i></button>
+            <div class="lightbox-img-wrapper">
+                <img id="lightbox-img" src="" alt="Preview Image">
+            </div>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN and dashboard scripting -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

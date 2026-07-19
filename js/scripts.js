@@ -49,19 +49,21 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') window.closeCertLightbox();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Build every section from data/portfolio-data.js via js/portfolio-renderer.js.
-    // Both scripts must be loaded (in that order) before this one in index.html.
-    if (typeof portfolioData === 'undefined' || typeof PortfolioRenderer === 'undefined') {
-        console.error('portfolioData or PortfolioRenderer not found — check script load order in index.html');
+document.addEventListener('DOMContentLoaded', async () => {
+    // Build every section dynamically from Supabase (or fallback portfolio-data.js) via js/portfolio-renderer.js.
+    if (typeof PortfolioRenderer === 'undefined' || typeof PortfolioDataService === 'undefined') {
+        console.error('PortfolioRenderer or PortfolioDataService not found — check script load order in index.html');
         return;
     }
 
-    PortfolioRenderer.renderAll(portfolioData);
+    // Load data from Supabase or fallback static config
+    const data = await PortfolioDataService.loadPortfolioData();
+
+    PortfolioRenderer.renderAll(data);
 
     // Everything below touches markup that renderAll() just created,
     // so it can only run after that call returns.
-    initGeneralScripts(portfolioData);
+    initGeneralScripts(data);
 });
 
 /**
