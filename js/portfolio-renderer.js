@@ -23,7 +23,22 @@ const PortfolioRenderer = (() => {
     }
 
     function renderNav(d) {
-        const links = d.links.map(l =>
+        // Add a Resume link automatically without requiring changes to portfolio-data.js.
+        const navLinks = Array.isArray(d.links) ? [...d.links] : [];
+        if (!navLinks.some(link => link.href === '#resume')) {
+            const contactIndex = navLinks.findIndex(link =>
+                link.href === '#contact' || link.href === '#get-in-touch'
+            );
+            const resumeLink = { href: '#resume', label: 'Resume', cta: false };
+
+            if (contactIndex >= 0) {
+                navLinks.splice(contactIndex, 0, resumeLink);
+            } else {
+                navLinks.push(resumeLink);
+            }
+        }
+
+        const links = navLinks.map(l =>
             `<a href="${l.href}"${l.cta ? ' class="nav-cta"' : ''}>${l.label}</a>`
         ).join('');
 
@@ -228,6 +243,40 @@ const PortfolioRenderer = (() => {
 </div>`;
     }
 
+    function renderResume() {
+        // This points to the existing, manually maintained resume.pdf
+        // in the root of the portfolio repository.
+        const resumePath = 'resume.pdf';
+
+        return `
+<div class="container">
+    <h2 data-aos="fade-up">Resume</h2>
+    <div class="section-divider" data-aos="fade-up" data-aos-delay="100"></div>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150">
+        View my latest professional resume or download a copy for offline reference.
+    </p>
+
+    <div class="resume-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="resume-preview">
+            <iframe
+                src="${resumePath}#view=FitH"
+                title="Sudeen Jain H R Resume"
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <div class="resume-actions">
+            <a href="${resumePath}" target="_blank" rel="noopener noreferrer" class="btn">
+                <i class="fas fa-eye"></i> View Resume
+            </a>
+            <a href="${resumePath}" download="Sudeen_Jain_H_R_Resume.pdf" class="btn btn-filled">
+                <i class="fas fa-file-download"></i> Download Resume
+            </a>
+        </div>
+    </div>
+</div>`;
+    }
+
     function renderContact(d) {
         const socials = d.socials.map(s => `<a href="${s.href}" target="_blank" title="${s.title}"><i class="${s.icon}"></i></a>`).join('');
         const cards = d.cards.map(c => `
@@ -245,7 +294,7 @@ const PortfolioRenderer = (() => {
     <div class="socials" data-aos="zoom-in">${socials}</div>
     <div class="contact-grid">${cards}</div>
     <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up">
-        <a href="${d.resumeHref}" class="btn btn-filled" download="Sudeen_Jain_Resume" style="padding: 15px 40px; font-size: 1.05rem;">
+        <a href="resume.pdf" class="btn btn-filled" download="Sudeen_Jain_H_R_Resume.pdf" style="padding: 15px 40px; font-size: 1.05rem;">
             <i class="fas fa-file-download"></i> ${d.resumeLabel}
         </a>
     </div>
@@ -302,6 +351,7 @@ const PortfolioRenderer = (() => {
         set('badges', renderBadges(data.badges));
         set('internships', renderInternships(data.internships));
         set('projects', renderProjects(data.projects));
+        set('resume', renderResume());
         set('contact', renderContact(data.contact));
         set('get-in-touch', renderGetInTouch(data.getInTouch));
     }
