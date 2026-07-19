@@ -1,85 +1,18 @@
-name: Auto-Update Resume
-
-# ─── Triggers ────────────────────────────────────────────────────────────────
-on:
-  # 1. Run every night at midnight IST (18:30 UTC)
-  schedule:
-    - cron: "30 18 * * *"
-
-  # 2. Run whenever you push to master or main
-  push:
-    branches:
-      - master
-      - main
-
-  # 3. Manual trigger from GitHub Actions UI
-  workflow_dispatch:
-
-# ─── Permissions ─────────────────────────────────────────────────────────────
-permissions:
-  contents: write
-
-# ─── Jobs ────────────────────────────────────────────────────────────────────
-jobs:
-  build-resume:
-    name: Generate & Compile Resume
-    runs-on: ubuntu-latest
-
-    steps:
-      # ── 1. Checkout repository ────────────────────────────────────────────
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # ── 2. Set up Python ─────────────────────────────────────────────────
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      # ── 3. Generate resume.tex using Supabase data ───────────────────────
-      - name: Generate resume.tex
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      # ── Install LaTeX ──────────────────────────────────────────────────────
+      - name: Install LaTeX
         run: |
-          cd resume
-          python generate_resume.py
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-extra \
+            latexmk
 
-      # ── 4. Install Tectonic LaTeX compiler ───────────────────────────────
-      - name: Install Tectonic
-        run: |
-          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-          sudo install -m 0755 tectonic /usr/local/bin/tectonic
-          tectonic --version
-
-      # ── 5. Compile resume.tex → resume.pdf ───────────────────────────────
+      # ── Compile resume.tex → resume.pdf ───────────────────────────────────
       - name: Compile LaTeX to PDF
         run: |
           cd resume
-          tectonic resume.tex
-
-      # ── 6. Check generated PDF ───────────────────────────────────────────
-      - name: Verify generated resume
-        run: |
-          if [ ! -f "resume/resume.pdf" ]; then
-            echo "Error: resume.pdf was not generated."
-            exit 1
-          fi
-
-          echo "Resume PDF generated successfully."
-          ls -lh resume/resume.pdf
-
-      # ── 7. Commit updated resume files back to repository ────────────────
-      - name: Commit updated resume.pdf
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add resume/resume.pdf resume/resume.tex
-
-          if git diff --cached --quiet; then
-            echo "No resume changes detected."
-          else
-            git commit -m "chore: auto-update resume [skip ci]"
-            git push
-          fi
+          latexmk -xelatex \
+            -interaction=nonstopmode \
+            -halt-on-error \
+            resume.tex
