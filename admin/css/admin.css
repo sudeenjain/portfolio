@@ -41,6 +41,11 @@ body {
     overflow-x: hidden;
 }
 
+body.invisible-on-load {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
 select {
     background-color: rgba(10, 11, 16, 0.8);
     color: var(--text-main);

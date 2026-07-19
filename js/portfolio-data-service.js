@@ -69,7 +69,12 @@ const PortfolioDataService = (() => {
             const items = certs.filter(c => c.category === catName && c.image_url).map(c => ({
                 img: c.image_url,
                 alt: c.title,
-                title: c.title
+                title: c.title,
+                org: c.issuing_organization || '',
+                date: c.issue_date || '',
+                id: c.credential_id || '',
+                url: c.credential_url || '',
+                desc: c.description || ''
             }));
             return {
                 name: catName,

@@ -31,10 +31,48 @@ window.openCertLightbox = function (wrapper) {
     const img = wrapper.querySelector('img');
     const lightbox = document.getElementById('certLightbox');
     const lightboxImg = document.getElementById('certLightboxImg');
-    const lightboxTitle = document.getElementById('certLightboxTitle');
 
+    // Primary fields
     lightboxImg.src = img.src;
-    lightboxTitle.textContent = img.alt;
+    lightboxImg.alt = img.alt;
+    document.getElementById('certLightboxTitle').textContent = img.alt;
+
+    // Metadata from data attributes
+    const org = wrapper.dataset.org || '';
+    const date = wrapper.dataset.date || '';
+    const credId = wrapper.dataset.id || '';
+    const url = wrapper.dataset.url || '';
+    const desc = wrapper.dataset.desc || '';
+
+    // Category (parent category heading)
+    const catEl = wrapper.closest('.cert-category');
+    const catName = catEl ? catEl.querySelector('.cert-category-title')?.textContent.trim() : '';
+
+    const setMeta = (id, text) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const span = el.querySelector('span');
+        if (span) span.textContent = text;
+        el.style.display = text ? '' : 'none';
+    };
+
+    setMeta('certLightboxCategory', catName);
+    setMeta('certLightboxOrg', org);
+    setMeta('certLightboxDate', date);
+    setMeta('certLightboxId', credId);
+
+    const descEl = document.getElementById('certLightboxDesc');
+    if (descEl) {
+        descEl.textContent = desc;
+        descEl.style.display = desc ? '' : 'none';
+    }
+
+    const linkEl = document.getElementById('certLightboxLink');
+    if (linkEl) {
+        linkEl.href = url || '#';
+        linkEl.style.display = url ? '' : 'none';
+    }
+
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 };

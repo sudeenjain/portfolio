@@ -12,6 +12,16 @@
 
 const PortfolioRenderer = (() => {
 
+    function escapeHTML(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     function renderNav(d) {
         const links = d.links.map(l =>
             `<a href="${l.href}"${l.cta ? ' class="nav-cta"' : ''}>${l.label}</a>`
@@ -99,10 +109,15 @@ const PortfolioRenderer = (() => {
     function renderCertifications(d) {
         const gallery = d.gallery.map(cat => {
             const items = cat.items.map(it => `
-<div class="cert-gallery-card" onclick="openCertLightbox(this)">
+<div class="cert-gallery-card" onclick="openCertLightbox(this)" 
+     data-org="${escapeHTML(it.org)}" 
+     data-date="${escapeHTML(it.date)}" 
+     data-id="${escapeHTML(it.id)}" 
+     data-url="${escapeHTML(it.url)}" 
+     data-desc="${escapeHTML(it.desc)}">
     <div class="cert-gallery-thumb">
         <img src="${it.img}" alt="${it.alt}" loading="lazy">
-        <div class="view-overlay"><i class="fas fa-search-plus"></i><span>View Full Size</span></div>
+        <div class="view-overlay"><i class="fas fa-search-plus"></i><span>View Details</span></div>
     </div>
     <div class="cert-gallery-info"><h4>${it.title}</h4></div>
 </div>`).join('');

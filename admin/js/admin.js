@@ -46,6 +46,9 @@ async function initializeAuth() {
         }
     });
 
+    // Reveal the verified dashboard content
+    document.body.classList.remove('invisible-on-load');
+
     // Initial loads
     switchSection(activeSection);
 }

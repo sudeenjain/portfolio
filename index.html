@@ -114,8 +114,23 @@
         <div class="cert-lightbox-content">
             <button class="cert-lightbox-close" onclick="closeCertLightbox()" title="Close"><i
                     class="fas fa-times"></i></button>
-            <img id="certLightboxImg" src="" alt="Certificate">
-            <p class="cert-lightbox-title" id="certLightboxTitle"></p>
+            <div class="cert-lightbox-layout">
+                <div class="cert-lightbox-img-wrapper">
+                    <img id="certLightboxImg" src="" alt="Certificate">
+                </div>
+                <div class="cert-lightbox-info-pane">
+                    <h3 id="certLightboxTitle"></h3>
+                    <div class="cert-lightbox-meta">
+                        <span id="certLightboxCategory"><i class="fas fa-certificate"></i> <span></span></span>
+                        <span id="certLightboxOrg"><i class="fas fa-building"></i> <span></span></span>
+                        <span id="certLightboxDate"><i class="fas fa-calendar-alt"></i> <span></span></span>
+                        <span id="certLightboxId"><i class="fas fa-id-card"></i> ID: <span></span></span>
+                    </div>
+                    <p id="certLightboxDesc" class="cert-lightbox-desc"></p>
+                    <a id="certLightboxLink" href="" target="_blank" class="btn btn-filled">Verify Credential <i
+                            class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 
