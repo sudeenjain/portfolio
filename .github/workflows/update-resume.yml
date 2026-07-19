@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: "30 18 * * *"
 
-  # 2. Run whenever you push to main (e.g., after adding data via admin)
+  # 2. Run whenever you push to master or main
   push:
     branches:
       - master
@@ -17,7 +17,7 @@ on:
 
 # ─── Permissions ─────────────────────────────────────────────────────────────
 permissions:
-  contents: write   # Needed to commit the generated PDF back to the repo
+  contents: write
 
 # ─── Jobs ────────────────────────────────────────────────────────────────────
 jobs:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout the repo ──────────────────────────────────────────────
+      # ── 1. Checkout repository ────────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -36,7 +36,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      # ── 3. Generate resume.tex from Supabase data ────────────────────────
+      # ── 3. Generate resume.tex using Supabase data ───────────────────────
       - name: Generate resume.tex
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -45,24 +45,41 @@ jobs:
           cd resume
           python generate_resume.py
 
-      # ── 4. Install Tectonic (lightweight LaTeX compiler) ─────────────────
+      # ── 4. Install Tectonic LaTeX compiler ───────────────────────────────
       - name: Install Tectonic
         run: |
-          curl -LsSf https://drop.casey.li/tectonic/install-tectonic.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+          sudo install -m 0755 tectonic /usr/local/bin/tectonic
+          tectonic --version
 
-      # ── 5. Compile resume.tex → resume.pdf ──────────────────────────────
+      # ── 5. Compile resume.tex → resume.pdf ───────────────────────────────
       - name: Compile LaTeX to PDF
         run: |
           cd resume
-          tectonic resume.tex --print
+          tectonic resume.tex
 
-      # ── 6. Commit the updated PDF back to the repo ───────────────────────
+      # ── 6. Check generated PDF ───────────────────────────────────────────
+      - name: Verify generated resume
+        run: |
+          if [ ! -f "resume/resume.pdf" ]; then
+            echo "Error: resume.pdf was not generated."
+            exit 1
+          fi
+
+          echo "Resume PDF generated successfully."
+          ls -lh resume/resume.pdf
+
+      # ── 7. Commit updated resume files back to repository ────────────────
       - name: Commit updated resume.pdf
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add resume/resume.pdf resume/resume.tex
-          # Only commit if something actually changed
-          git diff --cached --quiet || git commit -m "chore: auto-update resume [skip ci]"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No resume changes detected."
+          else
+            git commit -m "chore: auto-update resume [skip ci]"
+            git push
+          fi
