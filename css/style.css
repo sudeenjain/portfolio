@@ -2267,3 +2267,73 @@ footer {
         padding: 1.25rem;
     }
 }
+
+/* --- RESUME SECTION --- */
+#resume {
+    min-height: auto;
+}
+
+.resume-card {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 60px rgba(0, 243, 255, 0.08);
+}
+
+.resume-preview {
+    width: 100%;
+    height: min(78vh, 900px);
+    min-height: 650px;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 243, 255, 0.18);
+    background: #111;
+}
+
+.resume-preview iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+}
+
+.resume-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .resume-card {
+        padding: 0.75rem;
+    }
+
+    .resume-preview {
+        height: 68vh;
+        min-height: 480px;
+    }
+
+    .resume-actions {
+        flex-direction: column;
+    }
+
+    .resume-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .resume-preview {
+        height: 60vh;
+        min-height: 420px;
+    }
+}
