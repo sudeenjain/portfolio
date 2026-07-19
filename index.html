@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- SEO Meta Tags -->
+    <title>Sudeen Jain | AI & ML Engineer | Portfolio</title>
+    <meta name="description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student at Srinivas University. View projects, certifications, GitHub work, and resume.">
+    <meta name="keywords" content="Sudeen Jain, AI Engineer, AIML Student, Portfolio, GitHub, Srinivas University, Machine Learning, Python Developer">
+    <meta name="author" content="Sudeen Jain">
+
+    <!-- Open Graph (for social sharing previews) -->
+    <meta property="og:title" content="Sudeen Jain | AI & ML Engineer | Portfolio">
+    <meta property="og:description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sudeenjain.github.io/">
+    <meta property="og:image" content="https://sudeenjain.github.io/assets/profile.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sudeen Jain | AI & ML Engineer | Portfolio">
+    <meta name="twitter:description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta name="twitter:image" content="https://sudeenjain.github.io/assets/profile.jpg">
+
+    <!-- Structured Data (Schema Markup for Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sudeen Jain",
+      "url": "https://sudeenjain.github.io/",
+      "sameAs": [
+        "https://github.com/sudeenjain",
+        "https://www.linkedin.com/in/sudeenjain",
+        "https://www.instagram.com/sudeen_jain"
+      ],
+      "jobTitle": "Artificial Intelligence and Machine Learning Student",
+      "alumniOf": "Srinivas University",
+      "email": "sudinhr1@gmail.com"
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">SJ</div>
+        <div class="preloader-bar"></div>
+    </div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div id="canvas-container"></div>
+
+    <!-- Nav + all sections below are populated at runtime by
+         js/portfolio-renderer.js from data/portfolio-data.js -->
+    <div id="nav-placeholder"></div>
+
+    <section id="home"></section>
+    <section id="about"></section>
+    <section id="skills"></section>
+    <section id="certifications"></section>
+    <section id="badges"></section>
+    <section id="internships"></section>
+    <section id="projects"></section>
+    <section id="contact"></section>
+    <section id="get-in-touch"></section>
+
+    <!-- ============================================= -->
+    <!-- FOOTER (static — not data-driven) -->
+    <!-- ============================================= -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Sudeen Jain</div>
+            <p class="footer-tagline">AI &amp; ML Engineer · Builder · Lifelong Learner</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+                <a href="https://github.com/sudeenjain" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/sudeenjain" target="_blank">LinkedIn</a>
+            </div>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">
+                &copy; <span id="year"></span> Sudeen Jain H R. Crafted with <i class="fas fa-heart"></i> &amp; clean code.
+            </p>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Certificate Lightbox Modal -->
+    <div class="cert-lightbox" id="certLightbox">
+        <div class="cert-lightbox-backdrop" onclick="closeCertLightbox()"></div>
+        <div class="cert-lightbox-content">
+            <button class="cert-lightbox-close" onclick="closeCertLightbox()" title="Close"><i class="fas fa-times"></i></button>
+            <img id="certLightboxImg" src="" alt="Certificate">
+            <p class="cert-lightbox-title" id="certLightboxTitle"></p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script type="importmap">
+        { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+    </script>
+    <script type="module" src="js/particles.js"></script>
+
+    <!-- Data-driven render pipeline: data -> renderer -> behavior.
+         Order matters: each script uses what the previous one defined. -->
+    <script src="data/portfolio-data.js"></script>
+    <script src="js/portfolio-renderer.js"></script>
+    <script src="js/scripts.js"></script>
+
+</body>
+</html>
