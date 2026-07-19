@@ -2,17 +2,17 @@ name: Auto-Update Resume
 
 # ─── Triggers ────────────────────────────────────────────────────────────────
 on:
-  # 1. Run every night at midnight IST (18:30 UTC)
+  # Run every night at midnight IST (18:30 UTC)
   schedule:
     - cron: "30 18 * * *"
 
-  # 2. Run whenever you push to master or main
+  # Run whenever changes are pushed to master or main
   push:
     branches:
       - master
       - main
 
-  # 3. Manual trigger from GitHub Actions UI
+  # Allow manual run from GitHub Actions
   workflow_dispatch:
 
 # ─── Permissions ─────────────────────────────────────────────────────────────
@@ -36,50 +36,130 @@ jobs:
         with:
           python-version: "3.11"
 
-      # ── 3. Generate resume.tex using Supabase data ───────────────────────
+      # ── 3. Verify resume directory ────────────────────────────────────────
+      - name: Verify resume directory
+        run: |
+          echo "Repository contents:"
+          ls -la
+
+          if [ ! -d "resume" ]; then
+            echo "ERROR: resume directory does not exist."
+            exit 1
+          fi
+
+          echo "Resume directory contents:"
+          ls -la resume
+
+      # ── 4. Generate resume.tex from Supabase data ────────────────────────
       - name: Generate resume.tex
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           cd resume
+
+          echo "Generating resume.tex..."
           python generate_resume.py
 
-      # ── 4. Install Tectonic LaTeX compiler ───────────────────────────────
+          if [ ! -f "resume.tex" ]; then
+            echo "ERROR: resume.tex was not generated."
+            exit 1
+          fi
+
+          echo "resume.tex generated successfully."
+          ls -lh resume.tex
+
+      # ── 5. Install Tectonic LaTeX compiler ───────────────────────────────
       - name: Install Tectonic
         run: |
-          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-          sudo install -m 0755 tectonic /usr/local/bin/tectonic
+          echo "Installing Tectonic..."
+
+          curl --proto '=https' \
+               --tlsv1.2 \
+               -fsSL \
+               https://drop-sh.fullyjustified.net | sh
+
+          if [ ! -f "tectonic" ]; then
+            echo "ERROR: Tectonic executable was not downloaded."
+            exit 1
+          fi
+
+          chmod +x tectonic
+          sudo mv tectonic /usr/local/bin/tectonic
+
+          echo "Tectonic installed successfully."
+          which tectonic
           tectonic --version
 
-      # ── 5. Compile resume.tex → resume.pdf ───────────────────────────────
+      # ── 6. Compile resume.tex → resume.pdf ───────────────────────────────
       - name: Compile LaTeX to PDF
+        env:
+          RUST_BACKTRACE: "1"
         run: |
           cd resume
-          tectonic resume.tex
 
-      # ── 6. Check generated PDF ───────────────────────────────────────────
+          echo "Starting LaTeX compilation..."
+          echo "Current directory:"
+          pwd
+
+          echo "Files before compilation:"
+          ls -la
+
+          tectonic resume.tex \
+            --keep-logs \
+            --keep-intermediates
+
+      # ── 7. Show LaTeX logs if compilation produced them ─────────────────
+      - name: Show LaTeX compilation logs
+        if: always()
+        run: |
+          echo "Resume directory after compilation:"
+          ls -la resume || true
+
+          if [ -f "resume/resume.log" ]; then
+            echo "=============================="
+            echo "LATEX COMPILATION LOG"
+            echo "=============================="
+            cat resume/resume.log
+          else
+            echo "No resume.log file found."
+          fi
+
+      # ── 8. Verify generated PDF ──────────────────────────────────────────
       - name: Verify generated resume
         run: |
           if [ ! -f "resume/resume.pdf" ]; then
-            echo "Error: resume.pdf was not generated."
+            echo "ERROR: resume.pdf was not generated."
+
+            echo "Available files:"
+            ls -la resume/
+
             exit 1
           fi
 
           echo "Resume PDF generated successfully."
           ls -lh resume/resume.pdf
 
-      # ── 7. Commit updated resume files back to repository ────────────────
-      - name: Commit updated resume.pdf
+      # ── 9. Commit updated resume files ───────────────────────────────────
+      - name: Commit updated resume
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add resume/resume.pdf resume/resume.tex
+          git add resume/resume.pdf
+          git add resume/resume.tex
 
           if git diff --cached --quiet; then
-            echo "No resume changes detected."
+            echo "No resume changes detected. Nothing to commit."
           else
             git commit -m "chore: auto-update resume [skip ci]"
             git push
           fi
+
+      # ── 10. Final success message ────────────────────────────────────────
+      - name: Resume build completed
+        run: |
+          echo "======================================"
+          echo "Resume update completed successfully!"
+          echo "======================================"
+          echo "PDF location: resume/resume.pdf"
