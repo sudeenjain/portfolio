@@ -1,4 +1,62 @@
-      # ── Install LaTeX ──────────────────────────────────────────────────────
+name: Auto-Update Resume
+
+on:
+  schedule:
+    - cron: "30 18 * * *"
+
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - "resume/resume.pdf"
+      - "resume/resume.tex"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-resume:
+    name: Generate & Compile Resume
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify resume directory
+        run: |
+          if [ ! -d "resume" ]; then
+            echo "ERROR: resume directory does not exist."
+            exit 1
+          fi
+
+          echo "Resume directory found."
+          ls -la resume
+
+      - name: Generate resume.tex
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          cd resume
+          echo "Generating resume.tex..."
+          python generate_resume.py
+
+          if [ ! -f "resume.tex" ]; then
+            echo "ERROR: resume.tex was not generated."
+            exit 1
+          fi
+
+          echo "resume.tex generated successfully."
+
       - name: Install LaTeX
         run: |
           sudo apt-get update
@@ -8,11 +66,52 @@
             texlive-fonts-extra \
             latexmk
 
-      # ── Compile resume.tex → resume.pdf ───────────────────────────────────
+          xelatex --version
+
       - name: Compile LaTeX to PDF
         run: |
           cd resume
-          latexmk -xelatex \
+
+          latexmk \
+            -xelatex \
             -interaction=nonstopmode \
             -halt-on-error \
             resume.tex
+
+      - name: Show LaTeX log on failure
+        if: failure()
+        run: |
+          if [ -f "resume/resume.log" ]; then
+            echo "========== LaTeX LOG =========="
+            tail -n 200 resume/resume.log
+          fi
+
+      - name: Verify generated resume
+        run: |
+          if [ ! -f "resume/resume.pdf" ]; then
+            echo "ERROR: resume.pdf was not generated."
+            ls -la resume
+            exit 1
+          fi
+
+          echo "Resume PDF generated successfully."
+          ls -lh resume/resume.pdf
+
+      - name: Commit updated resume
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add resume/resume.pdf resume/resume.tex
+
+          if git diff --cached --quiet; then
+            echo "No resume changes detected."
+          else
+            git commit -m "chore: auto-update resume"
+            git push
+          fi
+
+      - name: Resume build completed
+        run: |
+          echo "Resume update completed successfully."
+          echo "PDF: resume/resume.pdf"
