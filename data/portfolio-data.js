@@ -29,7 +29,7 @@ const portfolioData = {
       },
       {
         "href": "#certifications",
-        "label": "Certifications",
+        "label": "Certificate Gallery",
         "cta": false
       },
       {

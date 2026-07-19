@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        // Force trailing slash for directory access to ensure relative CSS/JS paths load correctly
+        if (window.location.pathname.endsWith('/admin')) {
+            window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin Login</title>
+
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin Styling -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="login-body">
+
+    <!-- Glowing Background effects -->
+    <div class="glow-bg">
+        <div class="glow-sphere g1"></div>
+        <div class="glow-sphere g2"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-header">
+            <div class="admin-logo">SJ</div>
+            <h1>CORE SYSTEM CONTROL</h1>
+            <p>Enter credentials to access the portfolio dashboard</p>
+        </div>
+
+        <form id="loginForm" class="crypto-form">
+            <div id="loginError" class="auth-message error hidden">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span class="message-text">Authentication failure</span>
+            </div>
+
+            <div class="input-block">
+                <label for="username">Access Identifier</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user-shield input-icon"></i>
+                    <input type="text" id="username" placeholder="Username" required autocomplete="username">
+                </div>
+            </div>
+
+            <div class="input-block">
+                <label for="password">Decryption Key</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" placeholder="••••••••" required
+                        autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="cyber-submit-btn">
+                <span class="btn-text"><i class="fas fa-key"></i> Authenticate</span>
+                <span class="spinner hidden"><i class="fas fa-circle-notch fa-spin"></i></span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Supabase SDK and login script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const loginError = document.getElementById('loginError');
+            const errorMessage = loginError.querySelector('.message-text');
+
+            // Quick check for existing session and auto-route
+            const checkSession = setInterval(async () => {
+                if (window.supabaseClient) {
+                    clearInterval(checkSession);
+                    try {
+                        const { data: { session } } = await window.supabaseClient.auth.getSession();
+                        if (session) {
+                            window.location.href = 'dashboard.html';
+                        }
+                    } catch (err) {
+                        console.error("Session check failed", err);
+                    }
+                }
+            }, 100);
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const usernameInput = document.getElementById('username').value.trim();
+                const passwordInput = document.getElementById('password').value;
+
+                loginError.classList.add('hidden');
+
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text').classList.add('hidden');
+                submitBtn.querySelector('.spinner').classList.remove('hidden');
+
+                if (usernameInput !== 'sudeenjain') {
+                    showError("Access Denied: Invalid Username.");
+                    resetBtn(submitBtn);
+                    return;
+                }
+
+                // Map username to internal admin email
+                const email = 'sudeenjain@portfolio.local';
+
+                try {
+                    if (!window.supabaseClient) {
+                        throw new Error("Supabase service is initializing. Please wait...");
+                    }
+
+                    const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: passwordInput
+                    });
+
+                    if (error) {
+                        showError(error.message);
+                        resetBtn(submitBtn);
+                    } else {
+                        // Success - save session and redirect
+                        window.location.href = 'dashboard.html';
+                    }
+                } catch (err) {
+                    showError(err.message || "An unexpected connection error occurred.");
+                    resetBtn(submitBtn);
+                }
+            });
+
+            function showError(text) {
+                errorMessage.textContent = text;
+                loginError.classList.remove('hidden');
+            }
+
+            function resetBtn(btn) {
+                btn.disabled = false;
+                btn.querySelector('.btn-text').classList.remove('hidden');
+                btn.querySelector('.spinner').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

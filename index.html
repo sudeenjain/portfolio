@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,23 @@
 
     <!-- SEO Meta Tags -->
     <title>Sudeen Jain | AI & ML Engineer | Portfolio</title>
-    <meta name="description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student at Srinivas University. View projects, certifications, GitHub work, and resume.">
-    <meta name="keywords" content="Sudeen Jain, AI Engineer, AIML Student, Portfolio, GitHub, Srinivas University, Machine Learning, Python Developer">
+    <meta name="description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student at Srinivas University. View projects, certifications, GitHub work, and resume.">
+    <meta name="keywords"
+        content="Sudeen Jain, AI Engineer, AIML Student, Portfolio, GitHub, Srinivas University, Machine Learning, Python Developer">
     <meta name="author" content="Sudeen Jain">
 
     <!-- Open Graph (for social sharing previews) -->
     <meta property="og:title" content="Sudeen Jain | AI & ML Engineer | Portfolio">
-    <meta property="og:description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta property="og:description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sudeenjain.github.io/">
     <meta property="og:image" content="https://sudeenjain.github.io/assets/profile.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Sudeen Jain | AI & ML Engineer | Portfolio">
-    <meta name="twitter:description" content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta name="twitter:description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
     <meta name="twitter:image" content="https://sudeenjain.github.io/assets/profile.jpg">
 
     <!-- Structured Data (Schema Markup for Google) -->
@@ -42,11 +47,14 @@
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
+
 <body>
 
     <!-- PRELOADER -->
@@ -87,12 +95,13 @@
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
-                <a href="https://github.com/sudeenjain" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/sudeenjain" target="_blank">LinkedIn</a>
+                <a href="https://github.com/sudeenjain" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/sudeenjain" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
             <div class="footer-divider"></div>
             <p class="footer-copy">
-                &copy; <span id="year"></span> Sudeen Jain H R. Crafted with <i class="fas fa-heart"></i> &amp; clean code.
+                &copy; <span id="year"></span> Sudeen Jain H R. Crafted with <i class="fas fa-heart"></i> &amp; clean
+                code.
             </p>
         </div>
     </footer>
@@ -103,7 +112,8 @@
     <div class="cert-lightbox" id="certLightbox">
         <div class="cert-lightbox-backdrop" onclick="closeCertLightbox()"></div>
         <div class="cert-lightbox-content">
-            <button class="cert-lightbox-close" onclick="closeCertLightbox()" title="Close"><i class="fas fa-times"></i></button>
+            <button class="cert-lightbox-close" onclick="closeCertLightbox()" title="Close"><i
+                    class="fas fa-times"></i></button>
             <img id="certLightboxImg" src="" alt="Certificate">
             <p class="cert-lightbox-title" id="certLightboxTitle"></p>
         </div>
@@ -116,6 +126,11 @@
     </script>
     <script type="module" src="js/particles.js"></script>
 
+    <!-- Supabase integration scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/portfolio-data-service.js"></script>
+
     <!-- Data-driven render pipeline: data -> renderer -> behavior.
          Order matters: each script uses what the previous one defined. -->
     <script src="data/portfolio-data.js"></script>
@@ -123,4 +138,5 @@
     <script src="js/scripts.js"></script>
 
 </body>
+
 </html>
