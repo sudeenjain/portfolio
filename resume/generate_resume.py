@@ -190,10 +190,10 @@ def build_badges(badges: list) -> str:
 def main():
     print("📋 Fetching data from Supabase...")
 
-    certs       = fetch("certificates", filters="is_published=eq.true&order=issue_date.desc")
-    projects    = fetch("projects",     filters="is_published=eq.true&order=created_at.desc")
-    internships = fetch("internships",  filters="order=start_date.desc")
-    badges      = fetch("badges",       filters="is_published=eq.true&order=issue_date.desc")
+    certs       = fetch("certificates", filters="published=eq.true&order=display_order.asc")
+    projects    = fetch("projects",     filters="published=eq.true&order=display_order.asc")
+    internships = fetch("internships",  filters="published=eq.true&order=display_order.asc")
+    badges      = fetch("badges",       filters="published=eq.true&order=display_order.asc")
 
     print(f"  ✅  Certificates : {len(certs)}")
     print(f"  ✅  Projects     : {len(projects)}")

@@ -244,9 +244,9 @@ const PortfolioRenderer = (() => {
     }
 
     function renderResume() {
-        // This points to the existing, manually maintained resume.pdf
-        // in the root of the portfolio repository.
-        const resumePath = 'resume.pdf';
+        // Points to the auto-generated resume compiled by GitHub Actions.
+        // The workflow saves the compiled PDF to resume/resume.pdf.
+        const resumePath = 'resume/resume.pdf';
 
         return `
 <div class="container">
@@ -294,7 +294,7 @@ const PortfolioRenderer = (() => {
     <div class="socials" data-aos="zoom-in">${socials}</div>
     <div class="contact-grid">${cards}</div>
     <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up">
-        <a href="resume.pdf" class="btn btn-filled" download="Sudeen_Jain_H_R_Resume.pdf" style="padding: 15px 40px; font-size: 1.05rem;">
+        <a href="resume/resume.pdf" class="btn btn-filled" download="Sudeen_Jain_H_R_Resume.pdf" style="padding: 15px 40px; font-size: 1.05rem;">
             <i class="fas fa-file-download"></i> ${d.resumeLabel}
         </a>
     </div>
