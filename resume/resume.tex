@@ -1,257 +1,128 @@
-\documentclass[10pt, letterpaper]{article}
+\documentclass[10pt,letterpaper]{article}
 
-% ─── Packages ────────────────────────────────────────────────────────────────
 \usepackage[
-  top=0.55in, bottom=0.55in,
-  left=0.65in, right=0.65in
+  top=0.48in,
+  bottom=0.48in,
+  left=0.58in,
+  right=0.58in
 ]{geometry}
-\usepackage{hyperref}
-\usepackage{fontawesome5}
+\usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage{enumitem}
-\usepackage{multicol}
-\usepackage{array}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 
-% ─── Colors ──────────────────────────────────────────────────────────────────
-\definecolor{accent}{HTML}{0EA5E9}
-\definecolor{muted}{HTML}{64748B}
-\definecolor{dark}{HTML}{1E293B}
+\definecolor{dark}{HTML}{111827}
+\definecolor{muted}{HTML}{4B5563}
 
-% ─── Section Styling ─────────────────────────────────────────────────────────
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
 \titleformat{\section}
   {\large\bfseries\color{dark}}
-  {}{0em}{}
-  [\vspace{-6pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
-\titlespacing{\section}{0pt}{10pt}{4pt}
+  {}{0pt}{}
+  [\vspace{-5pt}\rule{\linewidth}{0.4pt}]
+\titlespacing{\section}{0pt}{7pt}{3pt}
 
-\setlength{\parindent}{0pt}
-\pagestyle{empty}
-\setlist[itemize]{leftmargin=*, nosep, topsep=2pt, itemsep=1pt}
-
-% ─── Custom Commands ─────────────────────────────────────────────────────────
-\newcommand{\entry}[4]{%
-  \textbf{#1} \hfill \textit{\small\color{muted}#2} \\
-  \textit{\color{muted}#3} \hfill \small\color{muted}#4 \\
-  \vspace{2pt}
+\setlist[itemize]{
+  leftmargin=13pt,
+  topsep=1pt,
+  itemsep=0pt,
+  parsep=0pt,
+  partopsep=0pt
 }
 
-% ═════════════════════════════════════════════════════════════════════════════
 \begin{document}
-% ═════════════════════════════════════════════════════════════════════════════
 
-% ─── Header ──────────────────────────────────────────────────────────────────
 \begin{center}
-  {\LARGE\bfseries\color{dark} SUDEEN JAIN H R} \\[4pt]
-  {\large\color{accent} AI \& ML Engineer $|$ Full-Stack Developer} \\[6pt]
+  {\LARGE\bfseries SUDEEN JAIN H R}\\[2pt]
+  {\normalsize AI \& Machine Learning Engineer $|$ Full-Stack Developer}\\[4pt]
   \small
-  \faIcon{map-marker-alt}~India \quad
-  \faIcon{envelope}~\href{mailto:sudinhr1@gmail.com}{sudinhr1@gmail.com} \quad
-  \faIcon{github}~\href{https://github.com/sudeenjain}{github.com/sudeenjain} \quad
-  \faIcon{linkedin}~\href{https://linkedin.com/in/sudeenjain}{linkedin.com/in/sudeenjain}
+  Mangalore, India $|$
+  \href{mailto:sudinhr1@gmail.com}{sudinhr1@gmail.com} $|$
+  \href{https://github.com/sudeenjain}{github.com/sudeenjain} $|$
+  \href{https://linkedin.com/in/sudeenjain}{linkedin.com/in/sudeenjain}
 \end{center}
 
-\vspace{4pt}
+\section{Professional Summary}
+AI \& Machine Learning engineering graduate with hands-on experience in full-stack web development, machine learning, cloud technologies, and database-driven applications. Experienced in building and deploying practical software solutions using Python, JavaScript, PHP, SQL, Supabase, and modern web technologies.
 
-% ─── Education ───────────────────────────────────────────────────────────────
-\section{Education}
-\entry{B.Tech in Artificial Intelligence \& Machine Learning}
-      {2022 -- 2026}
-      {Srinivas University, Mangalore, India}
-      {Expected Graduation: May 2026}
-\vspace{2pt}
-
-% ─── Summary ──────────────────────────────────────────────────────────────────
-\section{Summary}
-Driven AI \& ML engineer with hands-on experience in building intelligent systems, cloud deployments, and full-stack web development. Proficient in Python, TensorFlow, AWS, Azure, and modern web frameworks. Passionate about turning data into actionable solutions.
-
-\vspace{2pt}
-
-% ─── Skills ──────────────────────────────────────────────────────────────────
 \section{Technical Skills}
-\begin{multicols}{2}
+\textbf{Languages:} Python, Java, JavaScript, SQL, HTML, CSS, PHP\\
+\textbf{AI/ML:} TensorFlow, Scikit-learn, OpenCV, Pandas\\
+\textbf{Web \& Backend:} React, Node.js, Flask, FastAPI, REST APIs\\
+\textbf{Databases \& Cloud:} MySQL, PostgreSQL, Supabase, MongoDB, AWS, Azure, Google Cloud\\
+\textbf{Tools:} Git, Docker, Linux
+
+\section{Experience}
+\textbf{AI \& Machine Learning Internship} --- Averixis Solutions
 \begin{itemize}
-  \item Python, Java, SQL, JavaScript, HTML/CSS
-  \item TensorFlow, Scikit-learn, OpenCV, Pandas
-  \item AWS (EC2, S3, Lambda), Azure, Google Cloud
-  \item React, Node.js, Flask, FastAPI
-  \item MySQL, PostgreSQL, Supabase, MongoDB
-  \item Git, Docker, Linux, REST APIs
+  \item Built strong foundations in AI \& ML concepts, applied learning through practical tasks, and developed problem-solving skills aligned with industry expectations. Recognized under AICTE.
+  \item Technologies: AI, Machine Learning, AICTE, Problem Solving, Data Analysis
 \end{itemize}
-\end{multicols}
-
-\vspace{2pt}
-
-% ─── Projects (AUTO-GENERATED) ───────────────────────────────────────────────
-\section{Projects}
-\textbf{Game Level Difficulty Balancer} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/DAA-miniproject}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Book Recommender System} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/Adavanced-Java-BookRecommender}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{IBM ML Recommender} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/IBM-miniproject}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Interactive Recipe Finder} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/-interactive-recipe-finder}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Currency Converter} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/currency-converter}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Smart To-Do List} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/to-do-list-in-python}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Gesture Flow} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/guesture\_flow}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Attendance Tracker} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/attendence\_tracker}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Movie Recommendation} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/Movie\_Recommendation}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Portfolio Website} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/portfolio}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{FolioAI} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/folioAI}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{CareerReady} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/CarrerReady}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Product Recommendation} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/Product\_Recommendation}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Connects The Dots} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/Connect\_the\_Dots}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{Amazon Bestseller Recommender} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/Amazon-Bestseller-Recommender}{\color{accent}View Project}
-
-\vspace{4pt}
-\textbf{AI Dictionary} \hfill \textit{\small\color{muted}Jul 2026}\\ \small\href{https://github.com/sudeenjain/AI\_dictonary}{\color{accent}View Project}
-
-% ─── Experience / Internships ────────────────────────────────────────────────
-\section{Internships \& Experience}
-\textbf{AI \& Machine Learning Internship}, \\
+\vspace{3pt}
+\textbf{Front-End Web Development Internship} --- Edunet Foundation \& IBM SkillsBuild
 \begin{itemize}
-  \item Built strong foundations in AI \textbackslash\{\}\& ML concepts, applied learning through practical tasks, and developed problem-solving skills aligned with industry expectations. Recognized under AICTE.
+  \item Gained hands-on experience building responsive and interactive web pages, working with HTML, CSS, JavaScript, and modern frameworks. Strengthened UI/UX design principles and deployment sk...
+  \item Technologies: HTML, CSS, JavaScript, UI/UX, Responsive Design, IBM SkillsBuild
 \end{itemize}
-
-\vspace{4pt}
-\textbf{Front-End Web Development Internship}, \\
-\begin{itemize}
-  \item Gained hands-on experience building responsive and interactive web pages, working with HTML, CSS, JavaScript, and modern frameworks. Strengthened UI/UX design principles and deployment skills. In collaboration with AICTE.
-\end{itemize}
-
-\vspace{4pt}
-\textbf{Emerging Technologies — AI \& Cloud}, \\
+\vspace{3pt}
+\textbf{Emerging Technologies — AI \& Cloud} --- Edunet Foundation \& IBM
 \begin{itemize}
   \item Strengthened skills in AI and Cloud platforms while gaining hands-on exposure to real-world applications. In collaboration with AICTE and IBM.
+  \item Technologies: AI, Cloud Computing, IBM, AICTE, Emerging Tech
 \end{itemize}
-
-\vspace{4pt}
-\textbf{UI/UX Design Internship}, \\
+\vspace{3pt}
+\textbf{UI/UX Design Internship} --- Snestron Systems Pvt. Ltd.
 \begin{itemize}
   \item Enhanced understanding of user-centered design and creative problem solving. Completed a 4-week online internship contributing meaningfully to design projects.
+  \item Technologies: UI/UX, User Research, Prototyping, Design Thinking, Figma
 \end{itemize}
 
-\vspace{4pt}
-\textbf{Web Development Internship}, \\
+\section{Selected Projects}
+\textbf{Game Level Difficulty Balancer} \hfill \textit{\small Python, Algorithms, DAA, Dynamic Programming}
 \begin{itemize}
-  \item Contributed to full-stack web development projects, building and debugging PHP backends and JavaScript frontends across multiple client products.
+  \item An algorithmic solution that dynamically optimizes game difficulty curves using DAA principles — ensuring engaging, balanced gameplay.
+  \item \href{https://github.com/sudeenjain/DAA-miniproject}{GitHub}
+\end{itemize}
+\vspace{3pt}
+\textbf{Book Recommender System} \hfill \textit{\small Java, Advanced Java, Recommendation Engine}
+\begin{itemize}
+  \item An intelligent book recommendation engine built with Advanced Java that suggests titles based on user reading preferences and behavior patterns.
+  \item \href{https://github.com/sudeenjain/Adavanced-Java-BookRecommender}{GitHub}
+\end{itemize}
+\vspace{3pt}
+\textbf{IBM ML Recommender} \hfill \textit{\small Python, Machine Learning, Collaborative Filtering, IBM}
+\begin{itemize}
+  \item A Python-based collaborative filtering system that leverages machine learning to predict user preferences and generate personalized recommendations.
+  \item \href{https://github.com/sudeenjain/IBM-miniproject}{GitHub}
+\end{itemize}
+\vspace{3pt}
+\textbf{Interactive Recipe Finder} \hfill \textit{\small HTML, CSS, JavaScript, API Integration}
+\begin{itemize}
+  \item A dynamic web application enabling users to search, filter, and discover recipes with real-time ingredient matching and beautiful UI.
+  \item \href{https://github.com/sudeenjain/-interactive-recipe-finder}{GitHub}
+\end{itemize}
+\vspace{3pt}
+\textbf{Currency Converter} \hfill \textit{\small JavaScript, REST API, Exchange Rates, Responsive}
+\begin{itemize}
+  \item A real-time currency exchange tool that connects to live APIs — supporting 150+ currencies with instant conversion rates and clean interface.
+  \item \href{https://github.com/sudeenjain/currency-converter}{GitHub}
 \end{itemize}
 
-% ─── Certifications (AUTO-GENERATED) ────────────────────────────────────────
-\section{Certifications}
-\textbf{Project Management Fundamentals} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Jul 17,}\\ \small ID: cRerp16F $\cdot$ \href{https://www.credly.com/go/cRerp16F}{\color{accent}Verify}\\ \small\color{muted} Earned the IBM SkillsBuild Project Management Fundamentals certificate, demonstrating foundational knowledge of project management principles, project planning, project lifecycle, risk management, stakeholder communication, and effective team collaboration.
+\section{Education}
+\textbf{B.Tech in Artificial Intelligence \& Machine Learning}
+\hfill \textit{2022 -- 2026}\\
+Srinivas University, Mangalore, India
 
-\vspace{4pt}
-\textbf{Lifelong Professional Skills} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Jul 17,}\\ \small ID: nuD07vsk $\cdot$ \href{https://www.credly.com/go/nuD07vsk}{\color{accent}Verify}\\ \small\color{muted} Introduction to essential professional skills, communication, collaboration, adaptability, and career development.
-
-\vspace{4pt}
-\textbf{Getting Started with Artificial Intelligence} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/badges/de0e7fd4-8593-48c7-95f6-104af1769c4e/linked\_in?t=t3kl17}{\color{accent}Verify}\\ \small\color{muted} Comprehensive introduction to Artificial Intelligence concepts, ethical AI, and practical applications across industries.
-
-\vspace{4pt}
-\textbf{Deep Learning using TensorFlow} --- IBM\\ \small\color{muted} Deep learning concepts including CNNs, RNNs, and autoencoders using TensorFlow.
-
-\vspace{4pt}
-\textbf{IBM Watson Services – Rapid Development} --- IBM\\ \small\color{muted} Job training in building chat widgets and AI services rapidly with IBM Watson.
-
-\vspace{4pt}
-\textbf{Introduction to Artificial Intelligence} --- Simplilearn SkillUp\\ \small\color{muted} Overview of AI techniques, applications, and basic algorithms.
-
-\vspace{4pt}
-\textbf{Introduction to Generative AI Studio} --- Google Cloud + Simplilearn\\ \small\color{muted} Practical generative AI studio skills using Google Cloud tools.
-
-\vspace{4pt}
-\textbf{Machine Learning} --- Ethnotech Academy\\ \small\color{muted} Practical ML training with regression, classification, and clustering implementation.
-
-\vspace{4pt}
-\textbf{Machine Learning} --- Intel EdGate Technologies\\ \small\color{muted} Industrial training utilizing Intel solutions and tools for ML.
-
-\vspace{4pt}
-\textbf{Predictive Analytics using IBM SPSS Modeler} --- IBM\\ \small\color{muted} Data mining and predictive analytics modeling using IBM SPSS.
-
-\vspace{4pt}
-\textbf{AWS Academy Cloud Foundations} --- AWS Academy $\cdot$ \href{https://www.credly.com/badges/850a46b9-cd01-46eb-a853-35550567b86c/linked\_in?t=t3kloq}{\color{accent}Verify}\\ \small\color{muted} Graduate training badge in AWS cloud fundamentals and architecture — covering core services, pricing, and security.
-
-\vspace{4pt}
-\textbf{Solution Architecture} --- AWS + Forage $\cdot$ \href{https://media.licdn.com/dms/image/v2/D4E22AQEGpdCmKHz7zA/feedshare-shrink\_800/B4EZddSqCDHYAg-/0/1749616862439?e=1766620800\&v=beta\&t=\_TCJKrqS71aJvjW24OvR1IKrAknmvRVPPPjzfHIsnjY}{\color{accent}Verify}\\ \small\color{muted} Job simulation in designing scalable, resilient solution architectures for enterprise-grade systems.
-
-\vspace{4pt}
-\textbf{Journey to Cloud} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/badges/85e4145d-ecb3-4b8f-bb30-e4e47b4a26cc/linked\_in?t=t3kkzf}{\color{accent}Verify}\\ \small\color{muted} Envisioning cloud-first solutions, digital transformation strategies, and enterprise architecture design.
-
-\vspace{4pt}
-\textbf{Azure Fundamentals} --- Skillsoft $\cdot$ \href{https://skillsoft.digitalbadges.skillsoft.com/481daa56-525f-46d3-b249-ff884ef8ee85}{\color{accent}Verify}\\ \small\color{muted} Microsoft Azure cloud computing essentials — virtual machines, storage, networking, and identity management.
-
-\vspace{4pt}
-\textbf{Microsoft Azure Fundamentals} --- Infosys Springboard\\ \small\color{muted} Microsoft Azure cloud computing foundations and services overview.
-
-\vspace{4pt}
-\textbf{Web Development Fundamentals} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/badges/2977f3c8-acb9-4ad3-a4fb-37ce1220d25d/linked\_in\_profile}{\color{accent}Verify}\\ \small\color{muted} Full-stack web development covering front-end technologies, responsive design, and modern deployment pipelines.
-
-\vspace{4pt}
-\textbf{Front-End Web Development Internship} --- IBM SkillsBuild \& Edunet Foundation\\ \small\color{muted} Front-End Web Development Internship certification.
-
-\vspace{4pt}
-\textbf{Website Development Tutorial} --- Infosys Springboard\\ \small\color{muted} Practical training in website layout and styling.
-
-% ─── Achievements ────────────────────────────────────────────────────────────
-\section{Achievements \& Badges}
-\textbf{Prepare Data for ML APIs} --- Google Cloud \hfill \textit{\small\color{muted}Apr 14,}\\ \small\href{https://www.credly.com/badges/d6534857-e7f5-49d5-be4c-d40a91e5cb48}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Deep Learning using TensorFlow} --- IBM \hfill \textit{\small\color{muted}Mar 30,}\\ \small\href{https://www.credly.com/badges/a289455e-4038-4810-a13d-f07613725b8b}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{IT Specialist – Artificial Intelligence} --- Certiport (Pearson VUE) \hfill \textit{\small\color{muted}Dec 16,}\\ \small\href{https://www.credly.com/badges/851d7a73-3caf-4851-baeb-52645964d1be}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{AWS Academy – Cloud Foundations} --- Amazon Web Services \hfill \textit{\small\color{muted}Jan 10,}\\ \small\href{https://www.credly.com/badges/850a46b9-cd01-46eb-a853-35550567b86c}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Web Development Fundamentals} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Oct 3, }\\ \small\href{https://www.credly.com/badges/2977f3c8-acb9-4ad3-a4fb-37ce1220d25d}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Journey to Cloud: Envisioning Your Solution} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Jul 16,}\\ \small\href{https://www.credly.com/badges/85e4145d-ecb3-4b8f-bb30-e4e47b4a26cc}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Getting Started with AI} --- IBM SkillsBuild \hfill \textit{\small\color{muted}2025}\\ \small\href{https://www.credly.com/badges/de0e7fd4-8593-48c7-95f6-104af1769c4e}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Project Management Fundamentals} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Jul 17,}\\ \small\href{https://www.credly.com/go/cRerp16F}{\color{accent}View Badge}
-
-\vspace{3pt}
-\textbf{Lifelong Professional Skills} --- IBM SkillsBuild \hfill \textit{\small\color{muted}Jul 17,}\\ \small\href{https://www.credly.com/go/nuD07vsk}{\color{accent}View Badge}
-
-% ─── Footer note ─────────────────────────────────────────────────────────────
-\vspace{8pt}
-\begin{center}
-  \small\color{muted}
-  Auto-generated on 20 July 2026 $\cdot$ Powered by Supabase + GitHub Actions
-\end{center}
+\section{Selected Certifications}
+\textbf{Project Management Fundamentals} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/go/cRerp16F}{Verify}\\[3pt]
+\textbf{Lifelong Professional Skills} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/go/nuD07vsk}{Verify}\\[3pt]
+\textbf{Getting Started with Artificial Intelligence} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/badges/de0e7fd4-8593-48c7-95f6-104af1769c4e/linked\_in?t=t3kl17}{Verify}\\[3pt]
+\textbf{AWS Academy Cloud Foundations} --- AWS Academy $\cdot$ \href{https://www.credly.com/badges/850a46b9-cd01-46eb-a853-35550567b86c/linked\_in?t=t3kloq}{Verify}\\[3pt]
+\textbf{Solution Architecture} --- AWS + Forage $\cdot$ \href{https://media.licdn.com/dms/image/v2/D4E22AQEGpdCmKHz7zA/feedshare-shrink\_800/B4EZddSqCDHYAg-/0/1749616862439?e=1766620800\&v=beta\&t=\_TCJKrqS71aJvjW24OvR1IKrAknmvRVPPPjzfHIsnjY}{Verify}\\[3pt]
+\textbf{Journey to Cloud} --- IBM SkillsBuild $\cdot$ \href{https://www.credly.com/badges/85e4145d-ecb3-4b8f-bb30-e4e47b4a26cc/linked\_in?t=t3kkzf}{Verify}
 
 \end{document}
