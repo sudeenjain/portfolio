@@ -12,7 +12,8 @@ let cacheData = {
     internships: [],
     projects: [],
     achievements: [],
-    skills: []
+    skills: [],
+    documents: []
 };
 
 // -------------------------------------------------------------
@@ -1019,8 +1020,8 @@ function setupFormListeners() {
                 }
 
                 let resultError = null;
+                let isSavedLocally = false;
 
-                let isSupabaseSuccess = false;
                 if (table === 'documents') {
                     try {
                         if (!window.supabaseClient) throw new Error("Offline mode");
@@ -1032,11 +1033,10 @@ function setupFormListeners() {
                             resultError = error;
                         }
                         if (resultError) throw resultError;
-                        isSupabaseSuccess = true;
                     } catch (supabaseErr) {
                         console.warn("Supabase document write failed, falling back to localStorage", supabaseErr);
                         saveLocalDocument(id ? { id, ...payload } : payload);
-                        isSupabaseSuccess = true;
+                        isSavedLocally = true;
                     }
                 } else {
                     if (id) {
@@ -1052,10 +1052,13 @@ function setupFormListeners() {
                         resultError = error;
                     }
                     if (resultError) throw resultError;
-                    isSupabaseSuccess = true;
                 }
 
-                showToast(`Record ${id ? 'updated' : 'inserted'} successfully`, "success");
+                if (isSavedLocally) {
+                    showToast(`Saved locally on this device only. Supabase cloud sync failed — make sure the 'documents' table is created in Supabase.`, "warning");
+                } else {
+                    showToast(`Record ${id ? 'updated' : 'inserted'} successfully`, "success");
+                }
                 closeModal(table);
                 clearFormDraft(table);
                 loadSectionData(table);
@@ -1089,6 +1092,7 @@ function triggerDelete(table, id) {
             confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Purging...`;
 
             try {
+                let isDeletedLocally = false;
                 if (deleteTarget.table === 'documents') {
                     try {
                         if (!window.supabaseClient) throw new Error("Offline mode");
@@ -1100,6 +1104,7 @@ function triggerDelete(table, id) {
                     } catch (supabaseErr) {
                         console.warn("Supabase document delete failed, falling back to localStorage", supabaseErr);
                         deleteLocalDocument(deleteTarget.id);
+                        isDeletedLocally = true;
                     }
                 } else {
                     const { error } = await window.supabaseClient
@@ -1110,7 +1115,11 @@ function triggerDelete(table, id) {
                     if (error) throw error;
                 }
 
-                showToast("Record deleted successfully", "warning");
+                if (isDeletedLocally) {
+                    showToast("Document deleted from local storage only (Cloud database not reachable)", "warning");
+                } else {
+                    showToast("Record deleted successfully", "warning");
+                }
                 closeDeleteModal();
                 loadSectionData(deleteTarget.table);
                 refreshDashboard();

@@ -37,6 +37,22 @@ const PortfolioRenderer = (() => {
                 navLinks.push(resumeLink);
             }
         }
+        if (!navLinks.some(link => link.href === '#documents')) {
+            const resumeIndex = navLinks.findIndex(link => link.href === '#resume');
+            const docLink = { href: '#documents', label: 'Documents', cta: false };
+            if (resumeIndex >= 0) {
+                navLinks.splice(resumeIndex + 1, 0, docLink);
+            } else {
+                const contactIndex = navLinks.findIndex(link =>
+                    link.href === '#contact' || link.href === '#get-in-touch'
+                );
+                if (contactIndex >= 0) {
+                    navLinks.splice(contactIndex, 0, docLink);
+                } else {
+                    navLinks.push(docLink);
+                }
+            }
+        }
 
         const links = navLinks.map(l =>
             `<a href="${l.href}"${l.cta ? ' class="nav-cta"' : ''}>${l.label}</a>`
@@ -281,6 +297,67 @@ const PortfolioRenderer = (() => {
 </div>`;
     }
 
+    function renderDocuments(docs) {
+        if (!docs || docs.length === 0) return '';
+
+        const cards = docs.map((doc, idx) => {
+            const isPdf = doc.isPdf || (doc.url && doc.url.toLowerCase().endsWith('.pdf'));
+            const isImg = doc.isImg || /\.(png|jpe?g|webp|gif|svg)$/i.test(doc.url || '');
+            const iconClass = isPdf ? 'fa-file-pdf' : (isImg ? 'fa-file-image' : 'fa-file-alt');
+            const badgeText = isPdf ? 'PDF Document' : (isImg ? 'Image' : 'Credential');
+            const displayUrl = doc.url || '#';
+
+            return `
+        <div class="doc-card" data-name="${escapeHTML(doc.name).toLowerCase()}" data-aos="fade-up" data-aos-delay="${(idx % 4) * 100}">
+            <div class="doc-card-header">
+                <div class="doc-icon-wrap ${isPdf ? 'pdf-icon' : ''}">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <span class="doc-badge">${badgeText}</span>
+            </div>
+            <div class="doc-card-body">
+                <h3 class="doc-title">${escapeHTML(doc.name)}</h3>
+            </div>
+            <div class="doc-card-actions">
+                <a href="${displayUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm" title="View Document">
+                    <i class="fas fa-eye"></i> View
+                </a>
+                <a href="${displayUrl}" download="${escapeHTML(doc.name)}" class="btn btn-filled btn-sm" title="Download Document">
+                    <i class="fas fa-file-download"></i> Download
+                </a>
+            </div>
+        </div>`;
+        }).join('');
+
+        return `
+<div class="container">
+    <h2 data-aos="fade-up">Documents &amp; Credentials</h2>
+    <div class="section-divider" data-aos="fade-up" data-aos-delay="100"></div>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150">
+        Browse and search verified academic documents, certificates, and records.
+    </p>
+
+    <div class="doc-search-wrapper" data-aos="fade-up" data-aos-delay="200">
+        <div class="doc-search-box">
+            <i class="fas fa-search doc-search-icon"></i>
+            <input type="text" id="public-doc-search" placeholder="Search documents (e.g. 10th, Marksheet, Certificate, Resume)..." autocomplete="off">
+            <button id="public-doc-search-clear" class="doc-search-clear" title="Clear search" style="display:none;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="doc-count-badge" id="public-doc-count">${docs.length} Documents</div>
+    </div>
+
+    <div class="docs-grid" id="public-docs-grid">
+        ${cards}
+    </div>
+    <div id="docs-empty-state" class="docs-empty-state" style="display: none;">
+        <i class="fas fa-folder-open"></i>
+        <p>No matching documents found.</p>
+    </div>
+</div>`;
+    }
+
     function renderContact(d) {
         const socials = d.socials.map(s => `<a href="${s.href}" target="_blank" title="${s.title}"><i class="${s.icon}"></i></a>`).join('');
         const cards = d.cards.map(c => `
@@ -356,6 +433,7 @@ const PortfolioRenderer = (() => {
         set('internships', renderInternships(data.internships));
         set('projects', renderProjects(data.projects));
         set('resume', renderResume());
+        set('documents', renderDocuments(data.documents));
         set('contact', renderContact(data.contact));
         set('get-in-touch', renderGetInTouch(data.getInTouch));
     }
