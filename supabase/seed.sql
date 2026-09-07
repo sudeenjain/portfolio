@@ -79,4 +79,18 @@
     ('Amazon Bestseller Recommender', 'A machine learning model that analyzes Amazon bestseller data to recommend similar high-performing products.', 'Performs exploratory data analysis on 10,000+ items and classifies them using random forests.', ARRAY['Python', 'Machine Learning', 'Data Analysis'], ARRAY['Machine Learning', 'Python'], 'https://github.com/sudeenjain/Amazon-Bestseller-Recommender', 'https://ibm-mini-project.vercel.app/', NULL, false, true, 150, 'fa-star'),
     ('AI Dictionary', 'An AI-powered dictionary tool offering smart word definitions, usage examples, and contextual understanding.', 'Interfaces with web APIs, processes NLP parameters, and parses dictionary definitions.', ARRAY['AI', 'NLP', 'JavaScript'], ARRAY['Artificial Intelligence', 'JavaScript'], 'https://github.com/sudeenjain/AI_dictonary', NULL, NULL, false, true, 160, 'fa-spell-check');
 
-    -- Note: achievements list was empty under portfolio-data.js (only section was listed in html but no data items - wait, let's verify if there were achievements. If not, table can start empty)
+    -- 7. Seed Documents
+    INSERT INTO documents (name, file_url, display_order, published) VALUES
+    ('10th Marksheet', 'docs/10th.pdf', 10, true),
+    ('12th Marksheet', 'docs/12th.pdf', 20, true),
+    ('6th Sem Marksheet', 'docs/6th Sem.pdf', 30, true),
+    ('APAAR Card', 'docs/APAAR.pdf', 40, true),
+    ('Aadhaar Card', 'docs/Adhar Card (2).pdf', 50, true),
+    ('Driving License', 'docs/Driving License.pdf', 60, true),
+    ('PAN Card', 'docs/Pan Card.pdf', 70, true),
+    ('Ration Card', 'docs/Ration Card.pdf', 80, true),
+    ('Internshala Resume', 'docs/Sudeen JainH R_InternshalaResume.pdf', 90, true),
+    ('Canara Bank Statement', 'docs/canara bank(statement).pdf', 100, true),
+    ('Caste Certificate', 'docs/caste certificate.pdf', 110, true),
+    ('Income Certificate', 'docs/income certificate.pdf', 120, true),
+    ('Profile Photo', 'docs/profile.jpg', 130, true);
