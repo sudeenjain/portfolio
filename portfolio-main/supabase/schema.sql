@@ -192,9 +192,16 @@ CREATE TABLE IF NOT EXISTS documents (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+DROP TRIGGER IF EXISTS update_documents_updated_at ON documents;
 CREATE TRIGGER update_documents_updated_at BEFORE
 UPDATE ON documents FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public Read Access for Published Documents" ON documents;
 CREATE POLICY "Public Read Access for Published Documents" ON documents FOR
 SELECT TO public USING (published = TRUE);
+
+DROP POLICY IF EXISTS "Admin Full Access on Documents" ON documents;
 CREATE POLICY "Admin Full Access on Documents" ON documents FOR ALL TO authenticated USING (TRUE);
