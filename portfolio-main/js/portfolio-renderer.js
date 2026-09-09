@@ -48,32 +48,60 @@ const PortfolioRenderer = (() => {
         <span class="logo-icon">${d.logoIcon}</span>
         <span class="logo-text">${d.logoText}</span>
     </div>
-    <button class="hamburger" aria-label="Toggle navigation">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
         <span></span>
         <span></span>
         <span></span>
     </button>
-    <div class="nav-links">${links}</div>
+    <div class="nav-links" id="navLinksContainer">${links}</div>
 </nav>`;
     }
 
     function renderHero(d) {
-        const ctas = d.ctas.map(c =>
-            `<a href="${c.href}" class="btn${c.icon === 'fa-rocket' ? ' btn-filled' : ''}"><i class="fas ${c.icon}"></i> ${c.label}</a>`
-        ).join('\n');
-
         return `
-<div class="container" style="text-align: center;">
-    <div class="hero-greeting" data-aos="fade-down">${d.greeting}</div>
-    <h1 class="hero-title" data-aos="zoom-in" data-aos-duration="1000">
-        <span class="name-text">${d.name}</span>
-    </h1>
-    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">${d.subtitle}</p>
-    <div class="hero-typewriter" data-aos="fade-up" data-aos-delay="400">
-        <span class="typed-text" id="typedText"></span>
-    </div>
-    <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
-        ${ctas}
+<div class="hero-wrapper">
+    <div class="hero-content">
+        <div class="hero-status-pill" data-aos="fade-down">
+            <span class="status-pulse-dot"></span>
+            <span class="status-text">${d.greeting || 'Available for Opportunities'}</span>
+        </div>
+        <h1 class="hero-main-title" data-aos="zoom-in" data-aos-duration="900">
+            <span class="hero-first-name">${d.name}</span>
+        </h1>
+        <p class="hero-degree-line" data-aos="fade-up" data-aos-delay="150">
+            ${d.subtitle}
+        </p>
+        <div class="hero-role-badge" data-aos="fade-up" data-aos-delay="300">
+            <span class="role-terminal-icon">&gt;_</span>
+            <span class="typed-role-text" id="typedText"></span>
+            <span class="terminal-cursor"></span>
+        </div>
+        
+        <div class="hero-stats-row" data-aos="fade-up" data-aos-delay="450">
+            <div class="hero-stat-box">
+                <span class="stat-big-num">16+</span>
+                <span class="stat-mini-label">Projects</span>
+            </div>
+            <div class="hero-stat-sep"></div>
+            <div class="hero-stat-box">
+                <span class="stat-big-num">12+</span>
+                <span class="stat-mini-label">Credentials</span>
+            </div>
+            <div class="hero-stat-sep"></div>
+            <div class="hero-stat-box">
+                <span class="stat-big-num">5</span>
+                <span class="stat-mini-label">Internships</span>
+            </div>
+        </div>
+
+        <div class="hero-action-buttons" data-aos="fade-up" data-aos-delay="600">
+            <a href="#projects" class="btn-hero-primary">
+                <i class="fas fa-rocket"></i> Explore Work
+            </a>
+            <a href="#contact" class="btn-hero-secondary">
+                <i class="fas fa-paper-plane"></i> Let's Connect
+            </a>
+        </div>
     </div>
 </div>
 <div id="scroll-indicator" class="scroll-indicator">
@@ -126,65 +154,124 @@ const PortfolioRenderer = (() => {
     }
 
     function renderCertifications(d) {
-        const gallery = d.gallery.map(cat => {
-            const items = cat.items.map(it => `
-<div class="cert-gallery-card" onclick="openCertLightbox(this)" 
-     data-org="${escapeHTML(it.org)}" 
-     data-date="${escapeHTML(it.date)}" 
-     data-id="${escapeHTML(it.id)}" 
-     data-url="${escapeHTML(it.url)}" 
-     data-desc="${escapeHTML(it.desc)}">
-    <div class="cert-gallery-thumb">
-        <img src="${it.img}" alt="${it.alt}" loading="lazy">
-        <div class="view-overlay"><i class="fas fa-search-plus"></i><span>View Details</span></div>
+        // Build interactive category filter tabs
+        const filterTabs = [
+            `<button class="bento-filter-tab active" data-filter="all"><i class="fas fa-th-large"></i> All Credentials</button>`
+        ];
+        
+        let allBentoItems = [];
+        let totalCount = 0;
+
+        d.gallery.forEach((cat, catIdx) => {
+            const catSlug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            filterTabs.push(
+                `<button class="bento-filter-tab" data-filter="${catSlug}"><i class="fas ${cat.icon}"></i> ${cat.name} (${cat.items.length})</button>`
+            );
+
+            cat.items.forEach((it, itIdx) => {
+                totalCount++;
+                const isFeatured = itIdx === 0 && catIdx === 0;
+                allBentoItems.push(`
+<div class="bento-cert-card ${isFeatured ? 'bento-featured-item' : ''}" 
+     data-category="${catSlug}" 
+     data-aos="fade-up" 
+     data-aos-delay="${(itIdx % 4) * 80}"
+     onclick="openCertLightbox(this)" 
+     data-org="${escapeHTML(it.org || cat.name)}" 
+     data-date="${escapeHTML(it.date || '')}" 
+     data-id="${escapeHTML(it.id || '')}" 
+     data-url="${escapeHTML(it.url || '')}" 
+     data-desc="${escapeHTML(it.desc || '')}">
+    <div class="bento-card-glow"></div>
+    <div class="bento-cert-thumb">
+        <img src="${it.img}" alt="${escapeHTML(it.alt)}" loading="lazy">
+        <div class="bento-cert-overlay">
+            <span class="bento-inspect-btn"><i class="fas fa-search-plus"></i> Inspect</span>
+        </div>
     </div>
-    <div class="cert-gallery-info"><h4>${it.title}</h4></div>
-</div>`).join('');
-            return `
-<div class="cert-category" data-aos="fade-up">
-    <h4 class="cert-category-title"><i class="fas ${cat.icon}"></i> ${cat.name}</h4>
-    <div class="cert-gallery-grid">${items}</div>
-</div>`;
-        }).join('');
+    <div class="bento-cert-content">
+        <div class="bento-cat-tag"><i class="fas ${cat.icon}"></i> ${cat.name}</div>
+        <h4 class="bento-cert-title">${escapeHTML(it.title)}</h4>
+        <div class="bento-cert-footer">
+            <span class="bento-org-tag"><i class="fas fa-building"></i> ${escapeHTML(it.org || 'Verified')}</span>
+            <span class="bento-view-link"><i class="fas fa-external-link-alt"></i></span>
+        </div>
+    </div>
+</div>`);
+            });
+        });
 
         return `
 <div class="container">
-    <h2 data-aos="fade-up">Certificate Gallery</h2>
-    <div class="section-divider" data-aos="fade-up" data-aos-delay="100"></div>
-    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150" style="margin-bottom: 2rem;">Industry-recognized credentials validating my expertise. Click any certificate to view it full size.</p>
-    ${gallery}
-    <div data-aos="fade-up" style="margin-top: 3rem; text-align: center;">
-        <a class="btn" href="${d.footerLinkHref}" target="_blank"><i class="fab fa-linkedin"></i> ${d.footerLinkLabel}</a>
+    <div class="bento-section-header" data-aos="fade-up">
+        <div class="bento-badge-pill"><i class="fas fa-award"></i> Verified Expertise</div>
+        <h2>Certificate &amp; Credential Gallery</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Comprehensive industry-recognized certifications across AI, Deep Learning, Cloud Systems, and Full-Stack Engineering.</p>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="bento-filter-bar" data-aos="fade-up" data-aos-delay="100">
+        ${filterTabs.join('')}
+    </div>
+
+    <!-- High-Tech Bento Grid Container -->
+    <div class="bento-cert-grid" id="certBentoGrid">
+        ${allBentoItems.join('')}
+    </div>
+
+    <div data-aos="fade-up" style="margin-top: 3.5rem; text-align: center;">
+        <a class="btn btn-bento" href="${d.footerLinkHref}" target="_blank">
+            <i class="fab fa-linkedin"></i> ${d.footerLinkLabel} <i class="fas fa-arrow-right"></i>
+        </a>
     </div>
 </div>`;
     }
 
     function renderBadges(d) {
         const items = d.items.map((b, i) => `
-<div class="badge-card" data-aos="zoom-in" data-aos-delay="${(i % 3) * 100}">
-    <div class="badge-glow"></div>
-    <div class="badge-image-wrapper"><img src="${b.img}" alt="${b.alt}" loading="lazy"></div>
-    <div class="badge-info">
-        <h3>${b.title}</h3>
-        <span class="badge-issuer"><i class="${b.issuerIcon}"></i> ${b.issuer}</span>
-        <p class="badge-desc">${b.desc}</p>
-        <div class="badge-meta">
-            <span class="badge-date"><i class="fas fa-calendar-alt"></i> ${b.date}</span>
-            <span class="badge-expiry"><i class="${b.expiryIcon}"></i> ${b.expiry}</span>
+<div class="bento-badge-card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+    <div class="bento-badge-ambient-glow"></div>
+    <div class="bento-badge-top">
+        <div class="badge-image-wrapper">
+            <img src="${b.img}" alt="${b.alt}" loading="lazy">
         </div>
-        <div class="badge-skills">${b.skills.map(s => `<span>${s}</span>`).join('')}</div>
-        <a class="badge-link" href="${b.linkHref}" target="_blank">Verify on Credly <i class="fas fa-external-link-alt"></i></a>
+        <div class="bento-credly-badge"><i class="fas fa-check-circle"></i> Verified Credly</div>
+    </div>
+    <div class="bento-badge-body">
+        <span class="bento-badge-issuer"><i class="${b.issuerIcon}"></i> ${b.issuer}</span>
+        <h3>${b.title}</h3>
+        <p class="bento-badge-desc">${b.desc}</p>
+        <div class="bento-badge-meta">
+            <span><i class="fas fa-calendar-alt"></i> ${b.date}</span>
+            <span><i class="${b.expiryIcon}"></i> ${b.expiry}</span>
+        </div>
+        <div class="bento-badge-skills">
+            ${b.skills.map(s => `<span>${s}</span>`).join('')}
+        </div>
+        <a class="bento-verify-btn" href="${b.linkHref}" target="_blank" rel="noopener noreferrer">
+            <span>Verify on Credly</span> <i class="fas fa-external-link-alt"></i>
+        </a>
     </div>
 </div>`).join('');
 
         return `
 <div class="container">
-    <h2 data-aos="fade-up">Credly Badges</h2>
-    <div class="section-divider" data-aos="fade-up" data-aos-delay="100"></div>
-    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="150">Verified digital credentials from industry leaders</p>
-    <div class="badges-grid">${items}</div>
-    <div data-aos="fade-up" style="margin-top: 3rem; text-align: center;">
-        <a class="btn" href="${d.footerLinkHref}" target="_blank"><i class="fas fa-award"></i> ${d.footerLinkLabel}</a>
+    <div class="bento-section-header" data-aos="fade-up">
+        <div class="bento-badge-pill" style="border-color:rgba(189,0,255,0.4); color:#bd00ff; background:rgba(189,0,255,0.1);">
+            <i class="fas fa-shield-alt"></i> Digital Badges
+        </div>
+        <h2>Credly Digital Credentials</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Directly verifiable cryptographic digital badges issued by AWS, Pearson Certiport, and IBM SkillsBuild.</p>
+    </div>
+
+    <div class="bento-badges-matrix">${items}</div>
+
+    <div data-aos="fade-up" style="margin-top: 3.5rem; text-align: center;">
+        <a class="btn btn-bento" href="${d.footerLinkHref}" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-external-link-alt"></i> ${d.footerLinkLabel} <i class="fas fa-arrow-right"></i>
+        </a>
     </div>
 </div>`;
     }
