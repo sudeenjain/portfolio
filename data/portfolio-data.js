@@ -888,21 +888,6 @@ const portfolioData = {
       ]
     }
   ],
-  "documents": [
-    { "id": "doc-1", "name": "10th Marksheet", "url": "docs/10th.pdf", "isPdf": true },
-    { "id": "doc-2", "name": "12th Marksheet", "url": "docs/12th.pdf", "isPdf": true },
-    { "id": "doc-3", "name": "6th Sem Marksheet", "url": "docs/6th Sem.pdf", "isPdf": true },
-    { "id": "doc-4", "name": "APAAR Card", "url": "docs/APAAR.pdf", "isPdf": true },
-    { "id": "doc-5", "name": "Aadhaar Card", "url": "docs/Adhar Card (2).pdf", "isPdf": true },
-    { "id": "doc-6", "name": "Driving License", "url": "docs/Driving License.pdf", "isPdf": true },
-    { "id": "doc-7", "name": "PAN Card", "url": "docs/Pan Card.pdf", "isPdf": true },
-    { "id": "doc-8", "name": "Ration Card", "url": "docs/Ration Card.pdf", "isPdf": true },
-    { "id": "doc-9", "name": "Internshala Resume", "url": "docs/Sudeen JainH R_InternshalaResume.pdf", "isPdf": true },
-    { "id": "doc-10", "name": "Canara Bank Statement", "url": "docs/canara bank(statement).pdf", "isPdf": true },
-    { "id": "doc-11", "name": "Caste Certificate", "url": "docs/caste certificate.pdf", "isPdf": true },
-    { "id": "doc-12", "name": "Income Certificate", "url": "docs/income certificate.pdf", "isPdf": true },
-    { "id": "doc-13", "name": "Profile Photo", "url": "docs/profile.jpg", "isImg": true }
-  ],
   "contact": {
     "socials": [
       {

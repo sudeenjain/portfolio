@@ -31,15 +31,13 @@ const PortfolioDataService = (() => {
             certsRes,
             badgesRes,
             internshipsRes,
-            projectsRes,
-            docsRes
+            projectsRes
         ] = await Promise.all([
             client.from('skills').select('*').eq('published', true).order('display_order', { ascending: true }),
             client.from('certificates').select('*').eq('published', true).order('display_order', { ascending: true }),
             client.from('badges').select('*').eq('published', true).order('display_order', { ascending: true }),
             client.from('internships').select('*').eq('published', true).order('display_order', { ascending: true }),
-            client.from('projects').select('*').eq('published', true).order('display_order', { ascending: true }),
-            client.from('documents').select('*').eq('published', true).order('display_order', { ascending: true }).catch(err => ({ data: [], error: err }))
+            client.from('projects').select('*').eq('published', true).order('display_order', { ascending: true })
         ]);
 
         // Validate responses
@@ -138,19 +136,6 @@ const PortfolioDataService = (() => {
             };
         });
 
-        // Map Documents (gracefully handle if table or records not yet populated)
-        let mappedDocs = [];
-        if (docsRes && !docsRes.error && Array.isArray(docsRes.data)) {
-            mappedDocs = docsRes.data.map(d => ({
-                id: d.id,
-                name: d.name,
-                url: d.file_url || '',
-                date: d.created_at || '',
-                isPdf: (d.file_url || '').toLowerCase().includes('.pdf'),
-                isImg: /\.(png|jpe?g|webp|gif|svg)$/i.test(d.file_url || '')
-            }));
-        }
-
         return {
             skills: mappedSkills,
             certifications: {
@@ -165,8 +150,7 @@ const PortfolioDataService = (() => {
                 footerLinkLabel: "View All Badges on Credly"
             },
             internships: mappedInternships,
-            projects: mappedProjects,
-            documents: mappedDocs
+            projects: mappedProjects
         };
     }
 
@@ -190,11 +174,6 @@ const PortfolioDataService = (() => {
             data.badges.items = liveData.badges.items;
             data.internships = liveData.internships;
             data.projects = liveData.projects;
-            if (liveData.documents && liveData.documents.length > 0) {
-                data.documents = liveData.documents;
-            } else if (!data.documents) {
-                data.documents = [];
-            }
 
             console.log("Successfully loaded live data from Supabase DB.");
             return data;

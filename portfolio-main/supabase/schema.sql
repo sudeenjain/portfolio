@@ -199,9 +199,7 @@ UPDATE ON documents FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 
+-- Secure Documents: Restrict read and write access strictly to authenticated Admin users
 DROP POLICY IF EXISTS "Public Read Access for Published Documents" ON documents;
-CREATE POLICY "Public Read Access for Published Documents" ON documents FOR
-SELECT TO public USING (published = TRUE);
-
 DROP POLICY IF EXISTS "Admin Full Access on Documents" ON documents;
 CREATE POLICY "Admin Full Access on Documents" ON documents FOR ALL TO authenticated USING (TRUE);

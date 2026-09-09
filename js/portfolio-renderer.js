@@ -37,22 +37,6 @@ const PortfolioRenderer = (() => {
                 navLinks.push(resumeLink);
             }
         }
-        if (!navLinks.some(link => link.href === '#documents')) {
-            const resumeIndex = navLinks.findIndex(link => link.href === '#resume');
-            const docLink = { href: '#documents', label: 'Documents', cta: false };
-            if (resumeIndex >= 0) {
-                navLinks.splice(resumeIndex + 1, 0, docLink);
-            } else {
-                const contactIndex = navLinks.findIndex(link =>
-                    link.href === '#contact' || link.href === '#get-in-touch'
-                );
-                if (contactIndex >= 0) {
-                    navLinks.splice(contactIndex, 0, docLink);
-                } else {
-                    navLinks.push(docLink);
-                }
-            }
-        }
 
         const links = navLinks.map(l =>
             `<a href="${l.href}"${l.cta ? ' class="nav-cta"' : ''}>${l.label}</a>`
@@ -433,7 +417,6 @@ const PortfolioRenderer = (() => {
         set('internships', renderInternships(data.internships));
         set('projects', renderProjects(data.projects));
         set('resume', renderResume());
-        set('documents', renderDocuments(data.documents));
         set('contact', renderContact(data.contact));
         set('get-in-touch', renderGetInTouch(data.getInTouch));
     }
