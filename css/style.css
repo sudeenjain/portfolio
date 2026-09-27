@@ -2466,6 +2466,12 @@ footer {
     }
 }
 
+/* FIX: this block was previously unscoped (missing @media max-width 768px opener),
+   so every rule below applied on all screen sizes, not just mobile — that's what
+   forced .internship-card into single-column layout even on desktop and shrank
+   h1/h2/section sizing everywhere. Restored the wrapper below. */
+@media (max-width: 768px) {
+
     /* Custom styling for Reach Out CTA button in Mobile Menu */
     .nav-links a.nav-cta {
         border: 1px solid rgba(0, 243, 255, 0.4) !important;
@@ -2543,8 +2549,6 @@ footer {
         right: auto !important;
     }
 }
-
-\n\n
 
 /* ===================================================
    CERTIFICATE LIGHTBOX — split panel
@@ -3619,5 +3623,3 @@ footer {
         padding: 1.25rem 1.25rem 1.5rem;
     }
 }
-
-
