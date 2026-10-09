@@ -687,7 +687,7 @@
         social: {
             github: "https://github.com/sudeenjain",
             linkedin: "https://www.linkedin.com/in/sudeenjain",
-            instagram: "https://instagram.com/sudeen_jain",
+            instagram: "https://instagram.com/sudeenjain",
             credly: "https://www.credly.com/users/sudeenjain"
         }
     };
