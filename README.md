@@ -73,6 +73,7 @@ A local server is recommended because the website loads its HTML sections from t
 **Sudeen Jain H R**
 
 - **GitHub:** [sudeenjain](https://github.com/sudeenjain)
+- **linkedin:** [sudeenjain](https://linkedin.com/in/sudeenjain)
 - **Portfolio:** [sudeenjain.github.io/portfolio](https://sudeenjain.github.io/portfolio/)
 - **Email:** sudinhr1@gmail.com
 
