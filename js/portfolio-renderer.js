@@ -22,6 +22,16 @@ const PortfolioRenderer = (() => {
             .replace(/'/g, '&#039;');
     }
 
+    function resolvePath(url) {
+        if (!url) return '';
+        if (/^(https?:|\/\/|mailto:|tel:|#|data:)/i.test(url)) return url;
+        const prefix = (typeof window !== 'undefined' && window.PORTFOLIO_ROOT_PREFIX) || '';
+        if (prefix && !url.startsWith(prefix) && !url.startsWith('/')) {
+            return prefix + url;
+        }
+        return url;
+    }
+
     function renderNav(d) {
         // Add a Resume link automatically without requiring changes to portfolio-data.js.
         const navLinks = Array.isArray(d.links) ? [...d.links] : [];
@@ -128,7 +138,7 @@ const PortfolioRenderer = (() => {
     <div class="grid" style="align-items: center;">
         <div style="text-align: center;" data-aos="fade-right">
             <div class="profile-wrapper">
-                <img src="${d.profileImg}" alt="${d.profileAlt}" class="profile-img"
+                <img src="${resolvePath(d.profileImg)}" alt="${d.profileAlt}" class="profile-img"
                      onerror="this.src='https://ui-avatars.com/api/?name=Sudeen+Jain&background=000&color=00f3ff&size=400&bold=true&font-size=0.33'">
             </div>
         </div>
@@ -184,7 +194,7 @@ const PortfolioRenderer = (() => {
      data-desc="${escapeHTML(it.desc || '')}">
     <div class="bento-card-glow"></div>
     <div class="bento-cert-thumb">
-        <img src="${it.img}" alt="${escapeHTML(it.alt)}" loading="lazy">
+        <img src="${resolvePath(it.img)}" alt="${escapeHTML(it.alt)}" loading="lazy">
         <div class="bento-cert-overlay">
             <span class="bento-inspect-btn"><i class="fas fa-search-plus"></i> Inspect</span>
         </div>
@@ -234,7 +244,7 @@ const PortfolioRenderer = (() => {
     <div class="bento-badge-ambient-glow"></div>
     <div class="bento-badge-top">
         <div class="badge-image-wrapper">
-            <img src="${b.img}" alt="${b.alt}" loading="lazy">
+            <img src="${resolvePath(b.img)}" alt="${b.alt}" loading="lazy">
         </div>
         <div class="bento-credly-badge"><i class="fas fa-check-circle"></i> Verified Credly</div>
     </div>
@@ -282,7 +292,7 @@ const PortfolioRenderer = (() => {
 <div class="internship-card" data-aos="${dirs[i % 2]}" data-aos-delay="${i * 100}">
     <div class="internship-image-wrapper" onclick="openCertLightbox(this)">
         <div class="view-overlay"><i class="fas fa-search-plus"></i><span>View Certificate</span></div>
-        <img src="${it.img}" alt="${it.alt}" loading="lazy">
+        <img src="${resolvePath(it.img)}" alt="${it.alt}" loading="lazy">
     </div>
     <div class="internship-info">
         <h3>${it.title}</h3>
@@ -337,7 +347,7 @@ const PortfolioRenderer = (() => {
     function renderResume() {
         // Points to the auto-generated resume compiled by GitHub Actions.
         // The workflow saves the compiled PDF to resume/resume.pdf.
-        const resumePath = 'resume/resume.pdf';
+        const resumePath = resolvePath('resume/resume.pdf');
 
         return `
 <div class="container">
@@ -376,7 +386,7 @@ const PortfolioRenderer = (() => {
             const isImg = doc.isImg || /\.(png|jpe?g|webp|gif|svg)$/i.test(doc.url || '');
             const iconClass = isPdf ? 'fa-file-pdf' : (isImg ? 'fa-file-image' : 'fa-file-alt');
             const badgeText = isPdf ? 'PDF Document' : (isImg ? 'Image' : 'Credential');
-            const displayUrl = doc.url || '#';
+            const displayUrl = resolvePath(doc.url) || '#';
 
             return `
         <div class="doc-card" data-name="${escapeHTML(doc.name).toLowerCase()}" data-aos="fade-up" data-aos-delay="${(idx % 4) * 100}">
@@ -446,7 +456,7 @@ const PortfolioRenderer = (() => {
     <div class="socials" data-aos="zoom-in">${socials}</div>
     <div class="contact-grid">${cards}</div>
     <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up">
-        <a href="resume/resume.pdf" class="btn btn-filled" download="Sudeen_Jain_H_R_Resume.pdf" style="padding: 15px 40px; font-size: 1.05rem;">
+        <a href="${resolvePath('resume/resume.pdf')}" class="btn btn-filled" download="Sudeen_Jain_H_R_Resume.pdf" style="padding: 15px 40px; font-size: 1.05rem;">
             <i class="fas fa-file-download"></i> ${d.resumeLabel}
         </a>
     </div>
