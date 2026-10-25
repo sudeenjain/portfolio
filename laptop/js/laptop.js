@@ -42,12 +42,42 @@
         if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }
 
+    /* ---------- inertia smooth scrolling (Lenis) + light mode while scrolling ---------- */
+    function initSmoothScroll() {
+        var root = document.documentElement, t = 0;
+        /* while the page is moving, expensive blur layers are dropped so every frame stays cheap */
+        window.addEventListener('scroll', function () {
+            if (!root.classList.contains('lp-scrolling')) root.classList.add('lp-scrolling');
+            clearTimeout(t);
+            t = setTimeout(function () { root.classList.remove('lp-scrolling'); }, 160);
+        }, { passive: true });
+
+        if (reduceMotion || !window.Lenis || (window.matchMedia && matchMedia('(pointer: coarse)').matches)) return;
+        var lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.95, smoothWheel: true });
+        window.__lenis = lenis;
+        if (hasGSAP && window.ScrollTrigger) {
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+            gsap.ticker.lagSmoothing(0);
+        } else {
+            requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+        }
+        /* pause it while a dialog / lightbox / the mobile chat is open so those can scroll normally */
+        new MutationObserver(function () {
+            var lock = root.classList.contains('pj-modal-open') || !!document.querySelector('.cert-lightbox.active');
+            if (lock) lenis.stop(); else lenis.start();
+        }).observe(root, { attributes: true, attributeFilter: ['class'], subtree: false });
+        var lb = document.querySelector('.cert-lightbox');
+        if (lb) new MutationObserver(function () { if (lb.classList.contains('active')) lenis.stop(); else lenis.start(); }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+    }
+
     /* ---------- wait for the shared renderer ---------- */
     var started = false;
     function isRendered() { return !!($('#home .hero-wrapper') && $('#projects .project-card')) && !window.__showcasePending; }
     function start() {
         if (started || !isRendered()) return;
         started = true;
+        initSmoothScroll();
         initScrollProgress();
         initNav();
         initHeroConsole();
@@ -67,7 +97,6 @@
         initMagnetic();
         initProjectCursor();
         initAccent();
-        initHud();
         refreshTriggers();
     }
     if (isRendered()) {
@@ -514,17 +543,6 @@
         var home = $('#home');
         if (!home || $('.lp-marquee')) return;
 
-        /* a) skills ticker under the hero */
-        var items = $$('.skill-badge').map(function (e) { return e.textContent.trim(); }).filter(Boolean);
-        if (items.length) {
-            var band = h('div', 'lp-marquee');
-            band.setAttribute('aria-hidden', 'true');
-            var trackEl = h('div', 'lp-marquee-track');
-            band.appendChild(trackEl);
-            home.parentNode.insertBefore(band, home.nextSibling);
-            buildMarquee(band, trackEl, items, 'lp-marquee-item', { speed: 55, dir: 1 });
-        }
-
         /* b) big outlined statement band, direction follows the scroll direction */
         var projects = $('#projects');
         if (projects) {
@@ -708,10 +726,10 @@
             list.forEach(function (o) { orbs.appendChild(o); });
             bg.appendChild(orbs);
             var depth = [-420, -820, -260];
-            var root = document.documentElement;
+            var gridEl = document.getElementById('canvas-container');
             var update = function (p) {
                 list.forEach(function (o, i) { o.style.setProperty('--lp-oy', (p * depth[i]).toFixed(1) + 'px'); });
-                root.style.setProperty('--lp-gridy', (-p * 360).toFixed(1) + 'px');
+                if (gridEl) gridEl.style.setProperty('--lp-gridy', (-p * 360).toFixed(1) + 'px');
             };
             if (hasGSAP) {
                 ScrollTrigger.create({ start: 0, end: 'max', onUpdate: function (s) { update(s.progress); } });

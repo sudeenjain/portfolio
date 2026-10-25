@@ -149,3 +149,32 @@ html.pj-modal-open { overflow: hidden; }
 .cf-status { margin: 1rem 0 0; min-height: 1.4em; font-size: 0.95rem; text-align: center; }
 .cf-ok { color: #34d399; }
 .cf-err { color: #f87171; }
+
+/* ---- infinite client loop ---- */
+.pj-loop { margin: 0 calc(50% - 50vw) 2.5rem; overflow: hidden; display: grid; gap: 1rem; padding: 0.5rem 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.pj-loop-title { margin: 0 0 0.25rem; display: flex; align-items: center; justify-content: center; gap: 1rem; font: 700 0.78rem 'Orbitron', sans-serif; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(203, 213, 225, 0.75); }
+.pj-loop-title span { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--lp-a, 0, 240, 255), 0.7)); }
+.pj-loop-title span:last-child { transform: scaleX(-1); }
+.pj-loop-row { overflow: hidden; }
+.pj-loop-track { display: flex; gap: 1rem; width: max-content; animation: pjLoopL 60s linear infinite; will-change: transform; }
+.pj-loop-row[data-dir="r"] .pj-loop-track { animation-name: pjLoopR; animation-duration: 70s; }
+.pj-loop:hover .pj-loop-track, .pj-loop:focus-within .pj-loop-track { animation-play-state: paused; }
+.pj-loop-item { position: relative; flex: none; width: clamp(240px, 24vw, 380px); aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.22); background: #070a16; display: block; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s, box-shadow 0.3s; }
+.pj-loop-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; filter: saturate(0.9) brightness(0.85); transition: filter 0.4s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+.pj-loop-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(4, 6, 14, 0.92)); pointer-events: none; }
+.pj-loop-cap { position: absolute; left: 0.9rem; right: 0.9rem; bottom: 0.7rem; z-index: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+.pj-loop-cap b { font-size: 0.95rem; color: #fff; line-height: 1.2; }
+.pj-loop-cap i { font: normal 0.72rem ui-monospace, Menlo, monospace; color: rgba(203, 213, 225, 0.75); }
+.pj-loop-item:hover, .pj-loop-item:focus-visible { transform: translateY(-6px); border-color: rgba(var(--lp-a, 0, 240, 255), 0.7); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 22px rgba(var(--lp-a, 0, 240, 255), 0.25); }
+.pj-loop-item:hover img { filter: saturate(1.05) brightness(1); transform: scale(1.05); }
+@keyframes pjLoopL { to { transform: translate3d(-50%, 0, 0); } }
+@keyframes pjLoopR { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+@media (prefers-reduced-motion: reduce) {
+    .pj-loop-track { animation: none; }
+    .pj-loop-row { overflow-x: auto; }
+}
+@media (max-width: 992px) { .pj-loop-item { width: 70vw; } .pj-loop { margin-bottom: 1.75rem; } }
+
+.pj-loop--band { margin: 0; padding: 2.5rem 0 3rem; position: relative; z-index: 2; }

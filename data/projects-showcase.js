@@ -106,64 +106,16 @@ window.PROJECT_SHOWCASE = {
       img: "assets/projects/showcase/currency-converter.webp",
       live: "https://currency-converter-phi-one.vercel.app/", repo: "https://github.com/sudeenjain/currency-converter"
     },
-    {
-      title: "Connects The Dots",
-      desc: "A Design & Analysis of Algorithms mini project that applies algorithmic problem-solving to the classic connect-the-dots puzzle.",
-      icon: "fa-diagram-project", tags: ["Algorithms", "DAA", "Web App"],
-      live: "https://daa-miniproject.vercel.app/", repo: "https://github.com/sudeenjain/Connect_the_Dots"
-    },
-    {
-      title: "Amazon Bestseller Recommender",
-      desc: "A recommendation system built around Amazon bestseller data, created as an IBM mini project.",
-      icon: "fa-amazon", brand: true, tags: ["Machine Learning", "Recommendation Engine", "IBM"],
-      live: "https://ibm-mini-project.vercel.app/", repo: "https://github.com/sudeenjain/Amazon-Bestseller-Recommender"
-    },
-    {
-      title: "Portfolio Website",
-      desc: "The original version of this portfolio — a cyber-themed personal site showcasing projects, certificates and badges.",
-      icon: "fa-globe", tags: ["HTML", "CSS", "JavaScript"],
-      live: "https://sudeenjain.github.io/portfolio/", repo: "https://github.com/sudeenjain/portfolio"
-    },
-    {
-      title: "Interactive Recipe Finder",
-      desc: "A dynamic web application enabling users to search, filter and discover recipes with real-time ingredient matching.",
-      icon: "fa-utensils", tags: ["HTML", "CSS", "JavaScript"],
-      live: "", repo: "https://github.com/sudeenjain/-interactive-recipe-finder"
-    },
-    {
-      title: "Book Recommender",
-      desc: "A book recommendation engine that suggests titles based on reading preferences.",
-      icon: "fa-book", tags: ["Java", "Recommendation Engine"],
-      live: "", repo: "https://github.com/sudeenjain/Book_Recommender"
-    },
-    {
-      title: "AI Resume Architect",
-      desc: "An AI-assisted resume builder that helps structure and write a professional resume.",
-      icon: "fa-file-lines", tags: ["AI", "Resume Tools"],
-      live: "", repo: "https://github.com/sudeenjain/AI-Resume_Architect"
-    },
-    {
-      title: "AI Dictionary",
-      desc: "An AI-powered dictionary for looking up words and meanings.",
-      icon: "fa-spell-check", tags: ["AI", "Language"],
-      live: "", repo: "https://github.com/sudeenjain/AI_dictonary"
-    },
-    {
-      title: "AI Calculator",
-      desc: "A calculator project with AI assistance.",
-      icon: "fa-calculator", tags: ["AI", "Utility"],
-      live: "", repo: "https://github.com/sudeenjain/AI_Calculator"
-    }
   ],
 
   client: [
-    { title: "Abhimo",                   desc: "Company website delivered for the client Abhimo.",                               icon: "fa-building",       tags: ["Client Project", "Company Website"],        live: "https://abhimo.com/" },
-    { title: "Realindua",                desc: "Company website delivered for the client Realindua.",                            icon: "fa-building",       tags: ["Client Project", "Company Website"],        live: "https://www.realindua.com/" },
-    { title: "Perks Property",           desc: "Property website built for the client Perks Property (development build).",      icon: "fa-house",          tags: ["Client Project", "Property Website"],       live: "https://dev.perksproperty.com/" },
-    { title: "All in One Technology",    desc: "Business website delivered for the client All in One Technology.",               icon: "fa-microchip",      tags: ["Client Project", "Business Website"],       live: "http://allinonetech.co.in/" },
-    { title: "Mahalaxmi Industrial Association", desc: "Website for the Mahalaxmi Industrial Association.",                      icon: "fa-industry",       tags: ["Client Project", "Association Website"],    live: "https://mahalaxmiindustrialassociation.org/about" },
-    { title: "Chinmaya School Mangalore", desc: "School website built for Chinmaya School, Mangalore.",                          icon: "fa-school",         tags: ["Client Project", "School Website"],         live: "https://chinmayaschoolmangalore.in/" },
-    { title: "Kushal Industries Association", desc: "Website for the Kushal Industries Association.",                            icon: "fa-industry",       tags: ["Client Project", "Association Website"],    live: "https://kushalindustriesassociation.org/" }
+    { title: "Abhimo Technologies", desc: "Corporate website for a software product company serving the banking, oil & gas and cashew industries. Presents their custom software, IT consulting and outsourcing services, products, clients, internship programme, gallery and news, with an Abhi Bot chat assistant for visitors.", icon: "fa-building", tags: ["Client Project", "Company Website", "Chatbot"], img: "assets/projects/showcase/client-abhimo.webp", live: "https://abhimo.com/" },
+    { title: "Realindua", desc: "A video-sharing platform landing experience: discover, watch and share videos, with a video search bar, language switcher, login and sign-up, and floating poster cards over a cinematic dark hero.", icon: "fa-circle-play", tags: ["Client Project", "Video Platform", "Web App"], img: "assets/projects/showcase/client-realindua.webp", live: "https://www.realindua.com/" },
+    { title: "Perks Properties", desc: "Real-estate website where visitors search properties or locations and browse buy, sell and rent listings, subscriptions, reviews and consultant pages, with a built-in assistant and user login.", icon: "fa-house", tags: ["Client Project", "Real Estate", "Property Search"], img: "assets/projects/showcase/client-perks-property.webp", live: "https://dev.perksproperty.com/" },
+    { title: "All In One Technology (Caltronics)", desc: "Website for a laboratory engineering and statutory compliance enterprise (est. 2004, Morbi): Caltronics lab instruments, BIS / ISI certification consulting, calibration and government turn-key testing projects, with divisions, services, instruments and project pages.", icon: "fa-microscope", tags: ["Client Project", "Business Website", "Industrial"], img: "assets/projects/showcase/client-all-in-one.webp", live: "http://allinonetech.co.in/" },
+    { title: "Mahalaxmi Industrial Association", desc: "Association website with the tagline Empowering Industries, Promoting Innovation, Building Strong Business Networks, covering the association's about page, office bearers, activities and training programs.", icon: "fa-industry", tags: ["Client Project", "Association Website"], img: "assets/projects/showcase/client-mahalaxmi.webp", live: "https://mahalaxmiindustrialassociation.org/about" },
+    { title: "Chinmaya School, Mangalore", desc: "School website that presents the campus, faculty, management, gallery, transport and activities, with Explore Programs and Contact calls to action and a WhatsApp chat button for parents.", icon: "fa-school", tags: ["Client Project", "School Website"], img: "assets/projects/showcase/client-chinmaya.webp", live: "https://chinmayaschoolmangalore.in/" },
+    { title: "Kushal Industries Association", desc: "Website for a textile trade association supporting the technical textile sector and garment exports in Karnataka since 1988, with membership, office bearers, contact details and a Join Association call to action.", icon: "fa-industry", tags: ["Client Project", "Association Website", "Textile"], img: "assets/projects/showcase/client-kushal.webp", live: "https://kushalindustriesassociation.org/" }
   ]
 };
 

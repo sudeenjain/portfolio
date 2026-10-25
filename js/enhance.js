@@ -85,7 +85,7 @@
             help.innerHTML = '<div class="lp-keys-box"><h3>Keyboard shortcuts</h3><ul>' +
                 '<li><kbd>/</kbd> search projects</li><li><kbd>g</kbd> <kbd>h</kbd> home</li><li><kbd>g</kbd> <kbd>a</kbd> about</li>' +
                 '<li><kbd>g</kbd> <kbd>s</kbd> skills</li><li><kbd>g</kbd> <kbd>k</kbd> certifications</li><li><kbd>g</kbd> <kbd>p</kbd> projects</li>' +
-                '<li><kbd>g</kbd> <kbd>r</kbd> resume</li><li><kbd>g</kbd> <kbd>c</kbd> contact</li><li><kbd>?</kbd> this help &nbsp; <kbd>Esc</kbd> close</li></ul></div>';
+                '<li><kbd>g</kbd> <kbd>r</kbd> resume</li><li><kbd>g</kbd> <kbd>c</kbd> contact</li><li><kbd>3</kbd> 3D background on / off</li><li><kbd>?</kbd> this help &nbsp; <kbd>Esc</kbd> close</li></ul></div>';
             help.addEventListener('click', function () { toggleHelp(false); });
             document.body.appendChild(help);
         }
@@ -101,6 +101,7 @@
             var inp = document.getElementById('pjSearch');
             if (inp) { e.preventDefault(); go(['projects']); setTimeout(function () { inp.focus({ preventScroll: true }); }, 700); }
         } else if (k === '?') { toggleHelp(); }
+        else if (k === '3') { document.dispatchEvent(new CustomEvent('lp-3d-toggle')); }
         else if (k === 'g') { pendingG = Date.now(); }
         else if (pendingG && Date.now() - pendingG < 1200 && SECTIONS[k.toLowerCase()]) {
             pendingG = 0; go(SECTIONS[k.toLowerCase()]);

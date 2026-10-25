@@ -109,6 +109,38 @@
         host.appendChild(w);
     }
 
+    /* ---- infinite client-work loop (two rows, opposite directions, pauses on hover) ---- */
+    function loop(section, grid) {
+        var list = (D.client || []).filter(function (c) { return c.img; });
+        if (!list.length || section.querySelector('.pj-loop')) return;
+        function item(c) {
+            return '<a class="pj-loop-item" href="' + esc(c.live) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(c.title) + ' (opens the live site)">' +
+                '<img src="' + esc(prefix + c.img) + '" alt="" loading="lazy" decoding="async"><span class="pj-loop-cap"><b>' + esc(c.title) + '</b><i>' + esc(host(c.live)) + '</i></span></a>';
+        }
+        function row(dir, shift) {
+            var rot = list.slice(shift).concat(list.slice(0, shift));
+            var once = rot.map(item).join('');
+            return '<div class="pj-loop-row" data-dir="' + dir + '"><div class="pj-loop-track">' + once + once +
+                '</div></div>';
+        }
+        var w = document.createElement('div');
+        w.className = 'pj-loop';
+        w.setAttribute('aria-label', 'Websites built for clients');
+        w.innerHTML = '<p class="pj-loop-title"><span></span>Delivered for clients<span></span></p>' + row('l', 0);
+        // the second copy is decorative: hide it from keyboard and screen readers
+        Array.prototype.forEach.call(w.querySelectorAll('.pj-loop-track'), function (t) {
+            var kids = t.children, half = kids.length / 2;
+            for (var i = half; i < kids.length; i++) { kids[i].setAttribute('aria-hidden', 'true'); kids[i].tabIndex = -1; }
+        });
+        var home = document.getElementById('home');
+        if (home && home.parentNode) {                     // first screen: right under the hero
+            w.classList.add('pj-loop--band');
+            home.parentNode.insertBefore(w, home.nextSibling);
+        } else {
+            grid.parentNode.insertBefore(w, grid.parentNode.querySelector('.pj-filter') || grid);
+        }
+    }
+
     function build() {
         var section = document.getElementById('projects');
         var grid = section && section.querySelector('.grid');
@@ -126,6 +158,7 @@
             sub.textContent = 'My own builds with live demos, plus websites delivered for clients';
         }
 
+        loop(section, grid);
         var bar = document.createElement('div');
         bar.className = 'bento-filter-bar pj-filter';
         bar.setAttribute('role', 'group');
