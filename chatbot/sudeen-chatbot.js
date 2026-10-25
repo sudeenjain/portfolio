@@ -548,15 +548,15 @@
         padding-bottom: max(14px, env(safe-area-inset-bottom));
     }
 }
-    `;
+    
+.SJ-widget-container .sj-message a { color: var(--sj-accent-blue); text-decoration: underline; word-break: break-word; }
+.SJ-widget-container .sj-user-message a { color: #fff; }
+`;
 
     const styleEl = document.createElement("style");
     styleEl.innerText = css;
     (document.head || document.documentElement).appendChild(styleEl);
 
-    // --- Dynamic Asset Resolution (root vs /chatbot/) ---
-    const isInsideChatbotFolder = window.location.pathname.includes('/chatbot');
-    const resumePath = isInsideChatbotFolder ? '../resume.pdf' : 'resume.pdf';
 
     // --- Template Injection (Abhimo Structure) ---
     const widget = document.createElement('div');
@@ -642,67 +642,35 @@
     loadAssets();
 
     // =========================================================================
-    //  KNOWLEDGE BASE & INTENT DATASET (Everything About Sudeen Jain)
+    //  CONFIG
     // =========================================================================
-    const KNOWLEDGE = {
-        profile: {
-            name: "Sudeen Jain H R",
-            role: "AI & Machine Learning Engineer",
-            degree: "B.Tech in Artificial Intelligence & Machine Learning",
-            university: "Srinivas University, Mangaluru, India",
-            email: "sudinhr1@gmail.com",
-            phone: "+91 917829738999",
-            resume: "resume.pdf",
-            stats: { projects: 16, certs: 12, internships: 5 }
-        },
-        projects: [
-            { name: "Gesture Flow", cat: "Computer Vision & AI", desc: "Real-time hand-gesture controller using OpenCV and CV pipelines.", demo: "https://guestureflow.vercel.app/", repo: "https://github.com/sudeenjain/guesture_flow" },
-            { name: "Movie Recommendation", cat: "Machine Learning", desc: "Content-similarity & collaborative engine for personalized movie recommendations.", demo: "https://movie-recommendation-plum-phi.vercel.app/", repo: "https://github.com/sudeenjain/Movie_Recommendation" },
-            { name: "FolioAI", cat: "AI & Automation", desc: "Smart assistant automating portfolio content generation for engineers.", demo: "https://portfolio-ai-eta-dusky.vercel.app/", repo: "https://github.com/sudeenjain/folioAI" },
-            { name: "CareerReady", cat: "Web Platform", desc: "Job readiness tracking and career bench-marking platform.", demo: "https://dist-steel-beta-55.vercel.app/#/landing", repo: "https://github.com/sudeenjain/CarrerReady" },
-            { name: "Product Recommendation", cat: "E-Commerce ML", desc: "Collaborative filtering recommendation engine for retail items.", demo: "https://ai-recommendation-system-gamma.vercel.app/", repo: "https://github.com/sudeenjain/Product_Recommendation" },
-            { name: "Connect The Dots", cat: "DAA & Graph Theory", desc: "Algorithmic graph connectivity and pathfinding visualization.", demo: "https://daa-miniproject.vercel.app/", repo: "https://github.com/sudeenjain/Connect_the_Dots" },
-            { name: "Amazon Bestseller Recommender", cat: "Big Data & ML", desc: "Predictive model analyzing Amazon bestseller dataset trends.", demo: "https://ibm-mini-project.vercel.app/", repo: "https://github.com/sudeenjain/Amazon-Bestseller-Recommender" }
-        ],
-        skills: {
-            languages: ["Python (Advanced)", "Java", "JavaScript", "SQL & RDBMS", "HTML5 & CSS3", "PHP"],
-            ai_ml: ["Machine Learning", "Deep Learning", "TensorFlow & Keras", "OpenCV & Computer Vision", "NLP", "IBM SPSS Modeler"],
-            cloud: ["AWS Cloud Foundations", "Microsoft Azure", "REST APIs", "Git & GitHub", "Supabase"]
-        },
-        internships: [
-            { role: "AI & Machine Learning Intern", org: "Averixis Solutions", duration: "Aug 2025 – Dec 2025", desc: "Predictive models, machine learning pipelines, and AICTE industry problem solving." },
-            { role: "Front-End Web Development Intern", org: "Edunet Foundation & IBM SkillsBuild", duration: "6 Weeks", desc: "Responsive user interfaces, interactive JavaScript, and UI/UX design." },
-            { role: "Emerging Technologies (AI & Cloud)", org: "Edunet Foundation & IBM", duration: "4 Weeks", desc: "Cloud deployment and cognitive AI integration with IBM Watson." },
-            { role: "UI/UX Design Intern", org: "Snestron Systems Pvt. Ltd.", duration: "Jul 2025 – Aug 2025", desc: "User research, Figma wireframing, and interactive design systems." },
-            { role: "Web Development Intern", org: "Abhimo Technologies", duration: "2026", desc: "Full-stack web application development, PHP backends, and JavaScript interactions." }
-        ],
-        certifications: [
-            { title: "AWS Academy Graduate – Cloud Foundations", issuer: "Amazon Web Services (AWS)", link: "https://www.credly.com/badges/850a46b9-cd01-46eb-a853-35550567b86c" },
-            { title: "IT Specialist – Artificial Intelligence", issuer: "Certiport (Pearson VUE)", link: "https://www.credly.com/badges/851d7a73-3caf-4851-baeb-52645964d1be" },
-            { title: "Deep Learning using TensorFlow", issuer: "IBM", link: "https://www.credly.com/badges/a289455e-4038-4810-a13d-f07613725b8b" },
-            { title: "Getting Started with AI", issuer: "IBM SkillsBuild", link: "https://www.credly.com/badges/de0e7fd4-8593-48c7-95f6-104af1769c4e" },
-            { title: "Journey to Cloud: Solution Envisioning", issuer: "IBM SkillsBuild", link: "https://www.credly.com/badges/85e4145d-ecb3-4b8f-bb30-e4e47b4a26cc" },
-            { title: "Microsoft Azure Fundamentals", issuer: "Microsoft / Skillsoft", link: "https://skillsoft.digitalbadges.skillsoft.com/481daa56-525f-46d3-b249-ff884ef8ee85" }
-        ],
-        social: {
-            github: "https://github.com/sudeenjain",
-            linkedin: "https://www.linkedin.com/in/sudeenjain",
-            instagram: "https://instagram.com/sudeenjain",
-            credly: "https://www.credly.com/users/sudeenjain"
-        }
-    };
+    const CONFIG = Object.assign({
+        // After you deploy gemini-proxy/worker.js, paste its URL here, e.g.
+        // 'https://sj-bot.abhimo-tech.workers.dev'. Leave empty to run offline
+        // (the bot then answers from the built-in knowledge only).
+        geminiProxyUrl: 'https://sj-bot.abhimo-tech.workers.dev',
+        requestTimeoutMs: 20000,
+        maxHistory: 6
+    }, window.SJ_CHATBOT_CONFIG || {});
 
-    const DATASET = [
-        { keywords: ["hi", "hello", "hey", "namaste", "morning", "evening", "afternoon", "welcome"], exact: ["hi", "hello", "hey", "hi sj bot"], response: { type: 'greeting', voice: "Hello! I am SJ Bot, Sudeen Jain's personal AI assistant. How can I help you today?" } },
-        { keywords: ["about", "who is sudeen", "who are you", "biography", "bio", "education", "college", "university", "degree", "srinivas"], response: { type: 'about', voice: "Here is information about Sudeen Jain." } },
-        { keywords: ["project", "projects", "work", "built", "apps", "code", "github", "portfolio"], response: { type: 'projects', voice: "Here are Sudeen's top featured projects." } },
-        { keywords: ["live demo", "demo", "demos", "online apps"], response: { type: 'demos', voice: "Here are Sudeen's deployed live web applications." } },
-        { keywords: ["skill", "skills", "tech stack", "languages", "python", "java", "technologies", "aws", "azure", "ml"], response: { type: 'skills', voice: "Here is Sudeen's technical competency stack." } },
-        { keywords: ["intern", "internship", "internships", "experience", "averixis", "edunet", "snestron", "abhimo"], response: { type: 'internships', voice: "Here are Sudeen's 5 professional internships." } },
-        { keywords: ["certificate", "certifications", "badges", "badge", "credly", "aws academy", "pearson"], response: { type: 'certifications', voice: "Here are Sudeen's verified certifications and Credly badges." } },
-        { keywords: ["resume", "cv", "curriculum vitae", "download resume"], response: { type: 'resume', voice: "Here is Sudeen's downloadable resume." } },
-        { keywords: ["contact", "hire", "email", "phone", "reach", "social", "connect", "interview", "whatsapp"], response: { type: 'contact', voice: "Here is how you can contact or hire Sudeen." } }
-    ];
+    // Resolve file locations from this script's own URL so the widget works
+    // on /index.html, /laptop/, /mobile/ and /chatbot/ pages alike.
+    const SCRIPT_SRC = (document.currentScript && document.currentScript.src) || '';
+    const BASE_URL = SCRIPT_SRC ? new URL('./', SCRIPT_SRC).href : '';
+    const SITE_ROOT = BASE_URL ? new URL('../', BASE_URL).href : '';
+
+    // =========================================================================
+    //  KNOWLEDGE BASE — generated from data/portfolio-data.js (knowledge-base.js)
+    // =========================================================================
+    let KB = window.SJ_KB || null;
+    const kbReady = new Promise((resolve) => {
+        if (KB) return resolve(KB);
+        const s = document.createElement('script');
+        s.src = BASE_URL + 'knowledge-base.js';
+        s.onload = () => { KB = window.SJ_KB || null; resolve(KB); };
+        s.onerror = () => resolve(null);
+        (document.head || document.documentElement).appendChild(s);
+    });
 
     // =========================================================================
     //  DOM ELEMENTS & STATE
@@ -845,18 +813,36 @@
         }
     };
 
-    // Render Message Helper
+    // Render Message Helper (escapes HTML first, then applies light markdown)
+    const escapeHTML = (s) => String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const formatText = (text) => {
+        const links = [];
+        const stash = (html) => { links.push(html); return '\u0000' + (links.length - 1) + '\u0000'; };
+        let t = escapeHTML(text);
+        t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|tel:[^\s)]+)\)/g,
+            (m, label, url) => stash(`<a href="${url}" target="_blank" rel="noopener">${label}</a>`));
+        t = t.replace(/(https?:\/\/[^\s<]*[^\s<.,;:!?)\]])/g,
+            (url) => stash(`<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>`));
+        t = t.replace(/\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b/g,
+            (m, mail) => stash(`<a href="mailto:${mail}">${mail}</a>`));
+        t = t.replace(/(\+91[ -]?\d{5}[ -]?\d{5})/g,
+            (m) => stash(`<a href="tel:${m.replace(/[^+\d]/g, '')}">${m}</a>`));
+        t = t.replace(/^\s*[-*] +/gm, '• ')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(\S(?:[^*\n]*?\S)?)\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+        return t.replace(/\u0000(\d+)\u0000/g, (m, i) => links[+i]);
+    };
+
     const addMessage = (text, sender, shimmer = false) => {
         const d = document.createElement('div');
         d.className = `sj-message sj-${sender}-message`;
         if (shimmer) {
             d.innerHTML = `<div class="sj-typing"><span></span><span></span><span></span></div>`;
         } else {
-            let formatted = text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>');
-            d.innerHTML = `<span>${formatted}</span>`;
+            d.innerHTML = `<span>${formatText(text)}</span>`;
             if (sender === 'bot') {
                 const t = document.createElement('span');
                 t.className = 'sj-timestamp';
@@ -909,156 +895,462 @@
 
     // Welcome Initial Message
     const renderWelcome = () => {
-        addMessage(`Hi! I'm **SJ Bot**, Sudeen Jain's personal AI Assistant. 👋\n\nI can answer anything about Sudeen's **AI/ML projects**, **technical skills**, **12+ certifications**, **5 internships**, or help you get in touch with him directly!\n\nHow can I help you today?`, 'bot');
+        addMessage(`Hi! I'm **SJ Bot**, Sudeen Jain's personal AI Assistant. 👋\n\nAsk me anything about Sudeen's **16 projects**, **technical skills**, **12+ certifications & badges**, **5 internships**, or how to contact him.\n\nHow can I help you today?`, 'bot');
         renderSuggestions();
         if (isSoundEn) speakText("Hi! I'm SJ Bot, Sudeen Jain's personal AI Assistant. How can I help you today?");
     };
 
-    // Matching Engine
-    const getBotResponse = (query) => {
-        const q = query.toLowerCase().replace(/[?.,!]/g, '').trim();
-        for (const entry of DATASET) {
-            if (entry.exact && entry.exact.includes(q)) return entry.response;
+    // =========================================================================
+    //  LOCAL ANSWER ENGINE — answers from knowledge-base.js only (no guessing).
+    //  Used for quick-reply chips, greetings, and as the offline fallback when
+    //  the Gemini proxy is not configured or fails.
+    // =========================================================================
+    const stem = (w) => (w.length > 3 && w.endsWith('s') && !w.endsWith('ss')) ? w.slice(0, -1) : w;
+    const norm = (s) => String(s).toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
+    const seqTokens = (s) => norm(s).split(' ').filter(Boolean).map(stem);
+    const STOP = new Set(('a an the is are was were be been am do does did can could would should will may might of to in on at for with about ' +
+        'from by and or but if then so as it its his him he she her they them their this that these those what which who whom how why when where ' +
+        'tell me us you your my i we please give show any some all also just there here has have had not no yes want need know like get let lets ' +
+        'sudeen jain bot sj').split(' ').map(stem));
+    const GENERIC = new Set(('project internship intern certification certificate badge skill resume web development system engine ai ml machine ' +
+        'learning deep cloud data science analytics fundamentals getting started introduction intelligence artificial python java javascript ' +
+        'recommender recommendation computing').split(' ').map(stem));
+    const tokens = (s) => seqTokens(s).filter(t => t.length > 1 && !STOP.has(t));
+    const containsSeq = (hay, needle) => {
+        if (!needle.length) return false;
+        for (let i = 0; i + needle.length <= hay.length; i++) {
+            let ok = true;
+            for (let j = 0; j < needle.length; j++) if (hay[i + j] !== needle[j]) { ok = false; break; }
+            if (ok) return true;
         }
-        let best = null;
-        let maxScore = 0;
-        for (const entry of DATASET) {
-            let score = 0;
-            entry.keywords.forEach(k => {
-                if (q.includes(k)) score += k.length;
+        return false;
+    };
+    const SYNONYMS = [
+        [/\bnode\.?js\b/g, 'node js'], [/\bml\b/g, 'machine learning'], [/\bdl\b/g, 'deep learning'],
+        [/\bjs\b/g, 'javascript'], [/\bcpp\b/g, 'c++'], [/\bpy\b/g, 'python'], [/\bsklearn\b/g, 'scikit learn'],
+        [/\bpostgres\b/g, 'postgresql'], [/\breactjs\b/g, 'react'], [/\bmongo\b/g, 'mongodb']
+    ];
+    const TECH_SKIP = new Set(['web', 'app', 'tool', 'responsive', 'automation', 'status']);
+
+    let INDEX = null;
+    const getIndex = () => {
+        if (INDEX || !KB) return INDEX;
+        const items = [];
+        const add = (type, ref, name, tech, text) => {
+            const nameTok = new Set(tokens(name));
+            items.push({
+                type, ref, nameTok,
+                normTitle: norm(ref.title),
+                titleSpecific: new Set(tokens(ref.title).filter(t => !GENERIC.has(t))),
+                specific: new Set([...nameTok].filter(t => !GENERIC.has(t))),
+                techTok: new Set(tokens((tech || []).join(' '))),
+                hay: seqTokens([ref.title].concat(tech || [], [text || '']).join(' | '))
             });
-            if (score > maxScore) {
-                maxScore = score;
-                best = entry;
-            }
-        }
-        return best ? best.response : { type: 'help', voice: "Here are topics you can explore about Sudeen Jain." };
+        };
+        KB.projects.forEach(p => add('project', p, p.title, p.tech, p.desc));
+        KB.moreProjects.forEach(p => add('project', p, p.title, p.tech, p.desc));
+        KB.internships.forEach(i => add('internship', i, i.title + ' ' + i.org, i.highlights, i.org + ' | ' + i.desc));
+        KB.badges.forEach(b => add('badge', b, b.title + ' ' + b.issuer, b.skills, b.issuer + ' | ' + b.desc));
+        KB.certificates.gallery.forEach(g => g.items.forEach(c =>
+            add('certificate', Object.assign({ category: g.category }, c), c.title + ' ' + c.issuer, [], c.issuer)));
+        KB.certificates.fromResume.forEach(c =>
+            add('certificate', { title: c.title, issuer: c.issuer, link: c.link, category: 'Resume' }, c.title + ' ' + c.issuer, [], c.issuer));
+
+        // document frequency of distinctive name tokens
+        const df = {};
+        items.forEach(it => it.specific.forEach(t => { df[t] = (df[t] || 0) + 1; }));
+
+        // known technology / skill phrases
+        const termMap = new Map();
+        const addTerm = (raw) => {
+            String(raw).split(/[&/,]| and /i).forEach(part => {
+                const display = part.replace(/\(.*?\)/g, '').trim();
+                const seq = seqTokens(display);
+                if (!seq.length || (seq.length === 1 && (seq[0].length < 2 || TECH_SKIP.has(seq[0])))) return;
+                const key = seq.join(' ');
+                if (!termMap.has(key)) termMap.set(key, { display, seq });
+            });
+        };
+        KB.skills.portfolio.forEach(addTerm);
+        KB.skills.groups.forEach(g => g.items.forEach(addTerm));
+        items.forEach(it => { if (it.type !== 'certificate') (it.ref.tech || it.ref.highlights || it.ref.skills || []).forEach(addTerm); });
+        const terms = [...termMap.values()].sort((a, b) => b.seq.length - a.seq.length);
+
+        INDEX = { items, df, terms };
+        return INDEX;
     };
 
-    // Handle Intent Responses
-    const handleSpecialResponse = (res, rawQuery) => {
-        if (res.voice) speakText(res.voice);
-        const p = KNOWLEDGE.profile;
+    const prep = (raw) => {
+        let q = String(raw).toLowerCase();
+        SYNONYMS.forEach(([re, rep]) => { q = q.replace(re, rep); });
+        const qn = q.replace(/[?!]/g, ' ').replace(/\s+/g, ' ').trim();
+        const normQ = norm(qn);
+        return { raw: String(raw), qn, normQ, seq: seqTokens(qn), qTok: new Set(tokens(qn)) };
+    };
 
-        if (res.type === 'greeting') {
-            addMessage(`Hello! Great to connect with you. Tap any topic below or ask me about Sudeen's projects, skills, or resume:`, 'bot');
+    const findTech = (Q) => {
+        const idx = getIndex();
+        const used = new Array(Q.seq.length).fill(false);
+        const hits = [];
+        idx.terms.forEach(term => {
+            for (let i = 0; i + term.seq.length <= Q.seq.length; i++) {
+                let ok = true;
+                for (let j = 0; j < term.seq.length; j++) if (Q.seq[i + j] !== term.seq[j] || used[i + j]) { ok = false; break; }
+                if (ok) { for (let j = 0; j < term.seq.length; j++) used[i + j] = true; hits.push(term); break; }
+            }
+        });
+        return hits;
+    };
+
+    const itemHasTerm = (it, term) => containsSeq(it.hay, term.seq);
+
+    const matchEntities = (Q, typeFilter) => {
+        const idx = getIndex();
+        const scored = [];
+        idx.items.forEach(it => {
+            if (typeFilter && !typeFilter.includes(it.type)) return;
+            const strong = it.titleSpecific.size > 0 && it.normTitle.length > 3 && (' ' + Q.normQ + ' ').includes(' ' + it.normTitle + ' ');
+            let hits = 0, distinctive = false;
+            it.specific.forEach(t => { if (Q.qTok.has(t)) { hits++; if ((idx.df[t] || 0) <= 2) distinctive = true; } });
+            const ratio = it.specific.size ? hits / it.specific.size : 0;
+            if (strong) scored.push({ it, score: 10 + hits, strong: true });
+            else if (hits > 0 && (ratio >= 0.5 || distinctive)) scored.push({ it, score: hits * 3 + ratio, strong: false });
+        });
+        scored.sort((a, b) => b.score - a.score);
+        return scored;
+    };
+
+    const short = (s, n = 90) => s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s;
+    const list = (arr) => arr.join(', ');
+    const askBtn = (label, ask) => ({ label, ask });
+    const linkBtn = (label, href) => ({ label, href });
+    const MAIN_ASKS = () => [askBtn('🚀 Projects', 'Projects'), askBtn('⚡ Skills', 'Skills'), askBtn('💼 Internships', 'Internships'), askBtn('📬 Contact', 'Contact')];
+
+    // ---- Answer builders --------------------------------------------------
+    const A = {
+        greeting: () => ({
+            kind: 'greeting', preferLocal: true, voice: "Hello! I am SJ Bot, Sudeen Jain's AI assistant. How can I help you today?",
+            text: `Hello! Great to connect with you. Ask me anything about Sudeen's projects, skills, internships, certifications or contact details, or tap a topic below:`, buttons: MAIN_ASKS()
+        }),
+        thanks: () => ({ kind: 'thanks', preferLocal: true, text: `You're welcome! Anything else you'd like to know about Sudeen?`, buttons: MAIN_ASKS() }),
+        about: () => {
+            const p = KB.profile;
+            return {
+                kind: 'about', voice: 'Here is information about Sudeen Jain.',
+                text: `**${p.name}**\n👨‍💻 ${p.role}\n🎓 ${p.degree} — ${p.university} (${p.educationYears})\n📍 ${p.location}\n\n${p.summary}`,
+                buttons: [linkBtn('📄 Resume', SITE_ROOT + KB.profile.resumeFile), askBtn('🚀 Projects', 'Projects'), askBtn('📬 Contact', 'Contact')]
+            };
+        },
+        projects: (filterTerms) => {
+            const all = KB.projects;
+            let pool = all, intro;
+            if (filterTerms && filterTerms.length) {
+                const idx = getIndex();
+                pool = idx.items.filter(it => it.type === 'project' && filterTerms.some(t => itemHasTerm(it, t))).map(it => it.ref);
+                const label = filterTerms.map(t => t.display).join(' / ');
+                if (!pool.length) return { kind: 'projects', text: `I don't see a project with **${label}** listed on Sudeen's portfolio. He has ${all.length} projects in total.`, buttons: [askBtn('🚀 All projects', 'Projects')] };
+                intro = `**Projects using ${label}** (${pool.length}):`;
+            } else {
+                intro = `**Sudeen has ${all.length} projects on his portfolio.**`;
+            }
+            const demos = pool.filter(p => p.demo), code = pool.filter(p => !p.demo);
+            let text = intro + '\n';
+            if (demos.length) text += `\n🚀 **With live demo (${demos.length}):** ${list(demos.map(p => p.title))}`;
+            if (code.length) text += `\n📦 **Source code only (${code.length}):** ${list(code.map(p => p.title))}`;
+            text += `\n\nAsk about any project by name for details, tech stack and links.`;
+            const buttons = demos.slice(0, 4).map(p => linkBtn('▶ ' + p.title, p.demo));
+            buttons.push(linkBtn('<i class="fab fa-github"></i> All on GitHub', KB.profile.github));
+            return { kind: 'projects', voice: "Here are Sudeen's projects.", text, buttons };
+        },
+        project: (p) => {
+            let text = `🚀 **${p.title}**\n${p.desc}`;
+            if (p.tech && p.tech.length) text += `\n\n🛠️ **Tech:** ${list(p.tech)}`;
+            if (!p.onPortfolio) text += `\n\n📌 Not shown on the portfolio page; listed in Sudeen's GitHub/resume.`;
+            if (!p.demo && p.github) text += `\n\nOnly the source code is available (no live demo listed).`;
+            const buttons = [];
+            if (p.demo) buttons.push(linkBtn('▶ Live Demo', p.demo));
+            if (p.github) buttons.push(linkBtn('<i class="fab fa-github"></i> GitHub', p.github));
+            buttons.push(askBtn('More projects', 'Projects'));
+            return { kind: 'project', voice: p.title, text, buttons };
+        },
+        internships: (filterTerms) => {
+            let pool = KB.internships;
+            let intro = `**Sudeen's internships (${pool.length}):**`;
+            if (filterTerms && filterTerms.length) {
+                const idx = getIndex();
+                pool = idx.items.filter(it => it.type === 'internship' && filterTerms.some(t => itemHasTerm(it, t))).map(it => it.ref);
+                intro = `**Internships involving ${filterTerms.map(t => t.display).join(' / ')} (${pool.length}):**`;
+                if (!pool.length) return { kind: 'internships', text: `None of Sudeen's internships list that. He has ${KB.internships.length} in total.`, buttons: [askBtn('💼 All internships', 'Internships')] };
+            }
+            const text = intro + '\n\n' + pool.map(i => `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration}`).join('\n\n') + `\n\nAsk about any of them for details.`;
+            return { kind: 'internships', voice: "Here are Sudeen's internships.", text, buttons: [] };
+        },
+        internship: (i) => ({
+            kind: 'internship', voice: i.title,
+            text: `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration} · ${i.status}\n\n${i.desc}\n\n🛠️ **Focus:** ${list(i.highlights)}`, buttons: [askBtn('All internships', 'Internships')]
+        }),
+        certifications: (filterTerms) => {
+            const idx = getIndex();
+            if (filterTerms && filterTerms.length) {
+                const pool = idx.items.filter(it => (it.type === 'badge' || it.type === 'certificate') && filterTerms.some(t => itemHasTerm(it, t)));
+                const label = filterTerms.map(t => t.display).join(' / ');
+                if (!pool.length) return { kind: 'certs', text: `I don't see a certificate or badge about **${label}**.`, buttons: [askBtn('🏆 All certifications', 'Certifications')] };
+                return {
+                    kind: 'certs', voice: 'Here are the matching certifications.',
+                    text: `**Certifications & badges for ${label} (${pool.length}):**\n\n` + pool.map(it => `🏆 **${it.ref.title}** — ${it.ref.issuer}`).join('\n'), buttons: []
+                };
+            }
+            const g = KB.certificates.gallery;
+            let text = `**Certifications & badges**\n\n🏆 **Verified Credly badges (${KB.badges.length}):** ${list(KB.badges.map(b => b.title))}`;
+            text += `\n\n📜 **Certificate gallery (${KB.counts.galleryCertificates}):** ` + g.map(x => `${x.category} (${x.items.length})`).join(', ');
+            text += `\n\n➕ **Also on his resume:** ${list(KB.certificates.fromResume.map(c => c.title))}`;
+            text += `\n\nAsk about any certificate or badge by name.`;
+            return {
+                kind: 'certs', voice: "Here are Sudeen's certifications and badges.", text,
+                buttons: [linkBtn('<i class="fas fa-certificate"></i> Credly Badges', KB.profile.credly), linkBtn('<i class="fab fa-linkedin"></i> All on LinkedIn', KB.certificates.linkedinAll)]
+            };
+        },
+        badge: (b) => ({
+            kind: 'badge', voice: b.title,
+            text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)]
+        }),
+        certificate: (c) => ({
+            kind: 'certificate', voice: c.title,
+            text: `📜 **${c.title}**${c.issuer ? '\n🏢 ' + c.issuer : ''}${c.category && c.category !== 'Resume' ? '\n📂 ' + c.category + ' (portfolio certificate gallery)' : ''}`,
+            buttons: c.link ? [linkBtn('✔ Verify', c.link)] : [askBtn('All certifications', 'Certifications')]
+        }),
+        skills: () => {
+            let text = `**Sudeen's technical skills**\n\n⭐ **On the portfolio:** ${list(KB.skills.portfolio)}`;
+            KB.skills.groups.forEach(g => { text += `\n\n**${g.name}:** ${list(g.items)}`; });
+            return { kind: 'skills', voice: "Here is Sudeen's technical skills list.", text, buttons: [askBtn('🚀 Projects', 'Projects')] };
+        },
+        tech: (hits) => {
+            const idx = getIndex();
+            const label = hits.map(h => h.display).join(', ');
+            const inSkills = [];
+            KB.skills.portfolio.concat(...KB.skills.groups.map(g => g.items)).forEach(s => {
+                if (hits.some(h => containsSeq(seqTokens(s), h.seq)) && !inSkills.includes(s)) inSkills.push(s);
+            });
+            const of = (type) => idx.items.filter(it => it.type === type && hits.some(h => itemHasTerm(it, h)));
+            const projects = of('project'), interns = of('internship');
+            const certs = idx.items.filter(it => (it.type === 'badge' || it.type === 'certificate') && hits.some(h => itemHasTerm(it, h)));
+            let text = `**${label}** — here's what Sudeen's portfolio shows:`;
+            if (inSkills.length) text += `\n\n⚡ **Skills:** ${list(inSkills)}`;
+            if (projects.length) text += `\n\n🚀 **Projects (${projects.length}):** ${list(projects.map(it => it.ref.title))}`;
+            if (interns.length) text += `\n\n💼 **Internships:** ${list(interns.map(it => it.ref.title + ' (' + it.ref.org + ')'))}`;
+            if (certs.length) text += `\n\n🏆 **Certifications & badges:** ${list(certs.slice(0, 6).map(it => it.ref.title))}${certs.length > 6 ? '…' : ''}`;
+            const buttons = projects.slice(0, 4).map(it => askBtn('▶ ' + it.ref.title, it.ref.title));
+            return { kind: 'tech', voice: `Here is what Sudeen has with ${label}.`, text, buttons };
+        },
+        resume: () => ({
+            kind: 'resume', voice: "Here is Sudeen's resume.",
+            text: `**Sudeen Jain's Resume**\n\nTap below to open or download the PDF with his projects, education, internships and certifications.`,
+            buttons: [linkBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)]
+        }),
+        contact: () => {
+            const p = KB.profile;
+            return {
+                kind: 'contact', voice: 'Here is how to contact Sudeen.', social: true,
+                text: `**Contact Sudeen**\n\n📧 Email: ${p.email}\n📱 Phone / WhatsApp: ${p.phone}\n📍 ${p.location}\n\nOr reach him on social channels:`, buttons: []
+            };
+        },
+        matches: (arr) => ({
+            kind: 'matches', voice: 'I found a few matches.',
+            text: `I found a few matches — which one do you mean?`,
+            buttons: arr.slice(0, 6).map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
+        }),
+        help: () => ({
+            kind: 'help', voice: 'Here are topics you can explore about Sudeen Jain.',
+            text: `I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, certifications, education or contact details — or email him at ${KB.profile.email}.`,
+            buttons: [askBtn('👤 About Sudeen', 'About Sudeen')].concat(MAIN_ASKS(), [askBtn('📄 Resume', 'Resume')])
+        })
+    };
+
+    const searchRelated = (Q) => {
+        const idx = getIndex();
+        const out = [];
+        idx.items.forEach(it => {
+            let score = 0;
+            Q.qTok.forEach(t => {
+                if (it.nameTok.has(t)) score += 3;
+                else if (it.techTok.has(t)) score += 1.5;
+                else if (it.hay.includes(t)) score += 0.5;
+            });
+            if (score >= 1.5) out.push({ it, score });
+        });
+        out.sort((a, b) => b.score - a.score);
+        return out.slice(0, 6).map(o => o.it);
+    };
+    A.related = (arr) => ({
+        kind: 'related', voice: 'Here is what I found.',
+        text: `Here is what I found related to your question — tap one for details:`,
+        buttons: arr.map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
+    });
+
+    const fromEntity = (it) => {
+        if (it.type === 'project') return A.project(it.ref);
+        if (it.type === 'internship') return A.internship(it.ref);
+        if (it.type === 'badge') return A.badge(it.ref);
+        return A.certificate(it.ref);
+    };
+
+    const answerLocal = (raw) => {
+        if (!KB) return null;
+        const Q = prep(raw);
+        const qn = Q.qn;
+        if (/^(hi+|hello+|hey+|hii+|namaste|yo|good (morning|afternoon|evening))( there| bot| sj bot)?[!. ]*$/.test(qn)) return A.greeting();
+        if (/^(thanks|thank you|thx|ok|okay|great|nice|cool|awesome|bye|goodbye)\b/.test(qn)) return A.thanks();
+
+        // 1) Full title mentioned → exact detail
+        const strong = matchEntities(Q).filter(m => m.strong);
+        if (strong.length === 1) return fromEntity(strong[0].it);
+        if (strong.length > 1) return A.matches(strong.map(m => m.it));
+
+        // 2) What kind of thing is the visitor asking about?
+        const skillCheck = /\b(know|knows|familiar|skilled|proficien\w*|expert\w*|good at|experience (with|in)|works? with|worked with|uses?|using)\b/.test(qn);
+        let hint = null;
+        if (/\b(resume|cv|curriculum)\b/.test(qn)) hint = 'resume';
+        else if (/\b(contact|hire|hiring|email|e-?mail|phone|mobile|whatsapp|call|reach|linkedin|instagram|social|connect|available|availability|freelance|collaborat\w*)\b/.test(qn)) hint = 'contact';
+        else if (!skillCheck && /\b(interns?|internships?|worked|company|companies|employ\w*|work experience)\b/.test(qn)) hint = 'internship';
+        else if (/\b(certs?|certificat\w*|badges?|credentials?|credly|courses?)\b/.test(qn)) hint = 'cert';
+        else if (/\b(projects?|built|build|apps?|applications?|demos?|live|github|repo|repos|source code|portfolio)\b/.test(qn)) hint = 'project';
+        else if (/\b(skills?|stack|technolog\w*|languages?|tools?|expertise|strengths?)\b/.test(qn)) hint = 'skill';
+
+        if (hint === 'resume') return A.resume();
+        if (hint === 'contact') return A.contact();
+
+        // 3) Technology / skill terms (python, opencv, aws, ...)
+        const hits = findTech(Q);
+        if (hits.length) {
+            if (hint === 'project') return A.projects(hits);
+            if (hint === 'internship') return A.internships(hits);
+            if (hint === 'cert') return A.certifications(hits);
+            return A.tech(hits);
+        }
+
+        // 4) Distinctive words from one item's name (e.g. "movie", "gesture", "attendance")
+        const types = hint === 'project' ? ['project'] : hint === 'internship' ? ['internship'] : hint === 'cert' ? ['badge', 'certificate'] : null;
+        const ents = matchEntities(Q, types);
+        if (ents.length) {
+            const top = ents[0].score;
+            const tied = ents.filter(m => m.score >= top - 0.5);
+            if (tied.length === 1) return fromEntity(tied[0].it);
+            return A.matches(tied.map(m => m.it));
+        }
+
+        // 5) General topics
+        if (hint === 'project') return A.projects();
+        if (hint === 'internship') return A.internships();
+        if (hint === 'cert') return A.certifications();
+        if (hint === 'skill') return A.skills();
+        if (/\b(about|who|bio|background|introduc\w*|education|college|universit\w*|degree|study|studying|qualification|location|live|based|city|age|name)\b/.test(qn)) return A.about();
+        const related = searchRelated(Q);
+        if (related.length) return A.related(related);
+        return A.help();
+    };
+
+    const CHIP_KEYS = new Set(['about sudeen', 'projects demos', 'skills matrix', 'internships', 'certifications', 'download resume', 'contact hire',
+        'projects', 'skills', 'contact', 'resume', 'more projects', 'all internships', 'all certifications', 'all projects']
+        .map(s => s));
+    const chipKey = (s) => String(s).toLowerCase().replace(/[^a-z]+/g, ' ').trim();
+
+    // ---- Rendering ---------------------------------------------------------
+    const renderResult = (res) => {
+        if (res.voice) speakText(res.voice);
+        addMessage(res.text, 'bot');
+        if (res.buttons && res.buttons.length) {
             const wrap = document.createElement('div');
             wrap.className = 'sj-quickreply-wrap';
-            [
-                { label: '🚀 Projects', q: 'Projects' },
-                { label: '⚡ Skills', q: 'Skills' },
-                { label: '💼 Internships', q: 'Internships' },
-                { label: '📬 Contact', q: 'Contact' }
-            ].forEach(t => {
-                wrap.appendChild(createActBtn(t.label, () => { inputField.value = t.q; handleSend(); }));
+            res.buttons.forEach(b => {
+                wrap.appendChild(b.href
+                    ? createActBtn(b.label, null, b.href)
+                    : createActBtn(b.label, () => { inputField.value = b.ask; handleSend(); }));
             });
             msgBox.appendChild(wrap);
-        } else if (res.type === 'about') {
-            addMessage(`*About ${p.name}:*\n\n👨‍💻 **Role:** ${p.role}\n🎓 **Degree:** ${p.degree}\n🏛️ **Institution:** ${p.university}\n\nSudeen is passionate about building production-grade AI applications, machine learning systems, and cloud-native solutions.`, 'bot');
-            const wrap = document.createElement('div');
-            wrap.className = 'sj-quickreply-wrap';
-            wrap.appendChild(createActBtn('<i class="fas fa-file-pdf"></i> Resume', null, p.resume));
-            wrap.appendChild(createActBtn('<i class="fas fa-envelope"></i> Email', null, `mailto:${p.email}`));
-            msgBox.appendChild(wrap);
-        } else if (res.type === 'projects' || res.type === 'demos') {
-            let text = `*Top Featured Projects by Sudeen:*\n\n`;
-            KNOWLEDGE.projects.slice(0, 4).forEach(proj => {
-                text += `🚀 **${proj.name}** (${proj.cat})\n${proj.desc}\n\n`;
-            });
-            addMessage(text, 'bot');
-            const wrap = document.createElement('div');
-            wrap.className = 'sj-quickreply-wrap';
-            KNOWLEDGE.projects.slice(0, 3).forEach(proj => {
-                if (proj.demo) {
-                    wrap.appendChild(createActBtn(`▶ ${proj.name}`, null, proj.demo));
-                }
-            });
-            wrap.appendChild(createActBtn('<i class="fab fa-github"></i> All on GitHub', null, KNOWLEDGE.social.github));
-            msgBox.appendChild(wrap);
-        } else if (res.type === 'skills') {
-            const s = KNOWLEDGE.skills;
-            let text = `*Technical Skills Matrix:*\n\n`;
-            text += `💻 **Languages:** ${s.languages.join(', ')}\n\n`;
-            text += `🤖 **AI & ML:** ${s.ai_ml.join(', ')}\n\n`;
-            text += `☁️ **Cloud & Tools:** ${s.cloud.join(', ')}`;
-            addMessage(text, 'bot');
-            msgBox.appendChild(createActBtn('🚀 View Projects using these skills', () => {
-                inputField.value = "Projects";
-                handleSend();
-            }));
-        } else if (res.type === 'internships') {
-            let text = `*Professional Internships (${KNOWLEDGE.internships.length}):*\n\n`;
-            KNOWLEDGE.internships.forEach(i => {
-                text += `💼 **${i.role}**\n🏢 ${i.org} · ${i.duration}\n${i.desc}\n\n`;
-            });
-            addMessage(text, 'bot');
-        } else if (res.type === 'certifications') {
-            let text = `*Verified Certifications & Badges:*\n\n`;
-            KNOWLEDGE.certifications.slice(0, 4).forEach(c => {
-                text += `🏆 **${c.title}**\n🏢 ${c.issuer}\n\n`;
-            });
-            addMessage(text, 'bot');
-            msgBox.appendChild(createActBtn('<i class="fas fa-certificate"></i> View Credly Badges', null, KNOWLEDGE.social.credly));
-        } else if (res.type === 'resume') {
-            addMessage(`*Sudeen Jain's Resume:*\n\nClick the button below to download or view Sudeen's verified resume (PDF) detailing his projects, university degree, internships, and cloud credentials.`, 'bot');
-            const wrap = document.createElement('div');
-            wrap.className = 'sj-quickreply-wrap';
-            wrap.appendChild(createActBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', null, p.resume));
-            wrap.appendChild(createActBtn('<i class="fas fa-envelope"></i> Email Inquiries', null, `mailto:${p.email}`));
-            msgBox.appendChild(wrap);
-        } else if (res.type === 'contact') {
-            addMessage(`*Contact Details:*\n\n📧 Email: ${p.email}\n📱 WhatsApp / Phone: ${p.phone}\n📍 Location: Mangaluru, Karnataka, India\n\nConnect with Sudeen directly across social channels:`, 'bot');
+        }
+        if (res.social) {
+            const p = KB.profile;
             const sGrid = document.createElement('div');
             sGrid.className = 'sj-social-grid';
             [
-                { icon: 'fab fa-github', url: KNOWLEDGE.social.github },
-                { icon: 'fab fa-linkedin', url: KNOWLEDGE.social.linkedin },
-                { icon: 'fab fa-instagram', url: KNOWLEDGE.social.instagram },
-                { icon: 'fas fa-envelope', url: `mailto:${p.email}` }
+                { icon: 'fab fa-github', url: p.github, title: 'GitHub' },
+                { icon: 'fab fa-linkedin', url: p.linkedin, title: 'LinkedIn' },
+                { icon: 'fab fa-instagram', url: p.instagram, title: 'Instagram' },
+                { icon: 'fas fa-envelope', url: 'mailto:' + p.email, title: 'Email' },
+                { icon: 'fas fa-phone', url: 'tel:' + p.phone.replace(/[^+\d]/g, ''), title: 'Call' }
             ].forEach(item => {
                 const a = document.createElement('a');
                 a.className = 'sj-social-btn';
                 a.href = item.url;
+                a.title = item.title;
                 a.target = '_blank';
                 a.rel = 'noopener';
                 a.innerHTML = `<i class="${item.icon}"></i>`;
                 sGrid.appendChild(a);
             });
             msgBox.appendChild(sGrid);
-        } else {
-            // Help / Fallback
-            addMessage(`I couldn't find an exact match, but here are key topics you can explore about Sudeen Jain:`, 'bot');
-            const wrap = document.createElement('div');
-            wrap.className = 'sj-quickreply-wrap';
-            [
-                { label: '👤 About Sudeen', q: 'About Sudeen' },
-                { label: '🚀 Projects & Demos', q: 'Projects' },
-                { label: '⚡ Technical Skills', q: 'Skills' },
-                { label: '💼 Internships', q: 'Internships' },
-                { label: '📄 Resume', q: 'Resume' },
-                { label: '📬 Contact Details', q: 'Contact' }
-            ].forEach(t => {
-                wrap.appendChild(createActBtn(t.label, () => { inputField.value = t.q; handleSend(); }));
-            });
-            msgBox.appendChild(wrap);
         }
         msgBox.scrollTop = msgBox.scrollHeight;
     };
 
+    // ---- Gemini (through your proxy; the API key never touches this file) --
+    const chatHistory = [];
+    const askGemini = async (question) => {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), CONFIG.requestTimeoutMs);
+        try {
+            const res = await fetch(CONFIG.geminiProxyUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question, history: chatHistory.slice(-CONFIG.maxHistory) }),
+                signal: ctrl.signal
+            });
+            if (!res.ok) throw new Error('Proxy HTTP ' + res.status);
+            const data = await res.json();
+            if (!data || !data.answer) throw new Error('Empty answer');
+            return String(data.answer);
+        } finally {
+            clearTimeout(timer);
+        }
+    };
+
     // Handle User Send
-    const handleSend = () => {
-        const val = inputField.value.trim();
-        if (!val) return;
+    let busy = false;
+    const handleSend = async () => {
+        const val = inputField.value.trim().slice(0, 500);
+        if (!val || busy) return;
         inputField.value = '';
-
         addMessage(val, 'user');
+        busy = true;
         const shimmer = addMessage('', 'bot', true);
+        try {
+            await kbReady;
+            const local = answerLocal(val);
+            const useGemini = !!CONFIG.geminiProxyUrl && !(local && (local.preferLocal || CHIP_KEYS.has(chipKey(val))));
 
-        setTimeout(() => {
+            if (useGemini) {
+                try {
+                    const answer = await askGemini(val);
+                    shimmer.remove();
+                    addMessage(answer, 'bot');
+                    speakText(answer);
+                    chatHistory.push({ role: 'user', text: val.slice(0, 500) }, { role: 'model', text: answer.slice(0, 800) });
+                    return;
+                } catch (err) {
+                    console.warn('[SJ-Bot] Gemini unavailable, using built-in answers:', err);
+                }
+            }
+            await new Promise(r => setTimeout(r, 350));
             shimmer.remove();
-            const res = getBotResponse(val);
-            handleSpecialResponse(res, val);
-        }, 450);
+            if (local) {
+                renderResult(local);
+            } else {
+                addMessage(`I'm having trouble loading Sudeen's information right now. Please email him at sudinhr1@gmail.com.`, 'bot');
+            }
+        } finally {
+            if (shimmer.parentNode) shimmer.remove();
+            busy = false;
+        }
     };
 
     sendBtn.onclick = handleSend;
