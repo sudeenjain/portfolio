@@ -15,6 +15,10 @@
  *        - credential logo wall with hover choreography
  *        - parallax: hero depth, background orbs/grid, giant section words, image windows
  *        - text masks: cursor spotlight in the hero name, image-filled closing headline
+ *   7. UX layer: staggered hero entrance, side section dots, curtain page transition,
+ *      odometer stat counters, magnetic buttons, project cursor bubble, accent switcher
+ *   8. scroll HUD (direction arrow, section counter, speed bar, 3D switch) + velocity skew;
+ *      the Three.js scene itself lives in scene3d.js
  * Nothing here touches data/portfolio-data.js or the shared renderer.
  * ---------------------------------------------------------------- */
 (function () {
@@ -40,7 +44,7 @@
 
     /* ---------- wait for the shared renderer ---------- */
     var started = false;
-    function isRendered() { return !!($('#home .hero-wrapper') && $('#projects .project-card')); }
+    function isRendered() { return !!($('#home .hero-wrapper') && $('#projects .project-card')) && !window.__showcasePending; }
     function start() {
         if (started || !isRendered()) return;
         started = true;
@@ -56,6 +60,14 @@
         initLogoWall();
         initParallax();
         initTextMask();
+        initHeroEntrance();
+        initCurtain();
+        initDots();
+        initOdometer();
+        initMagnetic();
+        initProjectCursor();
+        initAccent();
+        initHud();
         refreshTriggers();
     }
     if (isRendered()) {
@@ -883,4 +895,377 @@
             });
         });
     }
+
+    /* =====================================================================
+       UX LAYER 2 · hero entrance · section dots · page curtain · odometer ·
+       magnetic buttons · project cursor · accent switcher
+       ===================================================================== */
+
+    function whenPreloaderDone(cb) {
+        var pre = document.getElementById('preloader');
+        var fired = false;
+        function go() { if (!fired) { fired = true; cb(); } }
+        if (!pre || pre.classList.contains('hidden')) { go(); return; }
+        var mo = new MutationObserver(function () {
+            if (pre.classList.contains('hidden')) { mo.disconnect(); setTimeout(go, 250); }
+        });
+        mo.observe(pre, { attributes: true, attributeFilter: ['class'] });
+        setTimeout(go, 4200); // safety net
+    }
+
+    /* ---------- hero entrance: staggered mask / blur reveal after the preloader ---------- */
+    function initHeroEntrance() {
+        var home = $('#home');
+        if (!home || reduceMotion) return;
+        var map = [
+            ['.hero-status-pill', 0], ['.hero-main-title', 1], ['.hero-degree-line', 2],
+            ['.hero-role-badge', 3], ['.hero-stats-row', 4], ['.hero-action-buttons', 5], ['.hero-console', 2]
+        ];
+        map.forEach(function (m) {
+            var el = $(m[0], home);
+            if (!el) return;
+            el.removeAttribute('data-aos');          // this entrance replaces the AOS fade
+            el.removeAttribute('data-aos-delay');
+            el.removeAttribute('data-aos-duration');
+            el.classList.add('lp-ent');
+            if (m[0] === '.hero-main-title') el.classList.add('lp-ent-title');
+            if (m[0] === '.hero-console') el.classList.add('lp-ent-console');
+            el.style.setProperty('--e', m[1]);
+        });
+        home.classList.add('lp-pre');
+        whenPreloaderDone(function () {
+            home.classList.remove('lp-pre');
+            home.classList.add('lp-go');
+        });
+    }
+
+    /* ---------- shared "go to section" (curtain wipe) ---------- */
+    var curtain = null;
+    var curtainBusy = false;
+    function sectionLabel(id) {
+        var a = $('#navLinksContainer a[href="#' + id + '"]');
+        return a ? a.textContent.trim() : id.replace(/-/g, ' ');
+    }
+    function jumpTo(id, push) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var root = document.documentElement;
+        var prev = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        el.scrollIntoView({ block: 'start' });
+        root.style.scrollBehavior = prev;
+        if (push && history.pushState) { try { history.pushState(null, '', '#' + id); } catch (e) { /* file:// */ } }
+    }
+    function goTo(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (reduceMotion || !curtain) { scrollToId(id); return; }
+        if (curtainBusy) return;
+        curtainBusy = true;
+        $('.lp-curtain-label', curtain).textContent = sectionLabel(id);
+        curtain.classList.remove('is-out');
+        curtain.classList.add('is-in');
+        setTimeout(function () {
+            jumpTo(id, true);
+            setTimeout(function () {
+                curtain.classList.remove('is-in');
+                curtain.classList.add('is-out');
+                setTimeout(function () { curtain.classList.remove('is-out'); curtainBusy = false; }, 650);
+            }, 120);
+        }, 520);
+    }
+    function initCurtain() {
+        if (reduceMotion || $('.lp-curtain')) return;
+        curtain = h('div', 'lp-curtain');
+        curtain.setAttribute('aria-hidden', 'true');
+        var inner = h('div', 'lp-curtain-inner');
+        inner.append(h('span', 'lp-curtain-mark', 'SJ'), h('span', 'lp-curtain-label', ''));
+        curtain.appendChild(inner);
+        document.body.appendChild(curtain);
+
+        document.addEventListener('click', function (e) {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+            if (!a) return;
+            var href = a.getAttribute('href');
+            if (!href || href.length < 2) return;
+            var id = href.slice(1);
+            if (!document.getElementById(id) || a.closest('.cert-lightbox')) return;
+            e.preventDefault();
+            goTo(id);
+        });
+    }
+
+    /* ---------- side section dots ---------- */
+    function initDots() {
+        if ($('.lp-dots')) return;
+        var ids = ['home', 'about', 'skills', 'certifications', 'badges', 'internships', 'projects', 'resume', 'contact', 'get-in-touch'];
+        var names = { 'get-in-touch': 'Message', certifications: 'Certificates' };
+        var nav = h('div', 'lp-dots');   // not <nav>: style.css styles every bare nav element
+        nav.setAttribute('role', 'navigation');
+        nav.setAttribute('aria-label', 'Page sections');
+        var items = [];
+        ids.forEach(function (id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            var a = h('a', 'lp-dot');
+            a.href = '#' + id;
+            var label = names[id] || (id.charAt(0).toUpperCase() + id.slice(1));
+            a.setAttribute('aria-label', label);
+            a.dataset.label = label;
+            a.appendChild(h('span'));
+            nav.appendChild(a);
+            items.push({ a: a, el: el });
+        });
+        document.body.appendChild(nav);
+
+        var ticking = false;
+        function update() {
+            ticking = false;
+            var line = window.innerHeight * 0.45;
+            var active = items[0];
+            items.forEach(function (it) { if (it.el.getBoundingClientRect().top <= line) active = it; });
+            items.forEach(function (it) {
+                var on = it === active;
+                it.a.classList.toggle('is-active', on);
+                if (on) it.a.setAttribute('aria-current', 'true'); else it.a.removeAttribute('aria-current');
+            });
+        }
+        window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    }
+
+    /* ---------- stat counters: slot-machine odometer ---------- */
+    function initOdometer() {
+        var stats = $$('.stat-number[data-target]');
+        if (!stats.length || reduceMotion) return;
+        stats.forEach(function (stat) {
+            var target = String(parseInt(stat.getAttribute('data-target'), 10) || 0);
+            var card = stat.parentNode;
+            stat.classList.add('lp-odo-src');              // scripts.js keeps counting here (hidden); we show the roller
+            var odo = h('div', 'lp-odo');
+            odo.setAttribute('aria-hidden', 'true');
+            target.split('').forEach(function (ch, i) {
+                var col = h('span', 'lp-odo-d');
+                var strip = h('span', 'lp-odo-strip');
+                for (var r = 0; r < 20; r++) strip.appendChild(h('span', null, String(r % 10)));
+                strip.style.setProperty('--to', String(10 + parseInt(ch, 10)));
+                strip.style.transitionDelay = (i * 140) + 'ms';
+                col.appendChild(strip);
+                odo.appendChild(col);
+            });
+            odo.appendChild(h('span', 'lp-odo-plus', '+'));
+            card.insertBefore(odo, stat.nextSibling);
+            stat.setAttribute('aria-label', target + '+');
+
+            function place() {
+                odo.style.top = stat.offsetTop + 'px';
+                odo.style.height = stat.offsetHeight + 'px';
+            }
+            place();
+            window.addEventListener('resize', place);
+            window.addEventListener('load', place);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+
+            new IntersectionObserver(function (es, io) {
+                if (es[0].isIntersecting) { odo.classList.add('is-rolling'); io.disconnect(); }
+            }, { threshold: 0.5 }).observe(stat);
+        });
+    }
+
+    /* ---------- magnetic buttons ---------- */
+    function initMagnetic() {
+        if (!finePointer || reduceMotion) return;
+        $$('.btn-hero-primary, .btn-hero-secondary, #navbar .nav-cta, .socials a, .btn-bento, .resume-actions a, #scrollTopBtn').forEach(function (el) {
+            el.classList.add('lp-mag');
+            var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+            function loop() {
+                cx += (tx - cx) * 0.18;
+                cy += (ty - cy) * 0.18;
+                el.style.setProperty('--mgx', cx.toFixed(2) + 'px');
+                el.style.setProperty('--mgy', cy.toFixed(2) + 'px');
+                if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) raf = requestAnimationFrame(loop);
+                else { raf = 0; if (tx === 0 && ty === 0) { el.style.removeProperty('--mgx'); el.style.removeProperty('--mgy'); } }
+            }
+            function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+            el.addEventListener('mousemove', function (e) {
+                var r = el.getBoundingClientRect();
+                tx = (e.clientX - (r.left + r.width / 2)) * 0.32;
+                ty = (e.clientY - (r.top + r.height / 2)) * 0.4;
+                kick();
+            });
+            el.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
+        });
+    }
+
+    /* ---------- project cards: follower bubble + click-anywhere ---------- */
+    function initProjectCursor() {
+        var cards = $$('.project-card');
+        if (!cards.length) return;
+
+        function primaryLink(card) {
+            var links = $$('.project-link', card);
+            var demo = links.filter(function (l) { return $('.fa-external-link-alt', l); })[0];
+            return demo || links[0] || null;
+        }
+        cards.forEach(function (card) {
+            var link = primaryLink(card);
+            if (!link) return;
+            card.classList.add('lp-clickable');
+            card.addEventListener('click', function (e) {
+                if (e.target.closest('a, button')) return;
+                window.open(link.href, '_blank', 'noopener');
+            });
+        });
+
+        if (!finePointer) return;
+        var bubble = h('div', 'lp-bubble');
+        bubble.setAttribute('aria-hidden', 'true');
+        var label = h('span', 'lp-bubble-label', 'View');
+        bubble.append(label, h('i', 'fas fa-arrow-up-right-from-square'));
+        document.body.appendChild(bubble);
+
+        var x = 0, y = 0, bx = 0, by = 0, raf = 0, shown = false;
+        function loop() {
+            bx += (x - bx) * 0.2;
+            by += (y - by) * 0.2;
+            bubble.style.transform = 'translate3d(' + (bx - 44).toFixed(1) + 'px,' + (by - 44).toFixed(1) + 'px,0)';
+            raf = shown || Math.abs(x - bx) > 0.3 || Math.abs(y - by) > 0.3 ? requestAnimationFrame(loop) : 0;
+        }
+        function show(card, on) {
+            shown = on;
+            bubble.classList.toggle('is-on', on);
+            if (on) {
+                var link = primaryLink(card);
+                label.textContent = card.getAttribute('data-kind') === 'client' ? 'Visit site'
+                    : (link && $('.fa-external-link-alt', link) ? 'Live demo' : 'GitHub');
+                if (!raf) raf = requestAnimationFrame(loop);
+            }
+        }
+        cards.forEach(function (card) {
+            card.addEventListener('mouseenter', function (e) { x = bx = e.clientX; y = by = e.clientY; show(card, !!primaryLink(card)); });
+            card.addEventListener('mousemove', function (e) {
+                x = e.clientX; y = e.clientY;
+                bubble.classList.toggle('is-hidden', !!e.target.closest('a, button'));
+            });
+            card.addEventListener('mouseleave', function () { show(card, false); });
+        });
+    }
+
+    /* ---------- accent colour switcher (3 palettes, remembered) ---------- */
+    function initAccent() {
+        var links = $('#navLinksContainer');
+        if (!links || $('.lp-accent')) return;
+        var palettes = [
+            { name: 'Cyber',  a: '0, 240, 255', b: '139, 92, 246' },
+            { name: 'Ember',  a: '255, 176, 32', b: '255, 77, 109' },
+            { name: 'Matrix', a: '34, 229, 143', b: '43, 212, 255' }
+        ];
+        var idx = 0;
+        try { idx = Math.max(0, Math.min(palettes.length - 1, parseInt(localStorage.getItem('lp-accent'), 10) || 0)); } catch (e) { /* storage blocked */ }
+
+        var btn = h('button', 'lp-accent');
+        btn.type = 'button';
+        function apply(save) {
+            var p = palettes[idx];
+            var root = document.documentElement;
+            root.style.setProperty('--lp-a', p.a);
+            root.style.setProperty('--lp-b', p.b);
+            btn.style.setProperty('--sw-a', 'rgb(' + p.a + ')');
+            btn.style.setProperty('--sw-b', 'rgb(' + p.b + ')');
+            var next = palettes[(idx + 1) % palettes.length].name;
+            btn.title = 'Accent: ' + p.name + ' (click for ' + next + ')';
+            btn.setAttribute('aria-label', 'Accent colour ' + p.name + '. Switch to ' + next);
+            document.dispatchEvent(new CustomEvent('lp-accent'));   // scene3d.js recolours itself
+            if (save) { try { localStorage.setItem('lp-accent', String(idx)); } catch (e) { /* ignore */ } }
+        }
+        btn.addEventListener('click', function () { idx = (idx + 1) % palettes.length; apply(true); });
+        var cta = $('.nav-cta', links);
+        links.insertBefore(btn, cta || null);
+        apply(false);
+    }
+
+
+    /* ---------- scroll HUD: direction · section counter · speed · 3D switch · velocity skew ---------- */
+    function initHud() {
+        if ($('.lp-hud')) return;
+        var ids = ['home', 'about', 'skills', 'certifications', 'badges', 'internships', 'projects', 'resume', 'contact', 'get-in-touch'];
+        var names = { 'get-in-touch': 'Message', certifications: 'Certificates' };
+        var secs = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+        if (!secs.length) return;
+
+        var hud = h('div', 'lp-hud');
+        hud.setAttribute('role', 'status');
+        hud.setAttribute('aria-live', 'off');
+        var arrow = h('span', 'lp-hud-arrow');
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.appendChild(h('i', 'fas fa-arrow-down'));
+        var count = h('span', 'lp-hud-count');
+        var cur = h('b', null, '01');
+        count.append(cur, document.createTextNode(' / ' + (secs.length < 10 ? '0' : '') + secs.length));
+        var name = h('span', 'lp-hud-name', 'Home');
+        var speed = h('span', 'lp-hud-speed');
+        speed.setAttribute('aria-hidden', 'true');
+        speed.appendChild(h('i'));
+        hud.append(arrow, count, name, speed);
+
+        var btn = h('button', 'lp-hud-3d', '3D');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', 'true');
+        btn.title = 'Toggle the 3D scroll scene';
+        btn.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('lp-3d-toggle')); });
+        hud.appendChild(btn);
+        document.body.appendChild(hud);
+
+        function syncBtn() {
+            var st = document.documentElement.dataset.lp3d || '';
+            btn.hidden = st === 'unavailable' || st === '';
+            var on = st === 'on';
+            btn.classList.toggle('is-on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            btn.title = on ? 'Turn the 3D scroll scene off' : 'Turn the 3D scroll scene on';
+        }
+        new MutationObserver(syncBtn).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lp3d'] });
+        syncBtn();
+
+        var lastY = window.scrollY, lastT = performance.now(), v = 0, dirNow = 1, raf = 0, idleSince = 0;
+        function setSection() {
+            var line = window.innerHeight * 0.45;
+            var active = 0;
+            secs.forEach(function (el, i) { if (el.getBoundingClientRect().top <= line) active = i; });
+            var n = active + 1;
+            cur.textContent = (n < 10 ? '0' : '') + n;
+            var id = secs[active].id;
+            name.textContent = names[id] || (id.charAt(0).toUpperCase() + id.slice(1));
+        }
+        function loop(now) {
+            var dt = Math.max(0.001, (now - lastT) / 1000);
+            lastT = now;
+            var y = window.scrollY, dy = y - lastY;
+            lastY = y;
+            var raw = dy / dt;
+            v += (raw - v) * (1 - Math.exp(-dt * (Math.abs(raw) > Math.abs(v) ? 18 : 6)));   // time-based, so it eases out at any frame rate
+            if (Math.abs(dy) > 0.5) { dirNow = dy > 0 ? 1 : -1; idleSince = now; }
+            var mag = clamp(Math.abs(v) / 2600, 0, 1);
+            hud.style.setProperty('--lp-v', mag.toFixed(3));
+            hud.classList.toggle('is-up', dirNow < 0);
+            hud.classList.toggle('is-moving', mag > 0.02);
+            if (!reduceMotion) {
+                document.documentElement.style.setProperty('--lp-skew', (clamp(v / 2600, -1, 1) * 1.3).toFixed(3) + 'deg');
+            }
+            setSection();
+            if (mag > 0.004 || now - idleSince < 450) {
+                raf = requestAnimationFrame(loop);
+            } else {
+                raf = 0;
+                hud.classList.remove('is-moving');
+                document.documentElement.style.setProperty('--lp-skew', '0deg');
+            }
+        }
+        function kick() { if (!raf) { lastT = performance.now(); raf = requestAnimationFrame(loop); } }
+        window.addEventListener('scroll', kick, { passive: true });
+        setSection();
+    }
+
 })();

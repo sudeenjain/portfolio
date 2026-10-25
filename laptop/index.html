@@ -21,12 +21,12 @@
         content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sudeenjain.github.io/laptop/">
-    <meta property="og:image" content="../assets/profile.jpg">
+    <meta property="og:image" content="https://sudeenjain.github.io/assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Sudeen Jain | AI & ML Engineer | Laptop Portfolio">
     <meta name="twitter:description"
         content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
-    <meta name="twitter:image" content="../assets/profile.jpg">
+    <meta name="twitter:image" content="https://sudeenjain.github.io/assets/og-image.jpg">
 
     <!-- Structured Data (Schema Markup for Google) -->
     <script type="application/ld+json">
@@ -41,8 +41,7 @@
         "https://www.instagram.com/sudeen_jain"
       ],
       "jobTitle": "Artificial Intelligence and Machine Learning Student",
-      "alumniOf": "Srinivas University",
-      "email": "sudinhr1@gmail.com"
+      "alumniOf": "Srinivas University"
     }
     </script>
 
@@ -54,6 +53,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/showcase.css">
     <link rel="stylesheet" href="css/laptop.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
@@ -149,10 +149,8 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-    <script type="importmap">
-        { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-    </script>
-    <script type="module" src="../js/particles.js"></script>
+    <!-- 3D particle background (Three.js) intentionally removed on laptop: the background is now
+         pure CSS (aurora + grid + parallax orbs), see css/laptop.css section 11e. -->
 
     <!-- Supabase integration scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -163,10 +161,23 @@
     <script src="../data/portfolio-data.js"></script>
     <script src="../js/portfolio-renderer.js"></script>
     <script src="../js/scripts.js"></script>
+    <!-- Project showcase: my projects + client work (data/projects-showcase.js) -->
+    <script src="../data/projects-showcase.js"></script>
+    <script src="../js/projects-showcase.js"></script>
+    <script src="../js/enhance.js"></script>
     <!-- GSAP 3.13.0 + ScrollTrigger (vendored so the page works offline / without a CDN) -->
     <script src="js/vendor/gsap.min.js"></script>
     <script src="js/vendor/ScrollTrigger.min.js"></script>
     <script src="js/laptop.js"></script>
+    <!-- Scroll-driven Three.js scene (module; Three.js is vendored in js/vendor so no CDN is needed) -->
+    <script>
+        /* The 670 KB Three.js scene loads only after the page is interactive, so it never delays first paint. */
+        (function () {
+            function load() { import('./js/scene3d.js').catch(function (e) { if (window.console) console.warn('[3d] not loaded', e); }); }
+            function idle() { (window.requestIdleCallback || function (f) { setTimeout(f, 400); })(load, { timeout: 2500 }); }
+            if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
+        })();
+    </script>
     <!-- Abhimo-Style AI Chatbot Floating Widget -->
     <script src="../chatbot/sudeen-chatbot.js"></script>
 </body>

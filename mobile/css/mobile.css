@@ -103,3 +103,76 @@ html {
         max-height: 250px;
     }
 }
+
+
+/* ==========================================================================
+   MOBILE MENU FIX  (look unchanged — only the plumbing is corrected)
+
+   1. #navbar used backdrop-filter, which makes it the containing block for its
+      fixed children. The full-screen menu was therefore sized/positioned against the
+      63px bar, and its off-screen (translateX(100%)) copy widened the page, so the layout
+      viewport grew and the whole site looked shifted/narrow on phones. The blur now lives
+      on a ::before layer, so the menu is a true viewport-fixed overlay.
+   2. Closed menu is hidden from taps + keyboard (visibility) instead of just parked off-screen.
+   3. Hamburger → X bars now meet exactly in the middle (9px, not 8px).
+   4. 100dvh so the overlay isn't cut off by the mobile browser's address bar.
+   ========================================================================== */
+@media (max-width: 992px) {
+    #navbar {
+        background: transparent !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    #navbar::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: rgba(5, 5, 5, 0.8);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        transition: background 0.4s ease;
+    }
+
+    #navbar.scrolled::before {
+        background: rgba(5, 5, 5, 0.95);
+    }
+
+    .nav-links {
+        height: 100vh;
+        height: 100dvh;
+        visibility: hidden;
+        pointer-events: none;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.45s;
+    }
+
+    .nav-links.active {
+        visibility: visible;
+        pointer-events: auto;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0s;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* centre the links when they fit, but let them scroll from the top when the screen is short
+       (plain justify-content:center makes the first links unreachable on small phones) */
+    .nav-links {
+        justify-content: flex-start;
+    }
+    .nav-links > :first-child { margin-top: auto; }
+    .nav-links > :last-child  { margin-bottom: auto; }
+    @media (max-height: 760px) {
+        .nav-links { gap: 1rem; padding-top: 72px; padding-bottom: 32px; }
+    }
+
+    /* the chat bubble would sit on top of the open menu */
+    html.lp-menu-open #sj-chat-button { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+
+    /* the page should never scroll sideways because of the parked menu */
+    html, body { overflow-x: clip; max-width: 100%; }
+}
