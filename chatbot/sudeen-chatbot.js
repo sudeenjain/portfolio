@@ -646,16 +646,9 @@
     // =========================================================================
     const CONFIG = Object.assign({
         // After you deploy gemini-proxy/worker.js, paste its URL here, e.g.
-<<<<<<< HEAD
-        // 'https://sj-bot.abhimo-tech.workers.dev'. Leave empty to run offline
-        // (the bot then answers from the built-in knowledge only).
-        geminiProxyUrl: 'https://sj-bot.abhimo-tech.workers.dev',
-        requestTimeoutMs: 20000,
-        maxHistory: 6
-=======
         // 'https://sj-bot.YOURNAME.workers.dev'. Leave empty to run offline
         // (the bot then answers from the built-in knowledge only).
-        geminiProxyUrl: 'sj-bot.abhimo-tech.workers.dev',
+        geminiProxyUrl: 'https://sj-bot.abhimo-tech.workers.dev',
         requestTimeoutMs: 20000,
         maxHistory: 6,
         // Voice
@@ -663,7 +656,6 @@
         voiceName: '',            // force a voice by name, e.g. 'Microsoft Prabhat Online (Natural) - English (India)'
         voiceRate: 0.95,          // 0.9 = slower, 1.05 = faster
         maxSpokenChars: 320       // long answers are shortened when spoken; full text stays on screen
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     }, window.SJ_CHATBOT_CONFIG || {});
 
     // Resolve file locations from this script's own URL so the widget works
@@ -801,7 +793,9 @@
             .replace(/\[([^\]]+)\]\((?:https?:\/\/|mailto:|tel:)[^)]*\)/g, '$1')
             .replace(/\*\*|__|`|#+\s*/g, '')
             .replace(/^\s*[-*•]\s+/gm, '');
-        const parts = text.split(/\n+|(?<=[.!?])\s+/);
+        // split into sentences (no regex lookbehind, so older Safari/iOS can still parse this file)
+        const parts = [];
+        text.split(/\n+/).forEach((line) => { (line.match(/.+?(?:[.!?]+(?=\s|$)|$)/g) || []).forEach((x) => parts.push(x.trim())); });
         // 2) a sentence that contains a URL / email / phone number is not read aloud (it is on screen)
         const cleaned = [];
         parts.forEach((p) => {
@@ -1104,7 +1098,6 @@
 
         INDEX = { items, df, terms };
         return INDEX;
-<<<<<<< HEAD
     };
 
     const prep = (raw) => {
@@ -1131,34 +1124,6 @@
 
     const itemHasTerm = (it, term) => containsSeq(it.hay, term.seq);
 
-=======
-    };
-
-    const prep = (raw) => {
-        let q = String(raw).toLowerCase();
-        SYNONYMS.forEach(([re, rep]) => { q = q.replace(re, rep); });
-        const qn = q.replace(/[?!]/g, ' ').replace(/\s+/g, ' ').trim();
-        const normQ = norm(qn);
-        return { raw: String(raw), qn, normQ, seq: seqTokens(qn), qTok: new Set(tokens(qn)) };
-    };
-
-    const findTech = (Q) => {
-        const idx = getIndex();
-        const used = new Array(Q.seq.length).fill(false);
-        const hits = [];
-        idx.terms.forEach(term => {
-            for (let i = 0; i + term.seq.length <= Q.seq.length; i++) {
-                let ok = true;
-                for (let j = 0; j < term.seq.length; j++) if (Q.seq[i + j] !== term.seq[j] || used[i + j]) { ok = false; break; }
-                if (ok) { for (let j = 0; j < term.seq.length; j++) used[i + j] = true; hits.push(term); break; }
-            }
-        });
-        return hits;
-    };
-
-    const itemHasTerm = (it, term) => containsSeq(it.hay, term.seq);
-
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     const matchEntities = (Q, typeFilter) => {
         const idx = getIndex();
         const scored = [];
@@ -1183,26 +1148,14 @@
 
     // ---- Answer builders --------------------------------------------------
     const A = {
-        greeting: () => ({
-<<<<<<< HEAD
-            kind: 'greeting', preferLocal: true, voice: "Hello! I am SJ Bot, Sudeen Jain's AI assistant. How can I help you today?",
-=======
-            kind: 'greeting', preferLocal: true, voice: "Hello, I'm S J Bot, Sudeen Jain's assistant. How can I help you today?",
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
-            text: `Hello! Great to connect with you. Ask me anything about Sudeen's projects, skills, internships, certifications or contact details, or tap a topic below:`, buttons: MAIN_ASKS()
-        }),
+        greeting: () => ({ kind: 'greeting', preferLocal: true, voice: "Hello, I'm S J Bot, Sudeen Jain's assistant. How can I help you today?",
+            text: `Hello! Great to connect with you. Ask me anything about Sudeen's projects, skills, internships, certifications or contact details, or tap a topic below:`, buttons: MAIN_ASKS() }),
         thanks: () => ({ kind: 'thanks', preferLocal: true, text: `You're welcome! Anything else you'd like to know about Sudeen?`, buttons: MAIN_ASKS() }),
         about: () => {
             const p = KB.profile;
-            return {
-<<<<<<< HEAD
-                kind: 'about', voice: 'Here is information about Sudeen Jain.',
-=======
-                kind: 'about', voice: `${p.name} is an ${p.role}, with a ${p.degree} from ${p.university}. The details are shown on screen.`,
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+            return { kind: 'about', voice: `${p.name} is an ${p.role}, with a ${p.degree} from ${p.university}. The details are shown on screen.`,
                 text: `**${p.name}**\n👨‍💻 ${p.role}\n🎓 ${p.degree} — ${p.university} (${p.educationYears})\n📍 ${p.location}\n\n${p.summary}`,
-                buttons: [linkBtn('📄 Resume', SITE_ROOT + KB.profile.resumeFile), askBtn('🚀 Projects', 'Projects'), askBtn('📬 Contact', 'Contact')]
-            };
+                buttons: [linkBtn('📄 Resume', SITE_ROOT + KB.profile.resumeFile), askBtn('🚀 Projects', 'Projects'), askBtn('📬 Contact', 'Contact')] };
         },
         projects: (filterTerms) => {
             const all = KB.projects;
@@ -1223,11 +1176,7 @@
             text += `\n\nAsk about any project by name for details, tech stack and links.`;
             const buttons = demos.slice(0, 4).map(p => linkBtn('▶ ' + p.title, p.demo));
             buttons.push(linkBtn('<i class="fab fa-github"></i> All on GitHub', KB.profile.github));
-<<<<<<< HEAD
-            return { kind: 'projects', voice: "Here are Sudeen's projects.", text, buttons };
-=======
             return { kind: 'projects', voice: `Sudeen has ${pool.length} project${pool.length === 1 ? '' : 's'} here, ${demos.length} of them with a live demo. You can ask about any project by name.`, text, buttons };
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         project: (p) => {
             let text = `🚀 **${p.title}**\n${p.desc}`;
@@ -1238,11 +1187,7 @@
             if (p.demo) buttons.push(linkBtn('▶ Live Demo', p.demo));
             if (p.github) buttons.push(linkBtn('<i class="fab fa-github"></i> GitHub', p.github));
             buttons.push(askBtn('More projects', 'Projects'));
-<<<<<<< HEAD
-            return { kind: 'project', voice: p.title, text, buttons };
-=======
             return { kind: 'project', voice: `${p.title}. ${(p.desc.match(/^.*?[.!?](\s|$)/) || [p.desc])[0].trim()}${p.demo ? ' A live demo is available.' : ''}`, text, buttons };
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         internships: (filterTerms) => {
             let pool = KB.internships;
@@ -1254,69 +1199,36 @@
                 if (!pool.length) return { kind: 'internships', text: `None of Sudeen's internships list that. He has ${KB.internships.length} in total.`, buttons: [askBtn('💼 All internships', 'Internships')] };
             }
             const text = intro + '\n\n' + pool.map(i => `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration}`).join('\n\n') + `\n\nAsk about any of them for details.`;
-<<<<<<< HEAD
-            return { kind: 'internships', voice: "Here are Sudeen's internships.", text, buttons: [] };
-        },
-        internship: (i) => ({
-            kind: 'internship', voice: i.title,
-=======
             return { kind: 'internships', voice: `Sudeen has completed ${pool.length} internship${pool.length === 1 ? '' : 's'}. The details are shown on screen.`, text, buttons: [] };
         },
-        internship: (i) => ({
-            kind: 'internship', voice: `${i.title} at ${i.org}, ${i.duration}.`,
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
-            text: `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration} · ${i.status}\n\n${i.desc}\n\n🛠️ **Focus:** ${list(i.highlights)}`, buttons: [askBtn('All internships', 'Internships')]
-        }),
+        internship: (i) => ({ kind: 'internship', voice: `${i.title} at ${i.org}, ${i.duration}.`,
+            text: `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration} · ${i.status}\n\n${i.desc}\n\n🛠️ **Focus:** ${list(i.highlights)}`, buttons: [askBtn('All internships', 'Internships')] }),
         certifications: (filterTerms) => {
             const idx = getIndex();
             if (filterTerms && filterTerms.length) {
                 const pool = idx.items.filter(it => (it.type === 'badge' || it.type === 'certificate') && filterTerms.some(t => itemHasTerm(it, t)));
                 const label = filterTerms.map(t => t.display).join(' / ');
                 if (!pool.length) return { kind: 'certs', text: `I don't see a certificate or badge about **${label}**.`, buttons: [askBtn('🏆 All certifications', 'Certifications')] };
-                return {
-                    kind: 'certs', voice: 'Here are the matching certifications.',
-                    text: `**Certifications & badges for ${label} (${pool.length}):**\n\n` + pool.map(it => `🏆 **${it.ref.title}** — ${it.ref.issuer}`).join('\n'), buttons: []
-                };
+                return { kind: 'certs', voice: 'Here are the matching certifications.',
+                    text: `**Certifications & badges for ${label} (${pool.length}):**\n\n` + pool.map(it => `🏆 **${it.ref.title}** — ${it.ref.issuer}`).join('\n'), buttons: [] };
             }
             const g = KB.certificates.gallery;
             let text = `**Certifications & badges**\n\n🏆 **Verified Credly badges (${KB.badges.length}):** ${list(KB.badges.map(b => b.title))}`;
             text += `\n\n📜 **Certificate gallery (${KB.counts.galleryCertificates}):** ` + g.map(x => `${x.category} (${x.items.length})`).join(', ');
             text += `\n\n➕ **Also on his resume:** ${list(KB.certificates.fromResume.map(c => c.title))}`;
             text += `\n\nAsk about any certificate or badge by name.`;
-            return {
-<<<<<<< HEAD
-                kind: 'certs', voice: "Here are Sudeen's certifications and badges.", text,
-=======
-                kind: 'certs', voice: `Sudeen holds ${KB.badges.length} verified badges and ${KB.counts.galleryCertificates} gallery certificates, across A I, cloud and web development.`, text,
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
-                buttons: [linkBtn('<i class="fas fa-certificate"></i> Credly Badges', KB.profile.credly), linkBtn('<i class="fab fa-linkedin"></i> All on LinkedIn', KB.certificates.linkedinAll)]
-            };
+            return { kind: 'certs', voice: `Sudeen holds ${KB.badges.length} verified badges and ${KB.counts.galleryCertificates} gallery certificates, across A I, cloud and web development.`, text,
+                buttons: [linkBtn('<i class="fas fa-certificate"></i> Credly Badges', KB.profile.credly), linkBtn('<i class="fab fa-linkedin"></i> All on LinkedIn', KB.certificates.linkedinAll)] };
         },
-        badge: (b) => ({
-<<<<<<< HEAD
-            kind: 'badge', voice: b.title,
-            text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)]
-        }),
-        certificate: (c) => ({
-            kind: 'certificate', voice: c.title,
-=======
-            kind: 'badge', voice: `${b.title}, issued by ${b.issuer}.`,
-            text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)]
-        }),
-        certificate: (c) => ({
-            kind: 'certificate', voice: `${c.title}${c.issuer ? ', from ' + c.issuer : ''}.`,
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+        badge: (b) => ({ kind: 'badge', voice: `${b.title}, issued by ${b.issuer}.`,
+            text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)] }),
+        certificate: (c) => ({ kind: 'certificate', voice: `${c.title}${c.issuer ? ', from ' + c.issuer : ''}.`,
             text: `📜 **${c.title}**${c.issuer ? '\n🏢 ' + c.issuer : ''}${c.category && c.category !== 'Resume' ? '\n📂 ' + c.category + ' (portfolio certificate gallery)' : ''}`,
-            buttons: c.link ? [linkBtn('✔ Verify', c.link)] : [askBtn('All certifications', 'Certifications')]
-        }),
+            buttons: c.link ? [linkBtn('✔ Verify', c.link)] : [askBtn('All certifications', 'Certifications')] }),
         skills: () => {
             let text = `**Sudeen's technical skills**\n\n⭐ **On the portfolio:** ${list(KB.skills.portfolio)}`;
             KB.skills.groups.forEach(g => { text += `\n\n**${g.name}:** ${list(g.items)}`; });
-<<<<<<< HEAD
-            return { kind: 'skills', voice: "Here is Sudeen's technical skills list.", text, buttons: [askBtn('🚀 Projects', 'Projects')] };
-=======
             return { kind: 'skills', voice: "Sudeen's skills span Python, machine learning, cloud, and full stack web development. The full list is shown on screen.", text, buttons: [askBtn('🚀 Projects', 'Projects')] };
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         tech: (hits) => {
             const idx = getIndex();
@@ -1334,49 +1246,22 @@
             if (interns.length) text += `\n\n💼 **Internships:** ${list(interns.map(it => it.ref.title + ' (' + it.ref.org + ')'))}`;
             if (certs.length) text += `\n\n🏆 **Certifications & badges:** ${list(certs.slice(0, 6).map(it => it.ref.title))}${certs.length > 6 ? '…' : ''}`;
             const buttons = projects.slice(0, 4).map(it => askBtn('▶ ' + it.ref.title, it.ref.title));
-<<<<<<< HEAD
-            return { kind: 'tech', voice: `Here is what Sudeen has with ${label}.`, text, buttons };
-        },
-        resume: () => ({
-            kind: 'resume', voice: "Here is Sudeen's resume.",
-=======
             return { kind: 'tech', voice: `Here is where ${label} appears in Sudeen's portfolio.`, text, buttons };
         },
-        resume: () => ({
-            kind: 'resume', voice: "Sudeen's resume is ready to download below.",
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+        resume: () => ({ kind: 'resume', voice: "Sudeen's resume is ready to download below.",
             text: `**Sudeen Jain's Resume**\n\nTap below to open or download the PDF with his projects, education, internships and certifications.`,
-            buttons: [linkBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)]
-        }),
+            buttons: [linkBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)] }),
         contact: () => {
             const p = KB.profile;
-            return {
-<<<<<<< HEAD
-                kind: 'contact', voice: 'Here is how to contact Sudeen.', social: true,
-=======
-                kind: 'contact', voice: 'You can reach Sudeen by email, phone, or social media. The contact details are shown on screen.', social: true,
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
-                text: `**Contact Sudeen**\n\n📧 Email: ${p.email}\n📱 Phone / WhatsApp: ${p.phone}\n📍 ${p.location}\n\nOr reach him on social channels:`, buttons: []
-            };
+            return { kind: 'contact', voice: 'You can reach Sudeen by email, phone, or social media. The contact details are shown on screen.', social: true,
+                text: `**Contact Sudeen**\n\n📧 Email: ${p.email}\n📱 Phone / WhatsApp: ${p.phone}\n📍 ${p.location}\n\nOr reach him on social channels:`, buttons: [] };
         },
-        matches: (arr) => ({
-<<<<<<< HEAD
-            kind: 'matches', voice: 'I found a few matches.',
-=======
-            kind: 'matches', voice: 'I found a few matches. Please choose one.',
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+        matches: (arr) => ({ kind: 'matches', voice: 'I found a few matches. Please choose one.',
             text: `I found a few matches — which one do you mean?`,
-            buttons: arr.slice(0, 6).map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
-        }),
-        help: () => ({
-<<<<<<< HEAD
-            kind: 'help', voice: 'Here are topics you can explore about Sudeen Jain.',
-=======
-            kind: 'help', voice: "I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, or certifications.",
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+            buttons: arr.slice(0, 6).map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : ''))) }),
+        help: () => ({ kind: 'help', voice: "I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, or certifications.",
             text: `I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, certifications, education or contact details — or email him at ${KB.profile.email}.`,
-            buttons: [askBtn('👤 About Sudeen', 'About Sudeen')].concat(MAIN_ASKS(), [askBtn('📄 Resume', 'Resume')])
-        })
+            buttons: [askBtn('👤 About Sudeen', 'About Sudeen')].concat(MAIN_ASKS(), [askBtn('📄 Resume', 'Resume')]) })
     };
 
     const searchRelated = (Q) => {
@@ -1394,15 +1279,9 @@
         out.sort((a, b) => b.score - a.score);
         return out.slice(0, 6).map(o => o.it);
     };
-    A.related = (arr) => ({
-<<<<<<< HEAD
-        kind: 'related', voice: 'Here is what I found.',
-=======
-        kind: 'related', voice: 'Here are a few related items. Please choose one.',
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
+    A.related = (arr) => ({ kind: 'related', voice: 'Here are a few related items. Please choose one.',
         text: `Here is what I found related to your question — tap one for details:`,
-        buttons: arr.map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
-    });
+        buttons: arr.map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : ''))) });
 
     const fromEntity = (it) => {
         if (it.type === 'project') return A.project(it.ref);
