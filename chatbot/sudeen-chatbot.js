@@ -646,11 +646,24 @@
     // =========================================================================
     const CONFIG = Object.assign({
         // After you deploy gemini-proxy/worker.js, paste its URL here, e.g.
+<<<<<<< HEAD
         // 'https://sj-bot.abhimo-tech.workers.dev'. Leave empty to run offline
         // (the bot then answers from the built-in knowledge only).
         geminiProxyUrl: 'https://sj-bot.abhimo-tech.workers.dev',
         requestTimeoutMs: 20000,
         maxHistory: 6
+=======
+        // 'https://sj-bot.YOURNAME.workers.dev'. Leave empty to run offline
+        // (the bot then answers from the built-in knowledge only).
+        geminiProxyUrl: 'sj-bot.abhimo-tech.workers.dev',
+        requestTimeoutMs: 20000,
+        maxHistory: 6,
+        // Voice
+        voiceOnByDefault: true,   // false = starts muted until the visitor taps the speaker
+        voiceName: '',            // force a voice by name, e.g. 'Microsoft Prabhat Online (Natural) - English (India)'
+        voiceRate: 0.95,          // 0.9 = slower, 1.05 = faster
+        maxSpokenChars: 320       // long answers are shortened when spoken; full text stays on screen
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     }, window.SJ_CHATBOT_CONFIG || {});
 
     // Resolve file locations from this script's own URL so the widget works
@@ -675,7 +688,8 @@
     // =========================================================================
     //  DOM ELEMENTS & STATE
     // =========================================================================
-    let isSoundEn = localStorage.getItem('sj_sound_en') !== 'false';
+    const _storedSound = (() => { try { return localStorage.getItem('sj_sound_en'); } catch (e) { return null; } })();
+    let isSoundEn = _storedSound === null ? CONFIG.voiceOnByDefault : _storedSound !== 'false';
     let isLight = localStorage.getItem('sj_theme') === 'light';
     let recognition = null;
     let isListening = false;
@@ -706,6 +720,7 @@
                 renderWelcome();
             }
         } else {
+            stopSpeaking();
             chatW.classList.add('terminating');
             setTimeout(() => {
                 chatW.classList.add('hidden');
@@ -725,12 +740,22 @@
         localStorage.setItem('sj_theme', isLight ? 'light' : 'dark');
     };
 
-    // Sound Toggle
-    soundTog.onclick = () => {
-        isSoundEn = !isSoundEn;
+    // Sound / Voice Toggle (mute stops speech immediately)
+    const applySoundState = () => {
         soundTog.innerHTML = isSoundEn ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
         soundTog.classList.toggle('active', isSoundEn);
-        localStorage.setItem('sj_sound_en', isSoundEn);
+        soundTog.title = isSoundEn ? 'Mute voice & sounds' : 'Unmute voice & sounds';
+        soundTog.setAttribute('aria-label', soundTog.title);
+        soundTog.setAttribute('aria-pressed', String(!isSoundEn));
+    };
+    applySoundState();
+    soundTog.onclick = (e) => {
+        if (e) e.stopPropagation();
+        isSoundEn = !isSoundEn;
+        applySoundState();
+        try { localStorage.setItem('sj_sound_en', String(isSoundEn)); } catch (err) { }
+        if (isSoundEn) speakText('Voice is on.');
+        else stopSpeaking();
     };
 
     // Web Audio Chime Synthesis (Fail-safe for sound)
@@ -756,18 +781,119 @@
         } catch (e) { }
     };
 
+    // =========================================================================
+    //  VOICE — clean, professional speech (no URLs / emails / symbols read out)
+    // =========================================================================
+    const SPEECH_FIXES = [
+        [/\bSJ\b/g, 'S J'], [/\bUI\/UX\b/gi, 'U I and U X'], [/\bAI\/ML\b/g, 'A I and M L'],
+        [/\bFolioAI\b/g, 'Folio A I'], [/\bB\.?\s?Tech\b/gi, 'B Tech'], [/\bAICTE\b/g, 'A I C T E'],
+        [/\bAI\b/g, 'A I'], [/\bML\b/g, 'M L'], [/\bNLP\b/g, 'N L P'], [/\bDAA\b/g, 'D A A'],
+        [/\bSQL\b/g, 'S Q L'], [/\bAPIs?\b/g, 'A P I'], [/\bAWS\b/g, 'A W S'], [/\bIBM\b/g, 'I B M'],
+        [/\bPHP\b/g, 'P H P'], [/\bHTML\b/g, 'H T M L'], [/\bCSS\b/g, 'C S S'], [/\bCNN\b/g, 'C N N'], [/\bRNN\b/g, 'R N N']
+    ];
+    const PHONE_RE = /\+\d{1,3}[\s-]?\d{5}[\s-]?\d{5}|\b\d{5}[\s-]?\d{5}\b/;
+    const LINK_RE = new RegExp('https?:\\/\\/|\\bwww\\.|[\\w.+-]+@[\\w-]+\\.[\\w.-]+|' + PHONE_RE.source, 'i');
+
+    const toSpeechSentences = (raw) => {
+        let removedLinks = false;
+        // 1) strip markup, keep link labels, then split into sentences
+        let text = String(raw || '').replace(/<[^>]*>/g, ' ')
+            .replace(/\[([^\]]+)\]\((?:https?:\/\/|mailto:|tel:)[^)]*\)/g, '$1')
+            .replace(/\*\*|__|`|#+\s*/g, '')
+            .replace(/^\s*[-*•]\s+/gm, '');
+        const parts = text.split(/\n+|(?<=[.!?])\s+/);
+        // 2) a sentence that contains a URL / email / phone number is not read aloud (it is on screen)
+        const cleaned = [];
+        parts.forEach((p) => {
+            if (LINK_RE.test(p)) { removedLinks = true; return; }
+            let t = p
+                .replace(/[\u{1F000}-\u{1FAFF}\u{2190}-\u{2BFF}\u{FE0F}\u{200D}]/gu, ' ');
+            SPEECH_FIXES.forEach(([re, rep]) => { t = t.replace(re, rep); });
+            t = t.replace(/\s*[–—]\s*/g, ', ').replace(/&/g, ' and ').replace(/\s*\/\s*/g, ' ')
+                .replace(/\(\s*\)/g, ' ').replace(/\s+/g, ' ').trim();
+            t = t.replace(/\s+([,.;:!?])/g, '$1').replace(/([,.;:!?])(\s*[,.;:])+/g, '$1').replace(/^[\s,.;:]+/, '').replace(/[,;:]+$/, '');
+            if (t.replace(/[^A-Za-z0-9]/g, '').length < 2) return;
+            if (!/[.!?]$/.test(t)) t += '.';
+            cleaned.push(t);
+        });
+        // 3) keep it short and professional
+        const out = [];
+        let used = 0, truncated = false;
+        for (const sentence of cleaned) {
+            if (out.length && used + sentence.length > CONFIG.maxSpokenChars) { truncated = true; break; }
+            out.push(sentence);
+            used += sentence.length;
+        }
+        if (out.length && (truncated || removedLinks)) out.push('The full details are shown on screen.');
+        return out;
+    };
+
+    // Prefer natural, male, English (India → UK → US) voices; user override supported.
+    const MALE_NAMES = ['prabhat', 'ravi', 'rishi', 'guy', 'ryan', 'davis', 'christopher', 'eric', 'roger', 'brian', 'andrew', 'steffan',
+        'thomas', 'alfie', 'daniel', 'alex', 'aaron', 'arthur', 'oliver', 'fred', 'david', 'mark', 'james', 'george', 'richard', 'male'];
+    const FEMALE_NAMES = ['zira', 'hazel', 'susan', 'heera', 'neerja', 'samantha', 'karen', 'moira', 'tessa', 'veena', 'fiona', 'victoria',
+        'kate', 'serena', 'female', 'aria', 'jenny', 'sonia', 'libby', 'emma', 'michelle', 'ana', 'allison', 'ava', 'joanna', 'catherine', 'google हिन्दी'];
+    let cachedVoice = null;
+    const refreshVoice = () => { cachedVoice = null; };
+    if (window.speechSynthesis && window.speechSynthesis.addEventListener) {
+        window.speechSynthesis.addEventListener('voiceschanged', refreshVoice);
+    }
+    const storeGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    const storeSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { } };
+
+    const pickVoice = () => {
+        if (cachedVoice) return cachedVoice;
+        if (!window.speechSynthesis) return null;
+        const voices = window.speechSynthesis.getVoices() || [];
+        if (!voices.length) return null;
+        const wanted = (storeGet('sj_voice') || CONFIG.voiceName || '').toLowerCase();
+        if (wanted) {
+            const v = voices.find(x => x.name.toLowerCase() === wanted) || voices.find(x => x.name.toLowerCase().includes(wanted));
+            if (v) return (cachedVoice = { voice: v, male: true });
+        }
+        const scoreOf = (v) => {
+            const n = (v.name || '').toLowerCase();
+            const l = (v.lang || '').toLowerCase().replace('_', '-');
+            if (!l.startsWith('en')) return -100;
+            let s = l === 'en-in' ? 12 : l === 'en-gb' ? 8 : l === 'en-us' ? 6 : 2;
+            if (FEMALE_NAMES.some(f => n.includes(f))) s -= 60;
+            if (MALE_NAMES.some(m => n.includes(m))) s += 40;
+            if (/natural|online|neural/.test(n)) s += 15;
+            return s;
+        };
+        const best = voices.map(v => ({ v, s: scoreOf(v) })).sort((a, b) => b.s - a.s)[0];
+        if (!best || best.s < -50) return (cachedVoice = null);
+        return (cachedVoice = { voice: best.v, male: best.s >= 30 });
+    };
+
+    let speakToken = 0;
+    const stopSpeaking = () => {
+        speakToken++;
+        try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { }
+    };
+
     // Voice Speech Output (Text-To-Speech)
-    const speakText = (text) => {
+    const speakText = (raw) => {
         if (!isSoundEn || !window.speechSynthesis) return;
-        try {
-            window.speechSynthesis.cancel();
-            const clean = text.replace(/<[^>]*>?/gm, '').replace(/[*_#`•🔹]/g, '').trim();
-            if (!clean) return;
-            const u = new SpeechSynthesisUtterance(clean);
-            u.rate = 1.05;
-            u.lang = 'en-US';
-            window.speechSynthesis.speak(u);
-        } catch (e) { }
+        const sentences = toSpeechSentences(raw);
+        if (!sentences.length) return;
+        stopSpeaking();
+        const mine = speakToken;
+        const picked = pickVoice();
+        let i = 0;
+        const next = () => {
+            if (mine !== speakToken || !isSoundEn || i >= sentences.length) return;
+            try {
+                const u = new SpeechSynthesisUtterance(sentences[i++]);
+                if (picked) { u.voice = picked.voice; u.lang = picked.voice.lang; } else { u.lang = 'en-IN'; }
+                u.rate = CONFIG.voiceRate;
+                u.pitch = picked && picked.male ? 0.95 : 0.8;   // lower pitch if no male voice exists
+                u.onend = next;
+                u.onerror = () => { if (mine === speakToken) next(); };
+                window.speechSynthesis.speak(u);
+            } catch (e) { }
+        };
+        setTimeout(next, 80);
     };
 
     // Speech-To-Text Recognition
@@ -897,7 +1023,7 @@
     const renderWelcome = () => {
         addMessage(`Hi! I'm **SJ Bot**, Sudeen Jain's personal AI Assistant. 👋\n\nAsk me anything about Sudeen's **16 projects**, **technical skills**, **12+ certifications & badges**, **5 internships**, or how to contact him.\n\nHow can I help you today?`, 'bot');
         renderSuggestions();
-        if (isSoundEn) speakText("Hi! I'm SJ Bot, Sudeen Jain's personal AI Assistant. How can I help you today?");
+        speakText("Hello, I'm S J Bot, Sudeen Jain's assistant. How can I help you today?");
     };
 
     // =========================================================================
@@ -978,6 +1104,7 @@
 
         INDEX = { items, df, terms };
         return INDEX;
+<<<<<<< HEAD
     };
 
     const prep = (raw) => {
@@ -1004,6 +1131,34 @@
 
     const itemHasTerm = (it, term) => containsSeq(it.hay, term.seq);
 
+=======
+    };
+
+    const prep = (raw) => {
+        let q = String(raw).toLowerCase();
+        SYNONYMS.forEach(([re, rep]) => { q = q.replace(re, rep); });
+        const qn = q.replace(/[?!]/g, ' ').replace(/\s+/g, ' ').trim();
+        const normQ = norm(qn);
+        return { raw: String(raw), qn, normQ, seq: seqTokens(qn), qTok: new Set(tokens(qn)) };
+    };
+
+    const findTech = (Q) => {
+        const idx = getIndex();
+        const used = new Array(Q.seq.length).fill(false);
+        const hits = [];
+        idx.terms.forEach(term => {
+            for (let i = 0; i + term.seq.length <= Q.seq.length; i++) {
+                let ok = true;
+                for (let j = 0; j < term.seq.length; j++) if (Q.seq[i + j] !== term.seq[j] || used[i + j]) { ok = false; break; }
+                if (ok) { for (let j = 0; j < term.seq.length; j++) used[i + j] = true; hits.push(term); break; }
+            }
+        });
+        return hits;
+    };
+
+    const itemHasTerm = (it, term) => containsSeq(it.hay, term.seq);
+
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     const matchEntities = (Q, typeFilter) => {
         const idx = getIndex();
         const scored = [];
@@ -1029,14 +1184,22 @@
     // ---- Answer builders --------------------------------------------------
     const A = {
         greeting: () => ({
+<<<<<<< HEAD
             kind: 'greeting', preferLocal: true, voice: "Hello! I am SJ Bot, Sudeen Jain's AI assistant. How can I help you today?",
+=======
+            kind: 'greeting', preferLocal: true, voice: "Hello, I'm S J Bot, Sudeen Jain's assistant. How can I help you today?",
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `Hello! Great to connect with you. Ask me anything about Sudeen's projects, skills, internships, certifications or contact details, or tap a topic below:`, buttons: MAIN_ASKS()
         }),
         thanks: () => ({ kind: 'thanks', preferLocal: true, text: `You're welcome! Anything else you'd like to know about Sudeen?`, buttons: MAIN_ASKS() }),
         about: () => {
             const p = KB.profile;
             return {
+<<<<<<< HEAD
                 kind: 'about', voice: 'Here is information about Sudeen Jain.',
+=======
+                kind: 'about', voice: `${p.name} is an ${p.role}, with a ${p.degree} from ${p.university}. The details are shown on screen.`,
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
                 text: `**${p.name}**\n👨‍💻 ${p.role}\n🎓 ${p.degree} — ${p.university} (${p.educationYears})\n📍 ${p.location}\n\n${p.summary}`,
                 buttons: [linkBtn('📄 Resume', SITE_ROOT + KB.profile.resumeFile), askBtn('🚀 Projects', 'Projects'), askBtn('📬 Contact', 'Contact')]
             };
@@ -1060,7 +1223,11 @@
             text += `\n\nAsk about any project by name for details, tech stack and links.`;
             const buttons = demos.slice(0, 4).map(p => linkBtn('▶ ' + p.title, p.demo));
             buttons.push(linkBtn('<i class="fab fa-github"></i> All on GitHub', KB.profile.github));
+<<<<<<< HEAD
             return { kind: 'projects', voice: "Here are Sudeen's projects.", text, buttons };
+=======
+            return { kind: 'projects', voice: `Sudeen has ${pool.length} project${pool.length === 1 ? '' : 's'} here, ${demos.length} of them with a live demo. You can ask about any project by name.`, text, buttons };
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         project: (p) => {
             let text = `🚀 **${p.title}**\n${p.desc}`;
@@ -1071,7 +1238,11 @@
             if (p.demo) buttons.push(linkBtn('▶ Live Demo', p.demo));
             if (p.github) buttons.push(linkBtn('<i class="fab fa-github"></i> GitHub', p.github));
             buttons.push(askBtn('More projects', 'Projects'));
+<<<<<<< HEAD
             return { kind: 'project', voice: p.title, text, buttons };
+=======
+            return { kind: 'project', voice: `${p.title}. ${(p.desc.match(/^.*?[.!?](\s|$)/) || [p.desc])[0].trim()}${p.demo ? ' A live demo is available.' : ''}`, text, buttons };
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         internships: (filterTerms) => {
             let pool = KB.internships;
@@ -1083,10 +1254,17 @@
                 if (!pool.length) return { kind: 'internships', text: `None of Sudeen's internships list that. He has ${KB.internships.length} in total.`, buttons: [askBtn('💼 All internships', 'Internships')] };
             }
             const text = intro + '\n\n' + pool.map(i => `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration}`).join('\n\n') + `\n\nAsk about any of them for details.`;
+<<<<<<< HEAD
             return { kind: 'internships', voice: "Here are Sudeen's internships.", text, buttons: [] };
         },
         internship: (i) => ({
             kind: 'internship', voice: i.title,
+=======
+            return { kind: 'internships', voice: `Sudeen has completed ${pool.length} internship${pool.length === 1 ? '' : 's'}. The details are shown on screen.`, text, buttons: [] };
+        },
+        internship: (i) => ({
+            kind: 'internship', voice: `${i.title} at ${i.org}, ${i.duration}.`,
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `💼 **${i.title}**\n🏢 ${i.org} · ${i.duration} · ${i.status}\n\n${i.desc}\n\n🛠️ **Focus:** ${list(i.highlights)}`, buttons: [askBtn('All internships', 'Internships')]
         }),
         certifications: (filterTerms) => {
@@ -1106,23 +1284,39 @@
             text += `\n\n➕ **Also on his resume:** ${list(KB.certificates.fromResume.map(c => c.title))}`;
             text += `\n\nAsk about any certificate or badge by name.`;
             return {
+<<<<<<< HEAD
                 kind: 'certs', voice: "Here are Sudeen's certifications and badges.", text,
+=======
+                kind: 'certs', voice: `Sudeen holds ${KB.badges.length} verified badges and ${KB.counts.galleryCertificates} gallery certificates, across A I, cloud and web development.`, text,
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
                 buttons: [linkBtn('<i class="fas fa-certificate"></i> Credly Badges', KB.profile.credly), linkBtn('<i class="fab fa-linkedin"></i> All on LinkedIn', KB.certificates.linkedinAll)]
             };
         },
         badge: (b) => ({
+<<<<<<< HEAD
             kind: 'badge', voice: b.title,
             text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)]
         }),
         certificate: (c) => ({
             kind: 'certificate', voice: c.title,
+=======
+            kind: 'badge', voice: `${b.title}, issued by ${b.issuer}.`,
+            text: `🏆 **${b.title}**\n🏢 ${b.issuer} · Earned ${b.date} · ${b.expiry}\n\n${b.desc}\n\n🛠️ **Skills:** ${list(b.skills)}`, buttons: [linkBtn('✔ Verify badge', b.link)]
+        }),
+        certificate: (c) => ({
+            kind: 'certificate', voice: `${c.title}${c.issuer ? ', from ' + c.issuer : ''}.`,
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `📜 **${c.title}**${c.issuer ? '\n🏢 ' + c.issuer : ''}${c.category && c.category !== 'Resume' ? '\n📂 ' + c.category + ' (portfolio certificate gallery)' : ''}`,
             buttons: c.link ? [linkBtn('✔ Verify', c.link)] : [askBtn('All certifications', 'Certifications')]
         }),
         skills: () => {
             let text = `**Sudeen's technical skills**\n\n⭐ **On the portfolio:** ${list(KB.skills.portfolio)}`;
             KB.skills.groups.forEach(g => { text += `\n\n**${g.name}:** ${list(g.items)}`; });
+<<<<<<< HEAD
             return { kind: 'skills', voice: "Here is Sudeen's technical skills list.", text, buttons: [askBtn('🚀 Projects', 'Projects')] };
+=======
+            return { kind: 'skills', voice: "Sudeen's skills span Python, machine learning, cloud, and full stack web development. The full list is shown on screen.", text, buttons: [askBtn('🚀 Projects', 'Projects')] };
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         },
         tech: (hits) => {
             const idx = getIndex();
@@ -1140,27 +1334,46 @@
             if (interns.length) text += `\n\n💼 **Internships:** ${list(interns.map(it => it.ref.title + ' (' + it.ref.org + ')'))}`;
             if (certs.length) text += `\n\n🏆 **Certifications & badges:** ${list(certs.slice(0, 6).map(it => it.ref.title))}${certs.length > 6 ? '…' : ''}`;
             const buttons = projects.slice(0, 4).map(it => askBtn('▶ ' + it.ref.title, it.ref.title));
+<<<<<<< HEAD
             return { kind: 'tech', voice: `Here is what Sudeen has with ${label}.`, text, buttons };
         },
         resume: () => ({
             kind: 'resume', voice: "Here is Sudeen's resume.",
+=======
+            return { kind: 'tech', voice: `Here is where ${label} appears in Sudeen's portfolio.`, text, buttons };
+        },
+        resume: () => ({
+            kind: 'resume', voice: "Sudeen's resume is ready to download below.",
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `**Sudeen Jain's Resume**\n\nTap below to open or download the PDF with his projects, education, internships and certifications.`,
             buttons: [linkBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)]
         }),
         contact: () => {
             const p = KB.profile;
             return {
+<<<<<<< HEAD
                 kind: 'contact', voice: 'Here is how to contact Sudeen.', social: true,
+=======
+                kind: 'contact', voice: 'You can reach Sudeen by email, phone, or social media. The contact details are shown on screen.', social: true,
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
                 text: `**Contact Sudeen**\n\n📧 Email: ${p.email}\n📱 Phone / WhatsApp: ${p.phone}\n📍 ${p.location}\n\nOr reach him on social channels:`, buttons: []
             };
         },
         matches: (arr) => ({
+<<<<<<< HEAD
             kind: 'matches', voice: 'I found a few matches.',
+=======
+            kind: 'matches', voice: 'I found a few matches. Please choose one.',
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `I found a few matches — which one do you mean?`,
             buttons: arr.slice(0, 6).map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
         }),
         help: () => ({
+<<<<<<< HEAD
             kind: 'help', voice: 'Here are topics you can explore about Sudeen Jain.',
+=======
+            kind: 'help', voice: "I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, or certifications.",
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
             text: `I couldn't find that in Sudeen's portfolio. You can ask about his projects, skills, internships, certifications, education or contact details — or email him at ${KB.profile.email}.`,
             buttons: [askBtn('👤 About Sudeen', 'About Sudeen')].concat(MAIN_ASKS(), [askBtn('📄 Resume', 'Resume')])
         })
@@ -1182,7 +1395,11 @@
         return out.slice(0, 6).map(o => o.it);
     };
     A.related = (arr) => ({
+<<<<<<< HEAD
         kind: 'related', voice: 'Here is what I found.',
+=======
+        kind: 'related', voice: 'Here are a few related items. Please choose one.',
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
         text: `Here is what I found related to your question — tap one for details:`,
         buttons: arr.map(it => askBtn(it.ref.title + (it.type === 'certificate' && it.ref.issuer ? ' – ' + it.ref.issuer : ''), it.ref.title + (it.ref.issuer ? ' ' + it.ref.issuer : '')))
     });
@@ -1370,7 +1587,12 @@
             inputField.value = text;
             toggleWindow(true);
             handleSend();
-        }
+        },
+        mute: () => { if (isSoundEn) soundTog.onclick(); },
+        unmute: () => { if (!isSoundEn) soundTog.onclick(); },
+        // List installed voices, or pick one: SudeenChatbot.setVoice('Microsoft Ryan Online (Natural) - English (United Kingdom)')
+        voices: () => (window.speechSynthesis ? window.speechSynthesis.getVoices() : []).map(v => v.name + ' (' + v.lang + ')'),
+        setVoice: (name) => { storeSet('sj_voice', name || ''); cachedVoice = null; speakText('This is my new voice.'); }
     };
 
 })();

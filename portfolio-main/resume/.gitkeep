@@ -1,0 +1,4 @@
+# This file is intentionally empty – it ensures the resume/ directory
+# is tracked in git even before the first PDF is generated.
+# resume.pdf and resume.tex are COMMITTED (not ignored) so GitHub Pages
+# can serve them and the portfolio can link to them.

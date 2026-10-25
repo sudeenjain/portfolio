@@ -1,0 +1,63 @@
+Gesture Flow  
+GitHub: https://github.com/sudeenjain/guesture_flow  
+Live Link: https://guestureflow.vercel.app/
+
+Attendance Tracker  
+GitHub: https://github.com/sudeenjain/attendence_tracker  
+Live Link: https://attendance-tracker-eight-blush.vercel.app/
+
+Movie Recommendation  
+GitHub: https://github.com/sudeenjain/Movie_Recommendation  
+Live Link: https://movie-recommendation-plum-phi.vercel.app/
+
+Portfolio Website  
+GitHub: https://github.com/sudeenjain/portfolio  
+Live Link: https://sudeenjain.github.io/portfolio/
+
+FolioAI  
+GitHub: https://github.com/sudeenjain/folioAI  
+Live Link: https://portfolio-ai-eta-dusky.vercel.app/
+
+CareerReady  
+GitHub: https://github.com/sudeenjain/CarrerReady  
+Live Link: https://dist-steel-beta-55.vercel.app/#/landing
+
+Product Recommendation  
+GitHub: https://github.com/sudeenjain/Product_Recommendation  
+Live Link: https://ai-recommendation-system-gamma.vercel.app/
+
+Connects The Dots  
+GitHub: https://github.com/sudeenjain/Connect_the_Dots  
+Live Link: https://daa-miniproject.vercel.app/
+
+Amazon Bestseller Recommender  
+GitHub: https://github.com/sudeenjain/Amazon-Bestseller-Recommender  
+Live Link: https://ibm-mini-project.vercel.app/
+
+Currency Converter  
+GitHub: https://github.com/sudeenjain/currency-converter  
+Live Link: https://currency-converter-phi-one.vercel.app/
+
+Recipe Finder  
+GitHub: https://github.com/sudeenjain/-interactive-recipe-finder  
+Live Link: Not Available
+
+AI_dictonary
+GitHub:https://github.com/sudeenjain/AI_dictonary
+Live Link:
+
+Book Recommender  
+GitHub: https://github.com/sudeenjain/Book_Recommender  
+Live Link: Not Available
+
+Smart To-Do List  
+GitHub: https://github.com/sudeenjain/to-do-list-in-python  
+Live Link: https://to-do-list-in-python.vercel.app/
+
+AI Calculator  
+GitHub: https://github.com/sudeenjain/AI_Calculator  
+Live Link: Not Available
+
+AI Resume Architect  
+GitHub: https://github.com/sudeenjain/AI-Resume_Architect  
+Live Link: Not Available

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+    <!-- SEO Meta Tags -->
+    <title>Sudeen Jain | AI & ML Engineer | Laptop Portfolio</title>
+    <meta name="description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student at Srinivas University. Laptop & desktop portfolio edition featuring projects, certifications, GitHub work, and resume.">
+    <meta name="keywords"
+        content="Sudeen Jain, AI Engineer, AIML Student, Portfolio, GitHub, Srinivas University, Machine Learning, Python Developer">
+    <meta name="author" content="Sudeen Jain">
+
+    <!-- Open Graph (for social sharing previews) -->
+    <meta property="og:title" content="Sudeen Jain | AI & ML Engineer | Laptop Portfolio">
+    <meta property="og:description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sudeenjain.github.io/laptop/">
+    <meta property="og:image" content="https://sudeenjain.github.io/assets/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sudeen Jain | AI & ML Engineer | Laptop Portfolio">
+    <meta name="twitter:description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student. View projects, certifications, GitHub work, and resume.">
+    <meta name="twitter:image" content="https://sudeenjain.github.io/assets/og-image.jpg">
+
+    <!-- Structured Data (Schema Markup for Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sudeen Jain",
+      "url": "https://sudeenjain.github.io/",
+      "sameAs": [
+        "https://github.com/sudeenjain",
+        "https://www.linkedin.com/in/sudeenjain",
+        "https://www.instagram.com/sudeen_jain"
+      ],
+      "jobTitle": "Artificial Intelligence and Machine Learning Student",
+      "alumniOf": "Srinivas University"
+    }
+    </script>
+
+    <meta name="theme-color" content="#070913">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/showcase.css">
+    <link rel="stylesheet" href="css/laptop.css">
+    <link rel="stylesheet" href="css/story.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">SJ</div>
+        <div class="preloader-bar"></div>
+    </div>
+
+
+    <!-- NEON LINE TAIL CURSOR -->
+    <canvas id="neonCursorCanvas"></canvas>
+
+    <div id="canvas-container"></div>
+
+    <!-- Nav + all sections below are populated at runtime by
+         ../js/portfolio-renderer.js from ../data/portfolio-data.js -->
+    <div id="nav-placeholder"></div>
+
+    <main id="main">
+    <section id="home"></section>
+    <section id="about"></section>
+    <section id="skills"></section>
+    <section id="certifications"></section>
+    <section id="badges"></section>
+    <section id="internships"></section>
+    <section id="projects"></section>
+    <section id="resume"></section>
+    <section id="contact"></section>
+    <section id="get-in-touch"></section>
+    </main>
+
+    <!-- ============================================= -->
+    <!-- FOOTER (static — not data-driven) -->
+    <!-- ============================================= -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Sudeen Jain</div>
+            <p class="footer-tagline">AI &amp; ML Engineer · Builder · Lifelong Learner</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#resume">Resume</a>
+                <a href="#contact">Contact</a>
+                <a href="https://github.com/sudeenjain" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/sudeenjain" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">
+                &copy; <span id="year"></span> Sudeen Jain H R. Crafted with <i class="fas fa-heart"></i> &amp; clean code.
+            </p>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Certificate Lightbox Modal -->
+    <div class="cert-lightbox" id="certLightbox">
+        <div class="cert-lightbox-backdrop" onclick="closeCertLightbox()"></div>
+        <div class="cert-lightbox-content">
+            <button class="cert-lightbox-close" onclick="closeCertLightbox()" title="Close"><i
+                    class="fas fa-times"></i></button>
+            <div class="cert-lightbox-layout">
+                <div class="cert-lightbox-img-wrapper">
+                    <img id="certLightboxImg" src="" alt="Certificate">
+                </div>
+                <div class="cert-lightbox-info-pane">
+                    <h3 id="certLightboxTitle"></h3>
+                    <div class="cert-lightbox-meta">
+                        <span id="certLightboxCategory"><i class="fas fa-certificate"></i> <span></span></span>
+                        <span id="certLightboxOrg"><i class="fas fa-building"></i> <span></span></span>
+                        <span id="certLightboxDate"><i class="fas fa-calendar-alt"></i> <span></span></span>
+                        <span id="certLightboxId"><i class="fas fa-id-card"></i> ID: <span></span></span>
+                    </div>
+                    <p id="certLightboxDesc" class="cert-lightbox-desc"></p>
+                    <a id="certLightboxLink" href="" target="_blank" class="btn btn-filled">Verify Credential <i
+                            class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tell renderer to resolve asset paths relative to parent root -->
+    <script>
+        window.PORTFOLIO_ROOT_PREFIX = '../';
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- 3D particle background (Three.js) intentionally removed on laptop: the background is now
+         pure CSS (aurora + grid + parallax orbs), see css/laptop.css section 11e. -->
+
+    <!-- Supabase integration scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/portfolio-data-service.js"></script>
+
+    <!-- Data-driven render pipeline: data -> renderer -> behavior -->
+    <script src="../data/portfolio-data.js"></script>
+    <script src="../js/portfolio-renderer.js"></script>
+    <script src="../js/scripts.js"></script>
+    <!-- Project showcase: my projects + client work (data/projects-showcase.js) -->
+    <script src="../data/projects-showcase.js"></script>
+    <script src="../js/projects-showcase.js"></script>
+    <script src="../js/enhance.js"></script>
+    <!-- GSAP 3.13.0 + ScrollTrigger (vendored so the page works offline / without a CDN) -->
+    <script src="js/vendor/lenis.min.js"></script>
+    <script src="js/vendor/gsap.min.js"></script>
+    <script src="js/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/laptop.js"></script>
+    <script src="js/story.js"></script>
+    <!-- Scroll-driven Three.js scene (module; Three.js is vendored in js/vendor so no CDN is needed) -->
+    <script>
+        /* The 670 KB Three.js scene loads only after the page is interactive, so it never delays first paint. */
+        (function () {
+            function load() { import('./js/scene3d.js').catch(function (e) { if (window.console) console.warn('[3d] not loaded', e); }); }
+            function idle() { (window.requestIdleCallback || function (f) { setTimeout(f, 400); })(load, { timeout: 2500 }); }
+            if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
+        })();
+    </script>
+    <!-- Abhimo-Style AI Chatbot Floating Widget -->
+    <script src="../chatbot/sudeen-chatbot.js"></script>
+</body>
+
+</html>

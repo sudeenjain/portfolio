@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sudeen Jain | AI Chatbot Assistant (Abhimo Style)</title>
+  
+  <meta name="description" content="Chat with Sudeen Jain's interactive AI assistant modeled on Abhimo.com — explore projects, live demos, skills, certifications, and direct contact.">
+  <meta name="author" content="Sudeen Jain">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: #060810;
+      color: #f1f5f9;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Cyber Background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 243, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
+      background-size: 35px 35px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-sphere {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sphere-1 {
+      width: 400px;
+      height: 400px;
+      background: #00f3ff;
+      top: -100px;
+      left: 10%;
+    }
+
+    .sphere-2 {
+      width: 450px;
+      height: 450px;
+      background: #bd00ff;
+      bottom: -100px;
+      right: 10%;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 1rem 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 14, 26, 0.75);
+      border-bottom: 1px solid rgba(0, 243, 255, 0.15);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00f3ff, #bd00ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #05060b;
+      font-weight: 900;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+    }
+
+    .brand-title h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title span {
+      font-size: 0.75rem;
+      color: #00ff88;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .brand-title span::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #00ff88;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff88;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      border-radius: 25px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.25s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(0, 243, 255, 0.15);
+      border-color: #00f3ff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+    }
+
+    /* Main Showcase Container */
+    main {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.95rem;
+      border-radius: 20px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      color: #00f3ff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 40%, #00f3ff 80%, #bd00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 640px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* Feature Highlights */
+    .feature-cards-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 2.5rem;
+    }
+
+    .feat-card {
+      background: rgba(18, 24, 38, 0.7);
+      border: 1px solid rgba(0, 243, 255, 0.15);
+      border-radius: 16px;
+      padding: 1.25rem 1rem;
+      text-align: left;
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+
+    .feat-card:hover {
+      border-color: #00f3ff;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 243, 255, 0.2);
+    }
+
+    .feat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(0, 243, 255, 0.1);
+      color: #00f3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .feat-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .feat-card p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    /* Interactive Launcher Triggers */
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .primary-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.85rem 1.85rem;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #00f3ff, #bd00ff);
+      border: none;
+      color: #05060b;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+      transition: all 0.3s;
+    }
+
+    .primary-trigger-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0, 243, 255, 0.8);
+    }
+
+    .secondary-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.85rem 1.65rem;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .secondary-trigger-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #00f3ff;
+      color: #00f3ff;
+    }
+
+    /* Quick Question Pills */
+    .try-questions-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      max-width: 800px;
+    }
+
+    .question-pill {
+      background: rgba(18, 24, 38, 0.6);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      padding: 0.45rem 0.95rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .question-pill:hover {
+      background: rgba(0, 243, 255, 0.15);
+      border-color: #00f3ff;
+      color: #00f3ff;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 0.82rem;
+      color: #64748b;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 1.85rem;
+      }
+      .hero-desc {
+        font-size: 0.95rem;
+      }
+      .feat-card {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .cta-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .primary-trigger-btn, .secondary-trigger-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="glow-sphere sphere-1"></div>
+  <div class="glow-sphere sphere-2"></div>
+
+  <!-- Header Navigation -->
+  <header>
+    <a href="../index.html" class="brand-group">
+      <div class="brand-logo">SJ</div>
+      <div class="brand-title">
+        <h1>Sudeen Jain</h1>
+        <span>AI Copilot Active</span>
+      </div>
+    </a>
+
+    <a href="../index.html" class="nav-btn">
+      <i class="fas fa-arrow-left"></i>
+      <span>Portfolio Home</span>
+    </a>
+  </header>
+
+  <!-- Showcase / Intro Content -->
+  <main>
+    <div class="hero-badge">
+      <i class="fas fa-bolt"></i> Modeled on Abhimo.com Interactive Architecture
+    </div>
+
+    <h2 class="hero-title">Experience SJ Bot</h2>
+    <p class="hero-desc">
+      Interact with Sudeen Jain's personal AI Assistant built with the sleek floating architecture of <strong>Abhimo.com</strong>. Ask questions, explore projects with live demos, check technical skills, and download his resume seamlessly.
+    </p>
+
+    <!-- Highlighted Feature Cards -->
+    <div class="feature-cards-row">
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-rocket"></i></div>
+        <h3>16+ Projects</h3>
+        <p>Explore Gesture Flow, Movie Recommendation, FolioAI, and more with direct live demo links.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-award"></i></div>
+        <h3>12+ Certifications</h3>
+        <p>Verified AWS Academy, Pearson Certiport AI Specialist, and IBM SkillsBuild credentials.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-adjust"></i></div>
+        <h3>Dark &amp; Light Themes</h3>
+        <p>Instant theme toggle, sound FX chimes, and Web Speech voice recognition.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3>100% Mobile Ready</h3>
+        <p>Smooth full-screen mobile experience with instant touch-friendly suggestion chips.</p>
+      </div>
+    </div>
+
+    <!-- Actions to trigger Chatbot -->
+    <div class="cta-actions">
+      <button class="primary-trigger-btn" onclick="window.SudeenChatbot && window.SudeenChatbot.open()">
+        <i class="fas fa-comments"></i> Open Chatbot Now
+      </button>
+      <a href="../resume.pdf" target="_blank" class="secondary-trigger-btn">
+        <i class="fas fa-file-pdf"></i> Download Resume
+      </a>
+    </div>
+
+    <!-- Quick Question Suggestions that open the bot with that query -->
+    <div class="try-questions-wrap">
+      <button class="question-pill" onclick="window.SudeenChatbot.send('Who is Sudeen Jain?')">👤 Who is Sudeen?</button>
+      <button class="question-pill" onclick="window.SudeenChatbot.send('Show me your top projects')">🚀 Show top projects</button>
+      <button class="question-pill" onclick="window.SudeenChatbot.send('What are your technical skills?')">⚡ What are your skills?</button>
+      <button class="question-pill" onclick="window.SudeenChatbot.send('Where did you intern?')">💼 Where did you intern?</button>
+      <button class="question-pill" onclick="window.SudeenChatbot.send('How can I contact Sudeen?')">📬 How can I contact you?</button>
+    </div>
+  </main>
+
+  <footer>
+    &copy; Sudeen Jain H R · B.Tech in Artificial Intelligence &amp; Machine Learning · Srinivas University
+  </footer>
+
+  <!-- Abhimo-Style Sudeen Chatbot Widget -->
+  <script src="sudeen-chatbot.js"></script>
+
+  <!-- Auto-open chatbot on page load for immediate user engagement -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (window.SudeenChatbot) {
+          window.SudeenChatbot.open();
+        }
+      }, 500);
+    });
+  </script>
+
+</body>
+</html>

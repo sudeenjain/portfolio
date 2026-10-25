@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- SEO Meta Tags -->
+    <title>Sudeen Jain | AI & ML Engineer | Portfolio</title>
+    <meta name="description"
+        content="Sudeen Jain is an Artificial Intelligence and Machine Learning student at Srinivas University. View projects, certifications, GitHub work, and resume.">
+    <meta name="keywords"
+        content="Sudeen Jain, AI Engineer, AIML Student, Portfolio, GitHub, Srinivas University, Machine Learning, Python Developer">
+    <meta name="author" content="Sudeen Jain">
+
+    <!-- Direct device detection & compatible portfolio routing -->
+    <script>
+        (function () {
+            var hash = window.location.hash || '';
+            var search = window.location.search || '';
+            var isMobile = false;
+
+            // 1. Mobile user agent detection
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                isMobile = true;
+            }
+            // 2. Screen width media query check (phones / small devices < 768px)
+            else if (window.matchMedia && window.matchMedia('(max-width: 767px)').matches) {
+                isMobile = true;
+            }
+            // 3. Fallback inner width check
+            else if (window.innerWidth && window.innerWidth < 768) {
+                isMobile = true;
+            }
+
+            if (isMobile) {
+                window.location.replace('mobile/index.html' + search + hash);
+            } else {
+                window.location.replace('laptop/index.html' + search + hash);
+            }
+        })();
+    </script>
+
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=laptop/index.html">
+    </noscript>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #070913;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader {
+            color: #00f0ff;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader">Loading portfolio...</div>
+</body>
+
+</html>

@@ -901,7 +901,7 @@ const portfolioData = {
         "icon": "fab fa-linkedin"
       },
       {
-        "href": "https://instagram.com/sudeen_jain",
+        "href": "https://instagram.com/sudeenjain",
         "title": "Instagram",
         "icon": "fab fa-instagram"
       }

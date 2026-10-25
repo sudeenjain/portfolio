@@ -23,7 +23,11 @@ window.SJ_KB = {
     "phone": "+91 8762862509",
     "github": "https://github.com/sudeenjain",
     "linkedin": "https://www.linkedin.com/in/sudeenjain",
+<<<<<<< HEAD
     "instagram": "https://instagram.com/sudeen_jain",
+=======
+    "instagram": "https://instagram.com/sudeenjain",
+>>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     "credly": "https://www.credly.com/users/sudeenjain",
     "resumeFile": "resume.pdf",
     "contactForm": "The portfolio has a \"Reach Out\" contact form at https://sudeenjain.github.io/#get-in-touch"
