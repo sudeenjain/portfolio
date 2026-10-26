@@ -2,7 +2,7 @@
    Edit data/portfolio-data.js (or the EXTRAS block in build-knowledge.js) and re-run the script. */
 window.SJ_KB = {
   "generatedFrom": "data/portfolio-data.js",
-  "siteUrl": "https://sudeenjain.github.io/",
+  "siteUrl": "https://sudeenjain.github.io/portfolio/",
   "profile": {
     "name": "Sudeen Jain H R",
     "shortName": "Sudeen",
@@ -23,14 +23,21 @@ window.SJ_KB = {
     "phone": "+91 8762862509",
     "github": "https://github.com/sudeenjain",
     "linkedin": "https://www.linkedin.com/in/sudeenjain",
-<<<<<<< HEAD
-    "instagram": "https://instagram.com/sudeen_jain",
-=======
     "instagram": "https://instagram.com/sudeenjain",
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
     "credly": "https://www.credly.com/users/sudeenjain",
     "resumeFile": "resume.pdf",
-    "contactForm": "The portfolio has a \"Reach Out\" contact form at https://sudeenjain.github.io/#get-in-touch"
+    "website": "https://sudeenjain.github.io/portfolio/laptop/index.html",
+    "resumePdf": "https://sudeenjain.github.io/portfolio/resume.pdf",
+    "sections": {
+      "about": "https://sudeenjain.github.io/portfolio/laptop/index.html#about",
+      "skills": "https://sudeenjain.github.io/portfolio/laptop/index.html#skills",
+      "projects": "https://sudeenjain.github.io/portfolio/laptop/index.html#projects",
+      "internships": "https://sudeenjain.github.io/portfolio/laptop/index.html#internships",
+      "certifications": "https://sudeenjain.github.io/portfolio/laptop/index.html#certifications",
+      "resume": "https://sudeenjain.github.io/portfolio/laptop/index.html#resume",
+      "contact": "https://sudeenjain.github.io/portfolio/laptop/index.html#get-in-touch"
+    },
+    "contactForm": "The portfolio has a \"Reach Out\" contact form at https://sudeenjain.github.io/portfolio/laptop/index.html#get-in-touch"
   },
   "skills": {
     "portfolio": [

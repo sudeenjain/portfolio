@@ -20,7 +20,9 @@ const vm = require('vm');
 
 // ----- EXTRAS: facts that are not in portfolio-data.js (edit freely) --------
 const EXTRAS = {
-  siteUrl: 'https://sudeenjain.github.io/',
+  // Your GitHub Pages site lives under /portfolio/ (repo name), not the bare domain.
+  siteUrl: 'https://sudeenjain.github.io/portfolio/',
+  sitePage: 'https://sudeenjain.github.io/portfolio/laptop/index.html',
   phone: '+91 8762862509',
   location: 'Mangaluru (Mangalore), Karnataka, India',
   educationYears: '2022 – 2026',
@@ -85,7 +87,18 @@ const kb = {
     instagram: EXTRAS.instagramOverride || social('Instagram'),
     credly: data.badges.footerLinkHref,
     resumeFile: 'resume.pdf',
-    contactForm: 'The portfolio has a "Reach Out" contact form at ' + EXTRAS.siteUrl + '#get-in-touch'
+    website: EXTRAS.sitePage,
+    resumePdf: EXTRAS.siteUrl + 'resume.pdf',
+    sections: {
+      about: EXTRAS.sitePage + '#about',
+      skills: EXTRAS.sitePage + '#skills',
+      projects: EXTRAS.sitePage + '#projects',
+      internships: EXTRAS.sitePage + '#internships',
+      certifications: EXTRAS.sitePage + '#certifications',
+      resume: EXTRAS.sitePage + '#resume',
+      contact: EXTRAS.sitePage + '#get-in-touch'
+    },
+    contactForm: 'The portfolio has a "Reach Out" contact form at ' + EXTRAS.sitePage + '#get-in-touch'
   },
   skills: {
     portfolio: data.skills.map(s => s.label),
@@ -135,7 +148,9 @@ function toText(k) {
   L.push(`Education: ${p.degree}, ${p.university} (${p.educationYears})`);
   L.push(`Location: ${p.location}`);
   L.push(`Summary: ${p.summary}`);
-  L.push(`Portfolio website: ${k.siteUrl}`);
+  L.push(`Portfolio website: ${p.website}`);
+  L.push('Portfolio sections (direct links):');
+  Object.keys(p.sections).forEach(n => L.push(`- ${n}: ${p.sections[n]}`));
   L.push('');
   L.push('# CONTACT');
   L.push(`Email: ${p.email}`);
@@ -144,7 +159,8 @@ function toText(k) {
   L.push(`LinkedIn: ${p.linkedin}`);
   L.push(`Instagram: ${p.instagram}`);
   L.push(`Credly badges: ${p.credly}`);
-  L.push(`Resume (PDF): ${k.siteUrl}resume.pdf`);
+  L.push(`Resume section on the website: ${p.sections.resume}`);
+  L.push(`Resume PDF download: ${p.resumePdf}`);
   L.push(`Contact form: ${p.contactForm}`);
   L.push('');
   L.push('# SKILLS');

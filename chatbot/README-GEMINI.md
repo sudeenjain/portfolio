@@ -51,8 +51,6 @@ This rewrites `knowledge-base.js` and `gemini-proxy/worker.js`. Push to GitHub, 
 - `build-knowledge.js` — generator
 - `gemini-proxy/` — Cloudflare Worker (`worker.template.js` source, `worker.js` generated)
 - `chatbot-engine.js` — old unused engine (no page loads it; safe to delete)
-<<<<<<< HEAD
-=======
 
 ## Voice
 - Speech is cleaned before it is read: links, emails, phone numbers, emojis and symbols are skipped,
@@ -63,4 +61,3 @@ This rewrites `knowledge-base.js` and `gemini-proxy/worker.js`. Push to GitHub, 
 - Pick a voice manually: in the browser console run `SudeenChatbot.voices()` to list them, then
   `SudeenChatbot.setVoice('Microsoft Ryan Online (Natural) - English (United Kingdom)')`.
 - Defaults live in `CONFIG` in `sudeen-chatbot.js`: `voiceOnByDefault`, `voiceName`, `voiceRate`, `maxSpokenChars`.
->>>>>>> 1449f90 (Update chatbot (Gemini, voice fix), Instagram handle)
