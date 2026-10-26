@@ -19,7 +19,7 @@ window.SJ_KB = {
     "educationYears": "2022 – 2026",
     "location": "Mangaluru (Mangalore), Karnataka, India",
     "summary": "AI & Machine Learning engineer with hands-on experience in full-stack web development, machine learning, cloud technologies and database-driven applications. Builds and deploys practical software using Python, JavaScript, PHP, SQL, Supabase and modern web technologies.",
-    "email": "sudeenjainhr@gmail.com",
+    "email": "sudinhr1@gmail.com",
     "phone": "+91 8762862509",
     "github": "https://github.com/sudeenjain",
     "linkedin": "https://www.linkedin.com/in/sudeenjain",
