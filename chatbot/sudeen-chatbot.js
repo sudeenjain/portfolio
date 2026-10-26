@@ -1844,7 +1844,7 @@
             if (!res.ok) throw new Error('Proxy HTTP ' + res.status);
             const data = await res.json();
             if (!data || !data.answer) throw new Error('Empty answer');
-            return String(data.answer);
+            return { answer: String(data.answer), followUps: Array.isArray(data.followUps) ? data.followUps.filter(q => typeof q === 'string').slice(0, 3) : [] };
         } finally {
             clearTimeout(timer);
         }
@@ -1867,9 +1867,16 @@
 
             if (useGemini) {
                 try {
-                    const answer = await askGemini(val);
+                    const { answer, followUps } = await askGemini(val);
                     shimmer.remove();
                     addMessage(answer, 'bot');
+                    if (followUps.length) {
+                        const wrap = document.createElement('div');
+                        wrap.className = 'sj-quickreply-wrap';
+                        followUps.forEach(q => wrap.appendChild(createActBtn(escapeHTML(q), () => { inputField.value = q; handleSend(); })));
+                        msgBox.appendChild(wrap);
+                        msgBox.scrollTop = msgBox.scrollHeight;
+                    }
                     speakText(answer);
                     chatHistory.push({ role: 'user', text: val.slice(0, 500) }, { role: 'model', text: answer.slice(0, 800) });
                     return;
@@ -1882,7 +1889,7 @@
             if (local) {
                 renderResult(local);
             } else {
-                addMessage(`I'm having trouble loading Sudeen's information right now. Please email him at sudeenjainhr@gmail.com.`, 'bot');
+                addMessage(`I'm having trouble loading Sudeen's information right now. Please email him at sudinhr1@gmail.com.`, 'bot');
             }
         } finally {
             if (shimmer.parentNode) shimmer.remove();
