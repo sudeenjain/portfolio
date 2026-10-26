@@ -1249,13 +1249,8 @@
             return { kind: 'tech', voice: `Here is where ${label} appears in Sudeen's portfolio.`, text, buttons };
         },
         resume: () => ({ kind: 'resume', voice: "Sudeen's resume is ready to download below.",
-<<<<<<< HEAD
             text: `**Sudeen Jain's Resume**\n\nView it on the portfolio, or download the PDF with his projects, education, internships and certifications.`,
             buttons: [linkBtn('<i class="fas fa-file-alt"></i> View Resume', KB.profile.sections.resume), linkBtn('<i class="fas fa-file-pdf"></i> Download PDF', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)] }),
-=======
-            text: `**Sudeen Jain's Resume**\n\nTap below to open or download the PDF with his projects, education, internships and certifications.`,
-            buttons: [linkBtn('<i class="fas fa-file-pdf"></i> Download Resume (PDF)', SITE_ROOT + KB.profile.resumeFile), linkBtn('<i class="fas fa-envelope"></i> Email', 'mailto:' + KB.profile.email)] }),
->>>>>>> 4a506a095a81d6196bfa76f9c9a9458a7583a351
         contact: () => {
             const p = KB.profile;
             return { kind: 'contact', voice: 'You can reach Sudeen by email, phone, or social media. The contact details are shown on screen.', social: true,
