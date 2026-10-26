@@ -1,118 +1,161 @@
-# Sudeen Jain H R | AIML Engineer Portfolio
+ <div align="center">
 
-## 🚀 Overview
+<a href="https://sudeenjain.github.io/portfolio/">
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3000&pause=900&color=00F5FF&center=true&vCenter=true&width=700&lines=SUDEEN+JAIN+H+R;AI%2FML+ENGINEER;BUILDING+INTELLIGENT+EXPERIENCES;CODE.+CREATE.+INNOVATE." alt="Sudeen Jain — AI/ML Engineer" />
+</a>
 
-This is the personal portfolio website for **Sudeen Jain H R**, an aspiring **AI & Machine Learning Engineer** and **Cloud Enthusiast**.
+### AI/ML Engineer · Web Developer · Cloud Enthusiast
 
-The design is modern, cyber-themed, featuring a dark mode aesthetic with vibrant cyan/violet accents and a dynamic, low-poly particle background implemented with **Three.js**. The structure is highly modular, making it easy to maintain and update each section independently.
+*Turning ideas into intelligent, modern digital experiences.*
 
-## ✨ Features
+<br/>
 
-* **Cyberpunk/Dark Mode Design:** A sleek, high-contrast visual style utilizing glass-like effects (`glassmorphism`) and neon colors.
-* **Dynamic Three.js Background:** A unique, interactive 3D particle animation runs in the background for an immersive experience.
-* **Modular Structure:** The project is split into multiple HTML fragments (`includes/`), CSS (`css/style.css`), and JavaScript files (`js/particles.js`, `js/scripts.js`) for easy management.
-* **Responsive Layout:** Fully optimized for both desktop and mobile devices.
-* **Scroll Animations:** Uses the **AOS (Animate On Scroll)** library to bring elements to life as the user scrolls.
-* **Formspree Integration:** Includes a functional contact form ready to be connected to a Formspree endpoint for message relay.
+<a href="https://sudeenjain.github.io/portfolio/">
+  <img src="https://img.shields.io/badge/🚀_EXPLORE_MY_PORTFOLIO-00F5FF?style=for-the-badge&labelColor=080B14&color=00F5FF" alt="Explore portfolio"/>
+</a>
+<a href="https://github.com/sudeenjain">
+  <img src="https://img.shields.io/badge/GITHUB-111827?style=for-the-badge&logo=github&logoColor=white" alt="GitHub profile"/>
+</a>
 
----
+<br/><br/>
 
-## 🛠️ Technologies Used
+<img src="https://img.shields.io/badge/ARTIFICIAL_INTELLIGENCE-0B1220?style=flat-square&logo=googlecolab&logoColor=00F5FF" alt="Artificial Intelligence"/>
+<img src="https://img.shields.io/badge/MACHINE_LEARNING-0B1220?style=flat-square&logo=scikitlearn&logoColor=F7931E" alt="Machine Learning"/>
+<img src="https://img.shields.io/badge/WEB_DEVELOPMENT-0B1220?style=flat-square&logo=html5&logoColor=E34F26" alt="Web Development"/>
+<img src="https://img.shields.io/badge/CLOUD_COMPUTING-0B1220?style=flat-square&logo=googlecloud&logoColor=4285F4" alt="Cloud Computing"/>
 
-| Category | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Frontend** | HTML5, CSS3, JavaScript (ES6+) | Core website structure and logic. |
-| **3D/Graphics** | **Three.js (via CDN)** | Generates the dynamic 3D particle background. |
-| **Styling** | **Custom CSS, Google Fonts (Orbitron & Outfit)** | Handles all custom styling and typography. |
-| **Animation** | **AOS (Animate On Scroll)** | Manages smooth element reveal animations. |
-| **Icons** | **Font Awesome** | Provides vector icons for skills, socials, and contact points. |
-| **Contact** | **Formspree** | Serverless email handling for the contact form. |
+</div>
 
 ---
 
-## 🚀 Project Name: Professional Portfolio Website
+## ◈ THE DEVELOPER
 
-This repository contains the source code for a professional portfolio website designed to showcase skills, projects, and educational background. The project employs a modular and organized structure for enhanced maintainability and clear separation of concerns.
+Hey! I'm **Sudeen Jain H R**, an aspiring AI/ML engineer passionate about building technology that solves real-world problems.
 
----
+I enjoy exploring artificial intelligence, developing web experiences, experimenting with cloud technologies, and turning concepts into working projects.
 
-## 📂 Project Structure
+- 🧠 Exploring AI, machine learning, and intelligent applications
+- 💻 Building modern web experiences with a focus on usability
+- ☁️ Learning cloud architecture and scalable applications
+- ⚡ Interested in creative engineering and practical innovation
 
-The project is meticulously organized into logical directories, utilizing modular HTML fragments to simplify content management.
+<div align="center">
 
-```text
-portfolio/
-├── index.html             # Main entry point, links, and layout placeholders
-├── profile.jpg            # Profile picture asset
-├── resume.pdf             # Resume file (linked in the Contact section)
-├── css/
-│   └── style.css          # All custom CSS and styling
-├── js/
-│   ├── particles.js       # Three.js particle background logic
-│   └── scripts.js         # DOM loading logic, menu handlers, AOS initialization
-├── includes/              # Separate HTML fragments for each major section
-│   ├── nav.html           # Navigation Bar
-│   ├── home.html          # Hero Section
-│   ├── about.html         # About Me & Stats
-│   ├── skills.html        # Technical Skills Badges
-│   ├── certifications.html# Certifications cards
-│   ├── projects.html      # Project cards
-│   ├── contact.html       # Socials and Resume Download
-│   └── get-in-touch.html  # Contact Form
-```
+**I DON'T JUST WRITE CODE — I BUILD EXPERIENCES.**
+
+</div>
 
 ---
 
-## 🧭 File Descriptions
+## ◈ EXPLORE THE ECOSYSTEM
 
-### Root Directory (`portfolio/`)
+<div align="center">
 
-| File/Directory | Description |
-| :--- | :--- |
-| `index.html` | The **main entry point** and core template, linking all assets and integrating the HTML fragments. |
-| `profile.jpg` | The primary **profile picture** asset. |
-| `resume.pdf` | The downloadable **resume file** for visitors. |
+<a href="https://sudeenjain.github.io/portfolio/">
+  <img src="https://img.shields.io/badge/01-PORTFOLIO-00F5FF?style=for-the-badge&labelColor=080B14" alt="Portfolio"/>
+</a>
+<a href="https://github.com/sudeenjain/portfolio/tree/main/projects">
+  <img src="https://img.shields.io/badge/02-PROJECTS-A78BFA?style=for-the-badge&labelColor=080B14" alt="Projects"/>
+</a>
+<a href="https://github.com/sudeenjain/portfolio/tree/main/certifications">
+  <img src="https://img.shields.io/badge/03-CERTIFICATIONS-F472B6?style=for-the-badge&labelColor=080B14" alt="Certifications"/>
+</a>
 
-### `css/`
+</div>
 
-| File | Description |
-| :--- | :--- |
-| `style.css` | Contains all **custom styling**, including layout, typography, and responsive design logic. |
+## ◈ TECH STACK
 
-### `js/`
+<div align="center">
 
-| File | Description |
-| :--- | :--- |
-| `particles.js` | Dedicated script for the **Three.js particle background logic**. |
-| `scripts.js` | Main application script for **DOM loading**, **menu handlers**, and initializing libraries like **AOS** (Animate On Scroll). |
+**CORE WEB**
 
-### `includes/` (Modular HTML Fragments)
+<img src="https://skillicons.dev/icons?i=html,css,js&theme=dark" alt="HTML, CSS, JavaScript"/>
 
-This directory holds reusable HTML partials that make up the content sections of the portfolio.
+**AI · DATA · CLOUD**
 
-| File | Section Content |
-| :--- | :--- |
-| `nav.html` | **Navigation Bar** structure. |
-| `home.html` | **Hero Section** content. |
-| `about.html` | **About Me** information and statistics. |
-| `skills.html` | **Technical Skills** display. |
-| `certifications.html` | **Certifications** cards/list. |
-| `projects.html` | **Project** cards/grid. |
-| `contact.html` | **Social media links** and resume download prompt. |
-| `get-in-touch.html` | **Contact Form** structure. |
+<img src="https://skillicons.dev/icons?i=python,googlecloud&theme=dark" alt="Python and Google Cloud"/>
+
+**TOOLS & WORKFLOW**
+
+<img src="https://skillicons.dev/icons?i=git,github,vscode&theme=dark" alt="Git, GitHub, Visual Studio Code"/>
+
+</div>
 
 ---
 
-## 🛠️ Usage
+## ◈ FEATURED EXPERIENCE
 
-To view the portfolio locally, simply open `index.html` in your web browser. A local development server is recommended to ensure that dynamic inclusion of the fragments in the `includes/` directory works correctly.
+<details>
+<summary><strong>01 — Interactive Portfolio</strong></summary>
 
-## ⚙️ Setup and Installation
+A personal portfolio designed to showcase technical skills, projects, and professional achievements.
 
-This is a static website and requires no backend server setup.
+**Highlights**
+- Dark cyber-inspired visual identity
+- Three.js particle background
+- Responsive layouts and scroll animations
+- Modular page components
+- Contact form integration
 
-### 1. Clone the Repository
+<a href="https://sudeenjain.github.io/portfolio/">↗ View Live Portfolio</a>
 
-```bash
-git clone [https://sudeenjain.github.io/portfolio/]
-cd portfolio
+</details>
+
+<details>
+<summary><strong>02 — Explore My Projects</strong></summary>
+
+Discover my development work, experiments, and technical implementations.
+
+<a href="https://github.com/sudeenjain/portfolio/tree/main/projects">↗ Browse Project Files</a>
+
+</details>
+
+<details>
+<summary><strong>03 — Certifications & Achievements</strong></summary>
+
+Explore the certifications and achievements showcased in my portfolio.
+
+<a href="https://github.com/sudeenjain/portfolio/tree/main/certifications">↗ Explore Certifications</a>
+
+</details>
+
+---
+
+## ◈ GITHUB ACTIVITY
+
+<div align="center">
+
+<a href="https://github.com/sudeenjain">
+  <img src="https://github-readme-stats.vercel.app/api?username=sudeenjain&show_icons=true&hide_border=true&bg_color=0B1220&title_color=00F5FF&icon_color=A78BFA&text_color=E5E7EB&rank_icon=github" alt="GitHub statistics" width="100%"/>
+</a>
+
+<a href="https://github.com/sudeenjain">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sudeenjain&layout=compact&hide_border=true&bg_color=0B1220&title_color=00F5FF&text_color=E5E7EB" alt="Most used programming languages" width="100%"/>
+</a>
+
+</div>
+
+---
+
+## ◈ LET'S CONNECT
+
+<div align="center">
+
+Have an idea, an interesting project, or an opportunity to collaborate? Let's connect.
+
+<a href="https://sudeenjain.github.io/portfolio/">
+  <img src="https://img.shields.io/badge/🌐_WEBSITE-00F5FF?style=for-the-badge&labelColor=080B14" alt="Website"/>
+</a>
+<a href="https://github.com/sudeenjain">
+  <img src="https://img.shields.io/badge/GITHUB-A78BFA?style=for-the-badge&logo=github&logoColor=white&labelColor=080B14" alt="GitHub"/>
+</a>
+
+<br/><br/>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F5FF,100:7C3AED&height=100&section=footer" alt="Cyan and violet footer"/>
+
+<sub>Designed with curiosity. Built with code. Driven by innovation.</sub>
+
+**© Sudeen Jain H R**
+
+</div>
