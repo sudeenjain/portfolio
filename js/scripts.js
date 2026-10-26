@@ -374,59 +374,77 @@ function initGeneralScripts(data) {
     }
     animateCounters();
 
-    // --- NAVBAR SCROLL EFFECT (#navbar comes from the rendered nav) ---
+    // --- SCROLL EFFECTS (navbar state, scroll-to-top button, indicator fade, active nav link) ---
+    // One passive, rAF-throttled handler. Section positions are cached (re-measured on resize / layout change)
+    // and the DOM is only written when a value actually changes, so scrolling no longer forces a layout
+    // + style recalculation on every scroll event.
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (!navbar) return;
-        if (window.scrollY > 80) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // --- SCROLL TO TOP, ACTIVE LINK & SCROLL INDICATOR FADE ---
     const scrollBtn = document.getElementById('scrollTopBtn');
     const scrollIndicator = document.getElementById('scroll-indicator');
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-links a');
 
-    window.addEventListener('scroll', () => {
-        // Scroll button
-        if (scrollBtn) {
-            scrollBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? 'block' : 'none';
-        }
+    let sectionTops = [];
+    function measureSections() {
+        sectionTops = Array.from(sections).map(section => ({
+            id: section.getAttribute('id'),
+            top: section.offsetTop - section.clientHeight / 3
+        }));
+    }
+    let measureQueued = false;
+    function queueMeasure() {
+        if (measureQueued) return;
+        measureQueued = true;
+        requestAnimationFrame(() => { measureQueued = false; measureSections(); onScrollFrame(); });
+    }
 
-        // Scroll indicator fade
-        if (scrollIndicator) {
-            if (window.scrollY > 100) {
-                scrollIndicator.style.opacity = '0';
-                scrollIndicator.style.pointerEvents = 'none';
-            } else {
-                scrollIndicator.style.opacity = '0.8';
-                scrollIndicator.style.pointerEvents = 'auto';
-            }
-        }
+    let lastScrolled = null, lastBtn = null, lastIndicator = null, lastCurrent = null;
+    function onScrollFrame() {
+        const y = window.scrollY || window.pageYOffset || 0;
 
-        // Active link
+        const scrolled = y > 80;
+        if (navbar && scrolled !== lastScrolled) { navbar.classList.toggle('scrolled', scrolled); }
+        lastScrolled = scrolled;
+
+        const showBtn = y > 300;
+        if (scrollBtn && showBtn !== lastBtn) { scrollBtn.style.display = showBtn ? 'block' : 'none'; }
+        lastBtn = showBtn;
+
+        const hideIndicator = y > 100;
+        if (scrollIndicator && hideIndicator !== lastIndicator) {
+            scrollIndicator.style.opacity = hideIndicator ? '0' : '0.8';
+            scrollIndicator.style.pointerEvents = hideIndicator ? 'none' : 'auto';
+        }
+        lastIndicator = hideIndicator;
+
         let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= (sectionTop - section.clientHeight / 3)) {
-                current = section.getAttribute('id');
-            }
-        });
-        navItems.forEach(a => {
-            a.classList.remove('active-link');
-            if (a.getAttribute('href').includes(current)) {
-                a.classList.add('active-link');
-            }
-        });
-    });
+        for (let i = 0; i < sectionTops.length; i++) {
+            if (y >= sectionTops[i].top) current = sectionTops[i].id;
+        }
+        if (current !== lastCurrent) {
+            lastCurrent = current;
+            navItems.forEach(a => {
+                a.classList.toggle('active-link', (a.getAttribute('href') || '').includes(current));
+            });
+        }
+    }
+
+    let scrollQueued = false;
+    window.addEventListener('scroll', () => {
+        if (scrollQueued) return;
+        scrollQueued = true;
+        requestAnimationFrame(() => { scrollQueued = false; onScrollFrame(); });
+    }, { passive: true });
+    window.addEventListener('resize', queueMeasure, { passive: true });
+    window.addEventListener('load', queueMeasure);
+    if (window.ResizeObserver) new ResizeObserver(queueMeasure).observe(document.body);
+    measureSections();
+    onScrollFrame();
 
     if (scrollBtn) {
         scrollBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.__lenis) window.__lenis.scrollTo(0, { duration: 1.4 });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 

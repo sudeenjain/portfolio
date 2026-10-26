@@ -176,3 +176,16 @@ html {
     /* the page should never scroll sideways because of the parked menu */
     html, body { overflow-x: clip; max-width: 100%; }
 }
+
+
+/* --- Lenis smooth scrolling (see js/mobile.js) --- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* --- scroll performance: no live blur behind glass cards while the page is moving --- */
+html.lp-scrolling *:not(#navbar):not(#navbar *):not(.pj-modal):not(.pj-modal *) {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}

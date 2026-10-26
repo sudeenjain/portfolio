@@ -39,7 +39,9 @@
     }
     function scrollToId(id) {
         var el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        if (!el) return;
+        if (window.__lenis && !reduceMotion) { window.__lenis.scrollTo(el, { offset: -96, duration: 1.3 }); return; }
+        el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }
 
     /* ---------- inertia smooth scrolling (Lenis) + light mode while scrolling ---------- */
