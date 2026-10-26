@@ -76,7 +76,9 @@
 .SJ-widget-container .sj-suggestion-chip,
 .SJ-widget-container .sj-action-btn,
 .SJ-widget-container .sj-header-btn,
-.SJ-widget-container .sj-social-btn {
+.SJ-widget-container .sj-social-btn,
+.SJ-widget-container .sj-link-btn,
+.SJ-widget-container .sj-greet.show {
     cursor: pointer !important;
 }
 
@@ -84,56 +86,162 @@
     cursor: text !important;
 }
 
-/* Floating Chat Launcher Button */
+/* Floating Chat Launcher: a little animated robot kid standing in the corner */
 .SJ-widget-container .sj-chat-button {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 62px;
-    height: 62px;
-    background: var(--sj-primary-gradient);
-    border-radius: 50%;
+    bottom: 14px;
+    right: 22px;
+    width: 78px;
+    height: 98px;
+    background: none;
+    border: none;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    color: #05060b;
-    font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 8px 30px rgba(0, 243, 255, 0.45);
     z-index: 1000000;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    overflow: visible;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
-.SJ-widget-container .sj-chat-button:hover {
-    transform: scale(1.1) rotate(6deg);
-    box-shadow: 0 12px 40px rgba(0, 243, 255, 0.7);
+.SJ-widget-container .sj-chat-button:focus-visible .sj-mascot {
+    filter: drop-shadow(0 0 6px #00f3ff) drop-shadow(0 0 2px #fff);
 }
 
-.SJ-widget-container .sj-pulse-ring {
+.SJ-widget-container .sj-halo {
     position: absolute;
+    left: 50%;
+    bottom: 10px;
+    width: 76px;
+    height: 76px;
+    margin-left: -38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.40) 0%, rgba(189, 0, 255, 0.20) 55%, transparent 72%);
+    animation: sj-halo 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes sj-halo {
+    0%, 100% { transform: scale(0.9); opacity: 0.65; }
+    50% { transform: scale(1.18); opacity: 1; }
+}
+
+.SJ-widget-container .sj-mascot {
+    position: relative;
     width: 100%;
     height: 100%;
-    background: inherit;
-    border-radius: 50%;
-    z-index: -1;
-    animation: sj-pulse 2.8s infinite;
+    overflow: visible;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes sj-pulse {
-    0% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.4); opacity: 0.3; }
-    100% { transform: scale(1.85); opacity: 0; }
+.SJ-widget-container .sj-chat-button:hover .sj-mascot { transform: translateY(-3px) scale(1.07); }
+.SJ-widget-container .sj-chat-button:active .sj-mascot { transform: scale(0.94); }
+
+/* --- mascot parts --- */
+.SJ-widget-container .sj-kid { animation: sj-bob 2.6s ease-in-out infinite; transform-origin: 50px 110px; }
+.SJ-widget-container .sj-shadow { animation: sj-shadow 2.6s ease-in-out infinite; transform-origin: 50px 118px; }
+@keyframes sj-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3.5px) rotate(0.6deg); }
 }
+@keyframes sj-shadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.35; }
+    50% { transform: scaleX(0.84); opacity: 0.2; }
+}
+
+.SJ-widget-container .sj-head { transform-origin: 50px 58px; transition: transform 0.25s ease; }
+.SJ-widget-container .sj-bulb { animation: sj-bulb 1.8s ease-in-out infinite; transform-origin: 50px 5px; }
+@keyframes sj-bulb {
+    0%, 100% { opacity: 0.55; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+.SJ-widget-container .sj-eye { transition: transform 0.09s ease-out; }
+.SJ-widget-container .sj-eye-l { transform-origin: 40px 37px; }
+.SJ-widget-container .sj-eye-r { transform-origin: 60px 37px; }
+.SJ-widget-container .sj-blinking .sj-eye { transform: scaleY(0.08); }
+.SJ-widget-container .sj-pupil { transition: transform 0.12s ease-out; }
+
+.SJ-widget-container .sj-eye-happy,
+.SJ-widget-container .sj-mouth-big,
+.SJ-widget-container .sj-mouth-talk { display: none; }
+
+.SJ-widget-container .sj-arm-r { transform-origin: 67px 63px; }
+.SJ-widget-container .sj-arm-l { transform-origin: 33px 63px; transition: transform 0.3s ease; }
+
+/* idle wave every few seconds (class toggled by script) + wave on hover */
+.SJ-widget-container .sj-waving .sj-arm-r { animation: sj-wave 0.55s ease-in-out 3; }
+.SJ-widget-container .sj-chat-button:hover .sj-arm-r { animation: sj-wave 0.45s ease-in-out infinite; }
+@keyframes sj-wave {
+    0%   { transform: rotate(-125deg); }
+    50%  { transform: rotate(-158deg); }
+    100% { transform: rotate(-125deg); }
+}
+
+/* hover / click = happy face + little jump */
+.SJ-widget-container .sj-chat-button:hover .sj-eye,
+.SJ-widget-container .sj-happy .sj-eye { display: none; }
+.SJ-widget-container .sj-chat-button:hover .sj-eye-happy,
+.SJ-widget-container .sj-happy .sj-eye-happy { display: block; }
+.SJ-widget-container .sj-chat-button:hover .sj-mouth-smile,
+.SJ-widget-container .sj-happy .sj-mouth-smile { display: none; }
+.SJ-widget-container .sj-chat-button:hover .sj-mouth-big,
+.SJ-widget-container .sj-happy .sj-mouth-big { display: block; }
+.SJ-widget-container .sj-chat-button:hover .sj-kid { animation: sj-hop 0.7s ease-in-out infinite; }
+.SJ-widget-container .sj-hop .sj-kid { animation: sj-hop 0.5s ease-out 2; }
+@keyframes sj-hop {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    40% { transform: translateY(-9px) scale(0.97, 1.04); }
+    70% { transform: translateY(0) scale(1.04, 0.96); }
+}
+
+/* thinking: antenna turns orange and flashes, head tilts */
+.SJ-widget-container .sj-think .sj-bulb { fill: #ffa502; animation-duration: 0.45s; }
+.SJ-widget-container .sj-think .sj-head { transform: rotate(-7deg); }
+.SJ-widget-container .sj-think .sj-pupil { transform: translate(-1.5px, -2.6px) !important; }
+
+/* talking (voice on): mouth flaps */
+.SJ-widget-container .sj-talking .sj-mouth-smile { display: none; }
+.SJ-widget-container .sj-talking .sj-mouth-talk { display: block; animation: sj-talk 0.28s ease-in-out infinite alternate; transform-origin: 50px 47px; }
+@keyframes sj-talk { from { transform: scaleY(0.35); } to { transform: scaleY(1.1); } }
+
+/* greeting speech bubble */
+.SJ-widget-container .sj-greet {
+    position: fixed;
+    right: 104px;
+    bottom: 62px;
+    max-width: 210px;
+    padding: 9px 13px;
+    background: var(--sj-secondary-bg);
+    color: var(--sj-text-primary);
+    border: 1px solid var(--sj-input-border);
+    border-radius: 14px 14px 4px 14px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    font-weight: 500;
+    box-shadow: var(--sj-shadow-soft);
+    z-index: 999999;
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+    transform-origin: bottom right;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.SJ-widget-container .sj-greet.show { opacity: 1; transform: none; pointer-events: auto; cursor: pointer; }
 
 /* Chat Window */
 .SJ-widget-container .sj-chat-window {
     position: fixed;
-    bottom: 98px;
-    right: 25px;
+    bottom: 120px;
+    right: 22px;
     width: 385px;
     height: 610px;
+    max-height: calc(100vh - 140px);
+    max-height: calc(100dvh - 140px);
+    overscroll-behavior: contain;
     background: var(--sj-bg-dark);
     border: 1px solid var(--sj-border-soft);
     border-radius: 20px;
@@ -186,14 +294,20 @@
     border-radius: 50%;
     border: 2px solid var(--sj-accent-blue);
     position: relative;
-    background: linear-gradient(135deg, #00f3ff, #bd00ff);
+    background: radial-gradient(circle at 50% 40%, #1b2a4a 0%, #0a1224 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000;
-    font-weight: 900;
-    font-size: 15px;
     box-shadow: 0 0 12px rgba(0, 243, 255, 0.4);
+}
+
+.SJ-widget-container .sj-bot-avatar .sj-mascot {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    filter: none;
+    transition: none;
 }
 
 .SJ-widget-container .sj-bot-avatar img {
@@ -273,6 +387,10 @@
     background: var(--sj-bg-dark);
     scrollbar-width: thin;
     scrollbar-color: var(--sj-border-soft) transparent;
+    min-height: 0;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .SJ-widget-container .sj-message {
@@ -531,12 +649,13 @@
         transform: translateY(105%) !important;
     }
     .SJ-widget-container .sj-chat-button {
-        width: 54px;
-        height: 54px;
-        bottom: 20px;
-        right: 18px;
-        font-size: 22px;
+        width: 64px;
+        height: 80px;
+        bottom: 12px;
+        right: 12px;
     }
+    .SJ-widget-container .sj-halo { width: 62px; height: 62px; margin-left: -31px; }
+    .SJ-widget-container .sj-greet { right: 80px; bottom: 50px; max-width: 170px; }
     .SJ-widget-container .sj-chat-header {
         padding: 10px 14px;
     }
@@ -548,9 +667,57 @@
         padding-bottom: max(14px, env(safe-area-inset-bottom));
     }
 }
-    
+
+@media (prefers-reduced-motion: reduce) {
+    .SJ-widget-container .sj-kid,
+    .SJ-widget-container .sj-shadow,
+    .SJ-widget-container .sj-halo,
+    .SJ-widget-container .sj-bulb,
+    .SJ-widget-container .sj-waving .sj-arm-r,
+    .SJ-widget-container .sj-chat-button:hover .sj-arm-r,
+    .SJ-widget-container .sj-chat-button:hover .sj-kid,
+    .SJ-widget-container .sj-hop .sj-kid,
+    .SJ-widget-container .sj-talking .sj-mouth-talk { animation: none !important; }
+}
+
 .SJ-widget-container .sj-message a { color: var(--sj-accent-blue); text-decoration: underline; word-break: break-word; }
 .SJ-widget-container .sj-user-message a { color: #fff; }
+
+/* Links inside answers render as tappable buttons (the raw URL stays hidden) */
+.SJ-widget-container .sj-link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 2px;
+}
+.SJ-widget-container .sj-message a.sj-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--sj-input-border);
+    background: rgba(0, 243, 255, 0.08);
+    color: var(--sj-accent-blue);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    word-break: normal;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.SJ-widget-container .sj-message a.sj-link-btn i { font-size: 13px; width: 15px; text-align: center; }
+.SJ-widget-container .sj-message a.sj-link-btn .sj-go { font-size: 10px; opacity: 0.65; width: auto; margin-left: 2px; }
+.SJ-widget-container .sj-message a.sj-link-btn:hover,
+.SJ-widget-container .sj-message a.sj-link-btn:focus-visible {
+    background: var(--sj-primary-gradient);
+    color: #05060b;
+    border-color: transparent;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 243, 255, 0.35);
+    outline: none;
+}
+.SJ-widget-container .sj-message a.sj-link-btn:active { transform: scale(0.97); }
 `;
 
     const styleEl = document.createElement("style");
@@ -559,21 +726,92 @@
 
 
     // --- Template Injection (Abhimo Structure) ---
+    // The mascot: a small robot kid. Gradients live in one hidden <svg> so every copy can share them.
+    const MASCOT_DEFS = `
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+            <defs>
+                <linearGradient id="sj-g-main" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#00f3ff"/><stop offset="1" stop-color="#bd00ff"/>
+                </linearGradient>
+                <linearGradient id="sj-g-body" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#4c1d95"/>
+                </linearGradient>
+            </defs>
+        </svg>`;
+
+    const MASCOT = (viewBox) => `
+        <svg class="sj-mascot" viewBox="${viewBox || '0 0 100 124'}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SJ Bot">
+            <ellipse class="sj-shadow" cx="50" cy="118" rx="23" ry="4" fill="rgba(0,0,0,0.38)"/>
+            <g class="sj-kid">
+                <!-- legs + shoes -->
+                <rect x="37" y="90" width="9" height="19" rx="4.5" fill="#1b2440"/>
+                <rect x="54" y="90" width="9" height="19" rx="4.5" fill="#1b2440"/>
+                <ellipse cx="40" cy="110.5" rx="8.5" ry="4.6" fill="url(#sj-g-main)"/>
+                <ellipse cx="60" cy="110.5" rx="8.5" ry="4.6" fill="url(#sj-g-main)"/>
+                <!-- left arm (hangs) -->
+                <g class="sj-arm-l">
+                    <rect x="27.5" y="60" width="9" height="25" rx="4.5" fill="url(#sj-g-body)"/>
+                    <circle cx="32" cy="86" r="4.6" fill="#ffd9b8"/>
+                </g>
+                <!-- body: little hoodie with the SJ logo -->
+                <path d="M33 65 Q33 58 41 58 H59 Q67 58 67 65 V89 Q67 94 62 94 H38 Q33 94 33 89 Z" fill="url(#sj-g-main)"/>
+                <path d="M41 58 Q50 67 59 58" fill="none" stroke="rgba(5,8,20,0.45)" stroke-width="2" stroke-linecap="round"/>
+                <text x="50" y="83" text-anchor="middle" font-size="12" font-weight="800" fill="#07101f" font-family="Outfit, Arial, sans-serif">SJ</text>
+                <!-- right arm (waves; pivots at the shoulder) -->
+                <g class="sj-arm-r">
+                    <rect x="62.5" y="60" width="9" height="25" rx="4.5" fill="url(#sj-g-body)"/>
+                    <circle cx="67" cy="86" r="4.6" fill="#ffd9b8"/>
+                </g>
+                <!-- head -->
+                <g class="sj-head">
+                    <line x1="50" y1="15" x2="50" y2="7" stroke="#8fb4ff" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle class="sj-bulb" cx="50" cy="5" r="3.6" fill="#00ff88"/>
+                    <circle cx="21.5" cy="38" r="4.5" fill="#7c3aed"/>
+                    <circle cx="78.5" cy="38" r="4.5" fill="#7c3aed"/>
+                    <rect x="22" y="14" width="56" height="46" rx="21" fill="url(#sj-g-main)"/>
+                    <rect x="27.5" y="21" width="45" height="33" rx="15" fill="#07101f"/>
+                    <!-- eyes (pupils follow the pointer) -->
+                    <g class="sj-eye sj-eye-l">
+                        <ellipse cx="40" cy="37" rx="6.4" ry="7.4" fill="#ffffff"/>
+                        <circle class="sj-pupil" cx="40" cy="37" r="3.5" fill="#0a1020"/>
+                        <circle cx="38.6" cy="35.2" r="1.2" fill="#fff"/>
+                    </g>
+                    <g class="sj-eye sj-eye-r">
+                        <ellipse cx="60" cy="37" rx="6.4" ry="7.4" fill="#ffffff"/>
+                        <circle class="sj-pupil" cx="60" cy="37" r="3.5" fill="#0a1020"/>
+                        <circle cx="58.6" cy="35.2" r="1.2" fill="#fff"/>
+                    </g>
+                    <!-- happy eyes (hover / after an answer) -->
+                    <path class="sj-eye-happy" d="M33.5 39 Q40 30 46.5 39" fill="none" stroke="#00f3ff" stroke-width="3" stroke-linecap="round"/>
+                    <path class="sj-eye-happy" d="M53.5 39 Q60 30 66.5 39" fill="none" stroke="#00f3ff" stroke-width="3" stroke-linecap="round"/>
+                    <!-- cheeks -->
+                    <circle cx="33" cy="47" r="3" fill="#ff6bb5" opacity="0.55"/>
+                    <circle cx="67" cy="47" r="3" fill="#ff6bb5" opacity="0.55"/>
+                    <!-- mouth -->
+                    <path class="sj-mouth-smile" d="M44.5 47 Q50 51.5 55.5 47" fill="none" stroke="#00f3ff" stroke-width="2.2" stroke-linecap="round"/>
+                    <path class="sj-mouth-big" d="M43 46 Q50 56 57 46 Z" fill="#00f3ff"/>
+                    <ellipse class="sj-mouth-talk" cx="50" cy="47.5" rx="4.2" ry="3.4" fill="#00f3ff"/>
+                </g>
+            </g>
+        </svg>`;
+
     const widget = document.createElement('div');
     widget.id = 'sj-chatbot-widget-container';
     widget.className = 'SJ-widget-container';
     widget.innerHTML = `
-        <div id="sj-chat-button" class="sj-chat-button" title="Chat with Sudeen's AI" style="z-index:9999999 !important;">
-            <div class="sj-pulse-ring"></div>
-            <i class="fas fa-comments"></i>
+        ${MASCOT_DEFS}
+        <div id="sj-greet" class="sj-greet" role="status">Hi! I'm <b>SJ Bot</b> 👋<br>Ask me anything about Sudeen.</div>
+        <div id="sj-chat-button" class="sj-chat-button" role="button" tabindex="0" aria-label="Chat with SJ Bot" title="Chat with Sudeen's AI" style="z-index:9999999 !important;">
+            <div class="sj-halo"></div>
+            ${MASCOT()}
         </div>
 
-        <div id="sj-chat-window" class="sj-chat-window hidden" style="z-index:10000000 !important;">
+        <div id="sj-chat-window" class="sj-chat-window hidden" data-lenis-prevent style="z-index:10000000 !important;">
             <!-- Header -->
             <div class="sj-chat-header">
                 <div class="sj-bot-info">
                     <div class="sj-bot-avatar">
-                        SJ
+                        ${MASCOT('19 0 62 64')}
                         <span class="sj-online-indicator"></span>
                     </div>
                     <div class="sj-bot-details">
@@ -703,6 +941,112 @@
         themeTog.innerHTML = '<i class="fas fa-sun"></i>';
     }
 
+
+    // =========================================================================
+    //  SCROLL ISOLATION — wheel / touch inside the chat scrolls the chat, never the page behind it
+    // =========================================================================
+    const inScrollable = (t) => msgBox.contains(t) || sugBox.contains(t);
+    chatW.addEventListener('wheel', (e) => {
+        e.stopPropagation();                       // keep smooth-scroll libraries (Lenis) away from it
+        if (!inScrollable(e.target)) e.preventDefault();
+    }, { passive: false });
+    chatW.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+        if (!inScrollable(e.target)) e.preventDefault();
+    }, { passive: false });
+    // keyboard scrolling inside the chat must not move the page either
+    chatW.addEventListener('keydown', (e) => {
+        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key) && e.target !== inputField) e.stopPropagation();
+    });
+
+    // =========================================================================
+    //  MASCOT — eyes follow the pointer, random blinking, idle waving, moods
+    // =========================================================================
+    const reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const pupils = Array.from(widget.querySelectorAll('.sj-pupil'));
+    let pointerRaf = 0, lastPtr = null;
+    const lookAt = (x, y) => {
+        // every mascot (launcher + header avatar) looks toward the pointer
+        widget.querySelectorAll('.sj-mascot').forEach((svg) => {
+            const r = svg.getBoundingClientRect();
+            if (!r.width) return;
+            const dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height * 0.3);
+            const d = Math.hypot(dx, dy) || 1;
+            const k = Math.min(1, d / 160);
+            const px = (dx / d) * 2.6 * k, py = (dy / d) * 2.4 * k;
+            svg.querySelectorAll('.sj-pupil').forEach((el) => { el.style.transform = `translate(${px.toFixed(2)}px, ${py.toFixed(2)}px)`; });
+        });
+    };
+    if (!reduceMotion && pupils.length) {
+        const onMove = (e) => {
+            const pt = e.touches ? e.touches[0] : e;
+            if (!pt) return;
+            lastPtr = pt;
+            if (pointerRaf) return;
+            pointerRaf = requestAnimationFrame(() => { pointerRaf = 0; if (lastPtr) lookAt(lastPtr.clientX, lastPtr.clientY); });
+        };
+        window.addEventListener('mousemove', onMove, { passive: true });
+        window.addEventListener('touchstart', onMove, { passive: true });
+    }
+
+    const blinkAll = () => {
+        widget.querySelectorAll('.sj-mascot').forEach((svg) => svg.classList.add('sj-blinking'));
+        setTimeout(() => widget.querySelectorAll('.sj-mascot').forEach((svg) => svg.classList.remove('sj-blinking')), 140);
+    };
+    const scheduleBlink = () => {
+        setTimeout(() => { blinkAll(); if (Math.random() < 0.25) setTimeout(blinkAll, 260); scheduleBlink(); }, 2200 + Math.random() * 3200);
+    };
+    const wave = () => {
+        chatB.classList.add('sj-waving');
+        setTimeout(() => chatB.classList.remove('sj-waving'), 1800);
+    };
+    const hop = () => {
+        if (reduceMotion) return;
+        chatB.classList.add('sj-hop');
+        setTimeout(() => chatB.classList.remove('sj-hop'), 1100);
+    };
+    // short happy face (used when an answer arrives)
+    let happyTimer = 0;
+    const cheer = () => {
+        chatB.classList.add('sj-happy');
+        widget.querySelector('.sj-bot-avatar').classList.add('sj-happy');
+        clearTimeout(happyTimer);
+        happyTimer = setTimeout(() => {
+            chatB.classList.remove('sj-happy');
+            widget.querySelector('.sj-bot-avatar').classList.remove('sj-happy');
+        }, 1400);
+        hop();
+    };
+    const setThinking = (on) => {
+        chatB.classList.toggle('sj-think', on);
+        widget.querySelector('.sj-bot-avatar').classList.toggle('sj-think', on);
+    };
+    const setTalking = (on) => widget.classList.toggle('sj-talking', on);
+
+    if (!reduceMotion) {
+        scheduleBlink();
+        setTimeout(function loop() { if (chatW.classList.contains('hidden')) wave(); setTimeout(loop, 9000 + Math.random() * 5000); }, 2500);
+    }
+
+    // greeting bubble (once per browser session)
+    const greetEl = widget.querySelector('#sj-greet');
+    let greetTimer = 0;
+    function hideGreet(forever) {
+        greetEl.classList.remove('show');
+        clearTimeout(greetTimer);
+        if (forever) { try { sessionStorage.setItem('sj_greeted', '1'); } catch (e) { } }
+    }
+    greetEl.onclick = () => { hideGreet(true); toggleWindow(true); };
+    try {
+        if (!sessionStorage.getItem('sj_greeted')) {
+            setTimeout(() => {
+                if (!chatW.classList.contains('hidden')) return;
+                greetEl.classList.add('show'); wave();
+                greetTimer = setTimeout(() => hideGreet(true), 7500);
+            }, 3200);
+        }
+    } catch (e) { }
+
     // Window Toggle (Open / Close with Abhimo-style animation)
     const toggleWindow = (show) => {
         if (show) {
@@ -721,7 +1065,10 @@
         }
     };
 
-    chatB.onclick = () => toggleWindow(chatW.classList.contains('hidden'));
+    chatB.onclick = () => { hideGreet(true); hop(); toggleWindow(chatW.classList.contains('hidden')); };
+    chatB.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chatB.onclick(); }
+    };
     minBtn.onclick = () => toggleWindow(false);
 
     // Theme Toggle
@@ -863,6 +1210,7 @@
     let speakToken = 0;
     const stopSpeaking = () => {
         speakToken++;
+        setTalking(false);
         try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { }
     };
 
@@ -876,7 +1224,8 @@
         const picked = pickVoice();
         let i = 0;
         const next = () => {
-            if (mine !== speakToken || !isSoundEn || i >= sentences.length) return;
+            if (mine !== speakToken || !isSoundEn || i >= sentences.length) { if (mine === speakToken) setTalking(false); return; }
+            setTalking(true);
             try {
                 const u = new SpeechSynthesisUtterance(sentences[i++]);
                 if (picked) { u.voice = picked.voice; u.lang = picked.voice.lang; } else { u.lang = 'en-IN'; }
@@ -937,24 +1286,114 @@
     const escapeHTML = (s) => String(s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+    // ---- Links → buttons ---------------------------------------------------
+    // Any URL in an answer becomes a labelled button (the raw address is never shown).
+    const SITE_HOST = 'sudeenjain.github.io';
+    const cleanUrl = (u) => u.replace(/\/index\.html(?=[#?]|$)/i, '/');       // never expose "index.html"
+    const SECTION_LABELS = { about: 'About Me', skills: 'Skills', projects: 'Projects', internships: 'Internships', certifications: 'Certifications', resume: 'Resume', 'get-in-touch': 'Contact Form' };
+    const linkMeta = (rawUrl) => {
+        const url = cleanUrl(rawUrl);
+        let label = 'Open link', icon = 'fas fa-arrow-up-right-from-square';
+        try {
+            const u = new URL(url.replace(/&amp;/g, '&'));
+            const host = u.hostname.replace(/^www\./, '');
+            const hash = u.hash.replace('#', '');
+            if (host === SITE_HOST && /\.pdf$/i.test(u.pathname)) { label = 'Download Resume (PDF)'; icon = 'fas fa-file-pdf'; }
+            else if (host === SITE_HOST && SECTION_LABELS[hash]) { label = SECTION_LABELS[hash]; icon = hash === 'resume' ? 'fas fa-file-alt' : hash === 'get-in-touch' ? 'fas fa-paper-plane' : 'fas fa-compass'; }
+            else if (host === SITE_HOST && /^\/portfolio\/?(laptop\/?|mobile\/?)?$/.test(u.pathname)) { label = 'Portfolio Website'; icon = 'fas fa-globe'; }
+            else if (host === 'github.com') {
+                const parts = u.pathname.split('/').filter(Boolean);
+                label = parts.length > 1 ? 'GitHub Repo' : 'GitHub Profile'; icon = 'fab fa-github';
+            }
+            else if (host.endsWith('linkedin.com')) { label = 'LinkedIn'; icon = 'fab fa-linkedin'; }
+            else if (host.endsWith('instagram.com')) { label = 'Instagram'; icon = 'fab fa-instagram'; }
+            else if (host.endsWith('credly.com')) { label = /\/users\//.test(u.pathname) ? 'Credly Badges' : 'Verify Badge'; icon = 'fas fa-certificate'; }
+            else if (host.endsWith('vercel.app') || host.endsWith('netlify.app')) { label = 'Live Demo'; icon = 'fas fa-play'; }
+            else { label = host; icon = 'fas fa-globe'; }
+        } catch (e) { }
+        return { url, label, icon };
+    };
+    const BTN_RE_LABEL = /(?:^|[\s|•,;(])((?:\*\*)?[A-Za-z][A-Za-z0-9 &'’./+-]{1,30}?(?:\*\*)?)\s*[:–—-]\s*(?:\*\*)?\s*\(?\s*$/;
+    const mkBtn = (url, label, icon) => {
+        const safeUrl = url.replace(/"/g, '&quot;');
+        return `<a class="sj-link-btn" href="${safeUrl}" target="_blank" rel="noopener" data-sj-link="1"><i class="${icon}"></i><span>${label}</span><i class="fas fa-chevron-right sj-go"></i></a>`;
+    };
+    const iconFor = (url) => /^mailto:/i.test(url) ? 'fas fa-envelope' : /^tel:/i.test(url) ? 'fas fa-phone' : null;
+
     const formatText = (text) => {
-        const links = [];
-        const stash = (html) => { links.push(html); return '\u0000' + (links.length - 1) + '\u0000'; };
-        let t = escapeHTML(text);
-        t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|tel:[^\s)]+)\)/g,
-            (m, label, url) => stash(`<a href="${url}" target="_blank" rel="noopener">${label}</a>`));
-        t = t.replace(/(https?:\/\/[^\s<]*[^\s<.,;:!?)\]])/g,
-            (url) => stash(`<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>`));
-        t = t.replace(/\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b/g,
-            (m, mail) => stash(`<a href="mailto:${mail}">${mail}</a>`));
-        t = t.replace(/(\+91[ -]?\d{5}[ -]?\d{5})/g,
-            (m) => stash(`<a href="tel:${m.replace(/[^+\d]/g, '')}">${m}</a>`));
+        const stash = [];
+        const keep = (html) => { stash.push(html); return '\u0000' + (stash.length - 1) + '\u0000'; };
+        const URL_RE = /(https?:\/\/[^\s<]*[^\s<.,;:!?)\]])/g;
+
+        const lines = escapeHTML(text).split('\n').map((line) => {
+            let plain = line;
+            const buttons = [];
+
+            // [Label](url)  -> button with that label
+            plain = plain.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|tel:[^\s)]+)\)/g, (m, label, url) => {
+                const meta = /^https?:/i.test(url) ? linkMeta(url) : { url, icon: iconFor(url) };
+                buttons.push(mkBtn(meta.url, label, meta.icon || 'fas fa-link'));
+                return '\u0001';
+            });
+
+            // bare URLs -> button; a short "Label:" right before it becomes the button text
+            let out = '', last = 0, m;
+            URL_RE.lastIndex = 0;
+            while ((m = URL_RE.exec(plain)) !== null) {
+                let before = plain.slice(last, m.index);
+                const meta = linkMeta(m[1]);
+                const lm = before.match(BTN_RE_LABEL);
+                if (lm && lm[1].trim().split(/\s+/).length <= 4) {
+                    meta.label = lm[1].replace(/\*\*/g, '').trim();
+                    before = before.slice(0, before.length - lm[0].length + (lm[0].match(/^[\s|•,;(]/) ? 1 : 0));
+                }
+                out += before + '\u0001';
+                buttons.push(mkBtn(meta.url, meta.label, meta.icon));
+                last = m.index + m[0].length;
+            }
+            plain = out + plain.slice(last);
+
+            // email + phone numbers become buttons too
+            plain = plain.replace(/\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b/g, (mm, mail) => { buttons.push(mkBtn('mailto:' + mail, 'Email Sudeen', 'fas fa-envelope')); return '\u0001'; });
+            plain = plain.replace(/(\+91[ -]?\d{5}[ -]?\d{5})/g, (mm) => { buttons.push(mkBtn('tel:' + mm.replace(/[^+\d]/g, ''), 'Call / WhatsApp', 'fas fa-phone')); return '\u0001'; });
+            if (!buttons.length) return plain;
+
+            // text left once the link placeholders are removed
+            const rest = plain.replace(/\u0001/g, '').replace(/\*\*/g, '').replace(/[\s•\-*:–—|,;()]+/g, '');
+            if (!rest) return keep(`<span class="sj-link-row">${buttons.join('')}</span>`);
+            let i = 0;
+            return plain.replace(/\u0001/g, () => buttons[i++] || '');
+        });
+
+        let t = lines.join('\n');
         t = t.replace(/^\s*[-*] +/gm, '• ')
             .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(\S(?:[^*\n]*?\S)?)\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
-        return t.replace(/\u0000(\d+)\u0000/g, (m, i) => links[+i]);
+            .replace(/\n/g, '<br>')
+            .replace(/(<br>)+(\u0000\d+\u0000)/g, '$2')              // tidy gaps before button rows
+            .replace(/(\u0000\d+\u0000)(<br>)+/g, '$1');
+        return t.replace(/\u0000(\d+)\u0000/g, (mm, i) => stash[+i]);
     };
+
+    // Clicking a link button: section links of this portfolio scroll in place; everything else opens in a new tab.
+    const goLocal = (href) => {
+        let u;
+        try { u = new URL(href, location.href); } catch (e) { return false; }
+        const onSite = u.hostname === SITE_HOST || u.origin === location.origin;
+        if (!onSite || !u.hash || !/\/portfolio\/?(laptop\/?|mobile\/?)?(index\.html)?$|\/(laptop|mobile)\/?(index\.html)?$|\/$/.test(u.pathname)) return false;
+        const el = document.getElementById(decodeURIComponent(u.hash.slice(1)));
+        if (!el) return false;
+        if (window.matchMedia && matchMedia('(max-width: 600px)').matches) toggleWindow(false);   // full-screen chat on phones
+        if (window.__lenis) window.__lenis.scrollTo(el, { offset: -90, duration: 1.3 });
+        else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try { history.replaceState(null, '', u.hash); } catch (e) { }
+        return true;
+    };
+    msgBox.addEventListener('click', (e) => {
+        const a = e.target.closest && e.target.closest('a.sj-link-btn');
+        if (!a) return;
+        if (goLocal(a.getAttribute('href'))) e.preventDefault();
+    });
 
     const addMessage = (text, sender, shimmer = false) => {
         const d = document.createElement('div');
@@ -976,15 +1415,16 @@
         return d;
     };
 
-    const createActBtn = (html, onClick, href = null) => {
+    const createActBtn = (html, onClick, href = null, local = false) => {
         const el = document.createElement(href ? 'a' : 'button');
         el.className = 'sj-action-btn';
         el.innerHTML = html;
         if (href) {
-            el.href = href;
+            el.href = cleanUrl(href);
             el.target = '_blank';
             el.rel = 'noopener';
         }
+        if (local && href) el.onclick = (e) => { if (goLocal(href)) e.preventDefault(); };
         if (onClick) el.onclick = onClick;
         return el;
     };
@@ -1359,7 +1799,7 @@
             wrap.className = 'sj-quickreply-wrap';
             res.buttons.forEach(b => {
                 wrap.appendChild(b.href
-                    ? createActBtn(b.label, null, b.href)
+                    ? createActBtn(b.label, null, b.href, true)
                     : createActBtn(b.label, () => { inputField.value = b.ask; handleSend(); }));
             });
             msgBox.appendChild(wrap);
@@ -1418,6 +1858,7 @@
         inputField.value = '';
         addMessage(val, 'user');
         busy = true;
+        setThinking(true);
         const shimmer = addMessage('', 'bot', true);
         try {
             await kbReady;
@@ -1441,11 +1882,13 @@
             if (local) {
                 renderResult(local);
             } else {
-                addMessage(`I'm having trouble loading Sudeen's information right now. Please email him at sudinhr1@gmail.com.`, 'bot');
+                addMessage(`I'm having trouble loading Sudeen's information right now. Please email him at sudeenjainhr@gmail.com.`, 'bot');
             }
         } finally {
             if (shimmer.parentNode) shimmer.remove();
             busy = false;
+            setThinking(false);
+            cheer();
         }
     };
 

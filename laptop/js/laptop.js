@@ -55,7 +55,12 @@
         }, { passive: true });
 
         if (reduceMotion || !window.Lenis || (window.matchMedia && matchMedia('(pointer: coarse)').matches)) return;
-        var lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.95, smoothWheel: true });
+        /* the chat widget (and lightbox / anything marked data-lenis-prevent) keeps its own inner scrolling,
+           otherwise Lenis swallows the mouse wheel and scrolls the page behind the chat instead */
+        var lenis = new Lenis({
+            lerp: 0.085, wheelMultiplier: 0.95, smoothWheel: true,
+            prevent: function (node) { return !!(node && node.closest && node.closest('[id^="sj-chat"], .SJ-widget-container, .cert-lightbox, [data-lenis-prevent]')); }
+        });
         window.__lenis = lenis;
         if (hasGSAP && window.ScrollTrigger) {
             lenis.on('scroll', ScrollTrigger.update);

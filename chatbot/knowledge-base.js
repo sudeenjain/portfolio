@@ -19,25 +19,25 @@ window.SJ_KB = {
     "educationYears": "2022 – 2026",
     "location": "Mangaluru (Mangalore), Karnataka, India",
     "summary": "AI & Machine Learning engineer with hands-on experience in full-stack web development, machine learning, cloud technologies and database-driven applications. Builds and deploys practical software using Python, JavaScript, PHP, SQL, Supabase and modern web technologies.",
-    "email": "sudinhr1@gmail.com",
+    "email": "sudeenjainhr@gmail.com",
     "phone": "+91 8762862509",
     "github": "https://github.com/sudeenjain",
     "linkedin": "https://www.linkedin.com/in/sudeenjain",
     "instagram": "https://instagram.com/sudeenjain",
     "credly": "https://www.credly.com/users/sudeenjain",
     "resumeFile": "resume.pdf",
-    "website": "https://sudeenjain.github.io/portfolio/laptop/index.html",
+    "website": "https://sudeenjain.github.io/portfolio/laptop/",
     "resumePdf": "https://sudeenjain.github.io/portfolio/resume.pdf",
     "sections": {
-      "about": "https://sudeenjain.github.io/portfolio/laptop/index.html#about",
-      "skills": "https://sudeenjain.github.io/portfolio/laptop/index.html#skills",
-      "projects": "https://sudeenjain.github.io/portfolio/laptop/index.html#projects",
-      "internships": "https://sudeenjain.github.io/portfolio/laptop/index.html#internships",
-      "certifications": "https://sudeenjain.github.io/portfolio/laptop/index.html#certifications",
-      "resume": "https://sudeenjain.github.io/portfolio/laptop/index.html#resume",
-      "contact": "https://sudeenjain.github.io/portfolio/laptop/index.html#get-in-touch"
+      "about": "https://sudeenjain.github.io/portfolio/laptop/#about",
+      "skills": "https://sudeenjain.github.io/portfolio/laptop/#skills",
+      "projects": "https://sudeenjain.github.io/portfolio/laptop/#projects",
+      "internships": "https://sudeenjain.github.io/portfolio/laptop/#internships",
+      "certifications": "https://sudeenjain.github.io/portfolio/laptop/#certifications",
+      "resume": "https://sudeenjain.github.io/portfolio/laptop/#resume",
+      "contact": "https://sudeenjain.github.io/portfolio/laptop/#get-in-touch"
     },
-    "contactForm": "The portfolio has a \"Reach Out\" contact form at https://sudeenjain.github.io/portfolio/laptop/index.html#get-in-touch"
+    "contactForm": "The portfolio has a \"Reach Out\" contact form at https://sudeenjain.github.io/portfolio/laptop/#get-in-touch"
   },
   "skills": {
     "portfolio": [

@@ -22,7 +22,7 @@ const vm = require('vm');
 const EXTRAS = {
   // Your GitHub Pages site lives under /portfolio/ (repo name), not the bare domain.
   siteUrl: 'https://sudeenjain.github.io/portfolio/',
-  sitePage: 'https://sudeenjain.github.io/portfolio/laptop/index.html',
+  sitePage: 'https://sudeenjain.github.io/portfolio/laptop/',
   phone: '+91 8762862509',
   location: 'Mangaluru (Mangalore), Karnataka, India',
   educationYears: '2022 – 2026',
@@ -65,7 +65,7 @@ const data = vm.runInNewContext(dataSrc + '\n;portfolioData;', {});
 
 const social = (title) => (data.contact.socials.find(s => s.title === title) || {}).href || '';
 const emailCard = data.contact.cards.find(c => /^mailto:/.test(c.linkHref));
-const email = emailCard ? emailCard.linkHref.replace('mailto:', '') : 'sudinhr1@gmail.com';
+const email = emailCard ? emailCard.linkHref.replace('mailto:', '') : 'sudeenjainhr@gmail.com';
 
 const kb = {
   generatedFrom: 'data/portfolio-data.js',

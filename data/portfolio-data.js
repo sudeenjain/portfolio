@@ -910,8 +910,8 @@ const portfolioData = {
       {
         "icon": "fas fa-envelope",
         "label": "Email",
-        "linkHref": "mailto:sudinhr1@gmail.com",
-        "linkText": "sudinhr1@gmail.com"
+        "linkHref": "mailto:sudeenjainhr@gmail.com",
+        "linkText": "sudeenjainhr@gmail.com"
       },
       {
         "icon": "fab fa-github",

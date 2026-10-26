@@ -133,7 +133,7 @@ Aspiring AI & Machine Learning Engineer | Cloud Enthusiast
 
 - **Portfolio:** https://sudeenjain.github.io/portfolio/
 - **GitHub:** https://github.com/sudeenjain
-- **Email:** sudinhr1@gmail.com
+- **Email:** sudeenjainhr@gmail.com
 
 ---
 

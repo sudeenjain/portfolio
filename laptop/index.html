@@ -103,6 +103,15 @@
     <link rel="stylesheet" href="css/laptop.css">
     <link rel="stylesheet" href="css/story.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Clean URLs: show /laptop/ instead of /laptop/index.html (GitHub Pages serves the folder index) -->
+    <script>
+        (function () {
+            try {
+                var p = location.pathname;
+                if (/\/index\.html$/i.test(p)) history.replaceState(null, '', p.replace(/index\.html$/i, '') + location.search + location.hash);
+            } catch (e) { }
+        })();
+    </script>
 </head>
 
 <body>
