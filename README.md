@@ -1,161 +1,175 @@
  <div align="center">
 
-<a href="https://sudeenjain.github.io/portfolio/">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3000&pause=900&color=00F5FF&center=true&vCenter=true&width=700&lines=SUDEEN+JAIN+H+R;AI%2FML+ENGINEER;BUILDING+INTELLIGENT+EXPERIENCES;CODE.+CREATE.+INNOVATE." alt="Sudeen Jain — AI/ML Engineer" />
-</a>
+<img src="profile.jpg" width="132" alt="Sudeen Jain H R" />
 
-### AI/ML Engineer · Web Developer · Cloud Enthusiast
+# SUDEEN JAIN H R
 
-*Turning ideas into intelligent, modern digital experiences.*
+**AI/ML Engineer · Software Developer**
+
+Building intelligent applications and thoughtful digital experiences.
+
+[Portfolio](https://sudeenjain.github.io/portfolio/) · [Resume](resume.pdf) · [GitHub](https://github.com/sudeenjain)
 
 <br/>
 
-<a href="https://sudeenjain.github.io/portfolio/">
-  <img src="https://img.shields.io/badge/🚀_EXPLORE_MY_PORTFOLIO-00F5FF?style=for-the-badge&labelColor=080B14&color=00F5FF" alt="Explore portfolio"/>
-</a>
-<a href="https://github.com/sudeenjain">
-  <img src="https://img.shields.io/badge/GITHUB-111827?style=for-the-badge&logo=github&logoColor=white" alt="GitHub profile"/>
-</a>
-
-<br/><br/>
-
-<img src="https://img.shields.io/badge/ARTIFICIAL_INTELLIGENCE-0B1220?style=flat-square&logo=googlecolab&logoColor=00F5FF" alt="Artificial Intelligence"/>
-<img src="https://img.shields.io/badge/MACHINE_LEARNING-0B1220?style=flat-square&logo=scikitlearn&logoColor=F7931E" alt="Machine Learning"/>
-<img src="https://img.shields.io/badge/WEB_DEVELOPMENT-0B1220?style=flat-square&logo=html5&logoColor=E34F26" alt="Web Development"/>
-<img src="https://img.shields.io/badge/CLOUD_COMPUTING-0B1220?style=flat-square&logo=googlecloud&logoColor=4285F4" alt="Cloud Computing"/>
-
 </div>
 
 ---
 
-## ◈ THE DEVELOPER
+### PROFILE
 
-Hey! I'm **Sudeen Jain H R**, an aspiring AI/ML engineer passionate about building technology that solves real-world problems.
+I'm an aspiring AI/ML engineer interested in the intersection of artificial intelligence, software development, and practical problem-solving.
 
-I enjoy exploring artificial intelligence, developing web experiences, experimenting with cloud technologies, and turning concepts into working projects.
+I enjoy taking ideas from concept to implementation — whether that's building recommendation systems, creating interactive applications, or developing web experiences that are useful and intuitive.
 
-- 🧠 Exploring AI, machine learning, and intelligent applications
-- 💻 Building modern web experiences with a focus on usability
-- ☁️ Learning cloud architecture and scalable applications
-- ⚡ Interested in creative engineering and practical innovation
+My focus is on writing maintainable code, learning new technologies, and building projects that demonstrate both technical understanding and real-world application.
 
-<div align="center">
+**Areas of interest**
 
-**I DON'T JUST WRITE CODE — I BUILD EXPERIENCES.**
-
-</div>
+- Artificial intelligence and machine learning
+- Recommendation systems and intelligent applications
+- Full-stack and web application development
+- Cloud computing and software engineering
 
 ---
 
-## ◈ EXPLORE THE ECOSYSTEM
+### SELECTED WORK
 
-<div align="center">
+A selection of projects exploring AI, automation, algorithms, and application development.
 
-<a href="https://sudeenjain.github.io/portfolio/">
-  <img src="https://img.shields.io/badge/01-PORTFOLIO-00F5FF?style=for-the-badge&labelColor=080B14" alt="Portfolio"/>
-</a>
-<a href="https://github.com/sudeenjain/portfolio/tree/main/projects">
-  <img src="https://img.shields.io/badge/02-PROJECTS-A78BFA?style=for-the-badge&labelColor=080B14" alt="Projects"/>
-</a>
-<a href="https://github.com/sudeenjain/portfolio/tree/main/certifications">
-  <img src="https://img.shields.io/badge/03-CERTIFICATIONS-F472B6?style=for-the-badge&labelColor=080B14" alt="Certifications"/>
-</a>
+<details open>
+<summary><strong>01 · Gesture Flow</strong> — Computer vision & interaction</summary>
 
-</div>
+A real-time hand-gesture recognition and control system.
 
-## ◈ TECH STACK
+**Focus:** Gesture recognition · Human-computer interaction
 
-<div align="center">
+[View source code](https://github.com/sudeenjain/guesture_flow) · [Live demo](https://guestureflow.vercel.app/)
 
-**CORE WEB**
+</details>
 
-<img src="https://skillicons.dev/icons?i=html,css,js&theme=dark" alt="HTML, CSS, JavaScript"/>
+<details open>
+<summary><strong>02 · Movie Recommendation</strong> — Machine learning</summary>
 
-**AI · DATA · CLOUD**
+A content-based recommendation engine designed to suggest movies using similarity between content features.
 
-<img src="https://skillicons.dev/icons?i=python,googlecloud&theme=dark" alt="Python and Google Cloud"/>
+**Focus:** Recommendation systems · Content-based filtering
 
-**TOOLS & WORKFLOW**
-
-<img src="https://skillicons.dev/icons?i=git,github,vscode&theme=dark" alt="Git, GitHub, Visual Studio Code"/>
-
-</div>
-
----
-
-## ◈ FEATURED EXPERIENCE
-
-<details>
-<summary><strong>01 — Interactive Portfolio</strong></summary>
-
-A personal portfolio designed to showcase technical skills, projects, and professional achievements.
-
-**Highlights**
-- Dark cyber-inspired visual identity
-- Three.js particle background
-- Responsive layouts and scroll animations
-- Modular page components
-- Contact form integration
-
-<a href="https://sudeenjain.github.io/portfolio/">↗ View Live Portfolio</a>
+[View source code](https://github.com/sudeenjain/Movie_Recommendation) · [Live demo](https://movie-recommendation-plum-phi.vercel.app/)
 
 </details>
 
 <details>
-<summary><strong>02 — Explore My Projects</strong></summary>
+<summary><strong>03 · FolioAI</strong> — AI-powered portfolio assistance</summary>
 
-Discover my development work, experiments, and technical implementations.
+An AI-powered assistant for generating personalized portfolio content.
 
-<a href="https://github.com/sudeenjain/portfolio/tree/main/projects">↗ Browse Project Files</a>
+**Focus:** Generative AI · Personalized content
+
+[View source code](https://github.com/sudeenjain/folioAI) · [Live demo](https://portfolio-ai-eta-dusky.vercel.app/)
 
 </details>
 
 <details>
-<summary><strong>03 — Certifications & Achievements</strong></summary>
+<summary><strong>04 · Product Recommendation</strong> — Intelligent recommendations</summary>
 
-Explore the certifications and achievements showcased in my portfolio.
+An AI-driven application for suggesting relevant products.
 
-<a href="https://github.com/sudeenjain/portfolio/tree/main/certifications">↗ Explore Certifications</a>
+**Focus:** Recommendation logic · Personalized discovery
+
+[View source code](https://github.com/sudeenjain/Product_Recommendation) · [Live demo](https://ai-recommendation-system-gamma.vercel.app/)
 
 </details>
 
----
+<details>
+<summary><strong>05 · Attendance Tracker</strong> — Web application</summary>
 
-## ◈ GITHUB ACTIVITY
+A web application for managing and tracking attendance records.
+
+**Focus:** Application development · Record management
+
+[View source code](https://github.com/sudeenjain/attendence_tracker) · [Live demo](https://attendance-tracker-eight-blush.vercel.app/)
+
+</details>
+
+<details>
+<summary><strong>06 · Connect the Dots</strong> — Algorithms & problem-solving</summary>
+
+An algorithmic graph-based puzzle solver developed as a Design and Analysis of Algorithms mini-project.
+
+**Focus:** Graphs · Algorithms · Problem-solving
+
+[View source code](https://github.com/sudeenjain/Connect_the_Dots) · [Live demo](https://daa-miniproject.vercel.app/)
+
+</details>
+
+<br/>
 
 <div align="center">
 
-<a href="https://github.com/sudeenjain">
-  <img src="https://github-readme-stats.vercel.app/api?username=sudeenjain&show_icons=true&hide_border=true&bg_color=0B1220&title_color=00F5FF&icon_color=A78BFA&text_color=E5E7EB&rank_icon=github" alt="GitHub statistics" width="100%"/>
-</a>
-
-<a href="https://github.com/sudeenjain">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sudeenjain&layout=compact&hide_border=true&bg_color=0B1220&title_color=00F5FF&text_color=E5E7EB" alt="Most used programming languages" width="100%"/>
-</a>
+[**Explore all projects →**](https://github.com/sudeenjain?tab=repositories)
 
 </div>
 
 ---
 
-## ◈ LET'S CONNECT
+### TECHNICAL TOOLKIT
+
+| Area | Technologies |
+|---|---|
+| **Languages & Web** | Python, HTML5, CSS3, JavaScript |
+| **AI & ML** | Machine learning, recommendation systems, computer vision concepts |
+| **Frontend & Graphics** | Responsive design, Three.js, AOS |
+| **Cloud & Tools** | Google Cloud learning, Git, GitHub, VS Code |
+
+*Technologies listed reflect the areas represented in my work and learning. Individual project repositories contain their implementation details.*
+
+---
+
+### THIS PORTFOLIO
+
+This repository contains the source code for my personal portfolio website.
+
+- A dark, cyber-inspired visual design with cyan and violet accents
+- An animated particle background built with Three.js
+- Responsive layouts for desktop and mobile
+- Modular HTML sections for profile, skills, projects, and contact
+- Scroll-based animations and contact-form integration
+
+**Built with:** HTML · CSS · JavaScript · Three.js · AOS
+
+[Explore the live website](https://sudeenjain.github.io/portfolio/) · [Browse the source](https://github.com/sudeenjain/portfolio)
+
+---
+
+### RUN LOCALLY
+
+```bash
+git clone https://github.com/sudeenjain/portfolio.git
+cd portfolio
+python -m http.server 8000
+```
+
+Open `http://localhost:8000` in your browser.
+
+A local server is recommended because the site loads modular HTML fragments.
+
+---
+
+### BEYOND THE CODE
+
+I'm interested in opportunities to learn from experienced engineers, collaborate on meaningful projects, and contribute to building useful technology.
+
+If you're exploring a collaboration, internship, or engineering opportunity, feel free to connect.
 
 <div align="center">
 
-Have an idea, an interesting project, or an opportunity to collaborate? Let's connect.
+[**VIEW MY PORTFOLIO**](https://sudeenjain.github.io/portfolio/)
 
-<a href="https://sudeenjain.github.io/portfolio/">
-  <img src="https://img.shields.io/badge/🌐_WEBSITE-00F5FF?style=for-the-badge&labelColor=080B14" alt="Website"/>
-</a>
-<a href="https://github.com/sudeenjain">
-  <img src="https://img.shields.io/badge/GITHUB-A78BFA?style=for-the-badge&logo=github&logoColor=white&labelColor=080B14" alt="GitHub"/>
-</a>
+[GitHub](https://github.com/sudeenjain) · [Resume](resume.pdf)
 
-<br/><br/>
+<br/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F5FF,100:7C3AED&height=100&section=footer" alt="Cyan and violet footer"/>
-
-<sub>Designed with curiosity. Built with code. Driven by innovation.</sub>
-
-**© Sudeen Jain H R**
+*Curiosity → Engineering → Impact*
 
 </div>
