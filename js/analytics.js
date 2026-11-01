@@ -3,7 +3,7 @@
  * 2) Paste the Measurement ID (looks like G-ABC123XYZ9) below.  Until then, nothing is loaded or sent.
  * Tracking is skipped on localhost and when the browser sends "Do Not Track". */
 (function () {
-  var GA_ID = 'G-XXXXXXXXXX';
+  var GA_ID = 'G-48Y1E7RS46';
   if (!/^G-[A-Z0-9]{6,}$/.test(GA_ID) || GA_ID === 'G-XXXXXXXXXX') return;
   if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) || navigator.doNotTrack === '1') return;
   window.dataLayer = window.dataLayer || [];
