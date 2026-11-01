@@ -412,16 +412,23 @@
     <script src="../js/lite-mode.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" media="print" onload="this.media=\'all\'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/seo-static.css">
-    <link rel="stylesheet" href="../css/showcase.css">
+    <link rel="stylesheet" href="../css/aos.css">
     <link rel="stylesheet" href="css/mobile.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
+    <!-- below-the-fold only: do not block first paint -->
+    <link rel="stylesheet" href="../css/showcase.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="../css/showcase.css"></noscript>
+    <!-- Font Awesome ships font-display:block (invisible icons while loading); override with swap -->
+    <style>
+        @font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2) format("woff2")}
+        @font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2) format("woff2")}
+        @font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2) format("woff2")}
+    </style>
     <!-- Clean URLs: show /laptop/ instead of /laptop/index.html (GitHub Pages serves the folder index) -->
     <script>
         (function () {
@@ -577,15 +584,34 @@
         window.PORTFOLIO_ROOT_PREFIX = '../';
     </script>
 
-    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="../js/vendor/aos.js"></script>
 
-    <script type="importmap">
-        { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+    <!-- Decorative 3D particle background: loaded only after the page is interactive and the browser is idle
+         (three.js is ~650 KB; it must never compete with the first paint). Skipped on Save-Data / reduced motion. -->
+    <script>
+        (function () {
+            var c = navigator.connection || {};
+            if (c.saveData || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+            function start() {
+                var m = document.createElement('script');
+                m.type = 'importmap';
+                m.textContent = JSON.stringify({ imports: { three: new URL('../laptop/js/vendor/three.module.min.js', document.baseURI).href } });
+                document.head.appendChild(m);
+                var s = document.createElement('script');
+                s.type = 'module';
+                s.src = '../js/particles.js';
+                document.head.appendChild(s);
+            }
+            function schedule() {
+                if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 4000 });
+                else setTimeout(start, 2500);
+            }
+            if (document.readyState === 'complete') schedule();
+            else window.addEventListener('load', function () { setTimeout(schedule, 800); });
+        })();
     </script>
-    <script type="module" src="../js/particles.js"></script>
 
-    <!-- Supabase integration scripts -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase integration: the SDK itself is lazy-loaded by supabase-config.js (window.ensureSupabase) -->
     <script defer src="../js/supabase-config.js"></script>
     <script defer src="../js/portfolio-data-service.js"></script>
 
