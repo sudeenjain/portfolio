@@ -1,0 +1,149 @@
+# Sudeen Jain H R - full profile
+
+> Sudeen Jain H R is a B.Tech Artificial Intelligence and Machine Learning student at Srinivas University, Karnataka, India. He builds machine learning projects and full-stack web applications in Python and works with cloud platforms.
+
+Also searched as: Sudeen Jain, sudeenjain, Sudeen H R. Last updated: 2026-11-01.
+
+## About
+I'm a driven AI & Machine Learning engineer currently pursuing my B.Tech at Srinivas University. My passion lies at the intersection of data science and software engineering — building intelligent systems that turn raw data into actionable insights and real-world solutions.
+
+From training deep learning models to deploying cloud-native applications, I thrive on tackling complex challenges. My toolkit spans Python, TensorFlow, AWS, Azure, and modern web technologies — and I'm always learning something new.
+
+## Skills
+- Python
+- Machine Learning
+- Artificial Intelligence
+- Data Science
+- SQL & RDBMS
+- AWS Cloud
+- Azure
+- HTML/CSS
+- JavaScript
+- Java
+- Data Visualization
+- Algorithm Design
+- Deep Learning
+- Git & GitHub
+
+## Internships
+### AI & Machine Learning Internship - Averixis Solutions (Aug 2025 – Dec 2025)
+Built strong foundations in AI & ML concepts, applied learning through practical tasks, and developed problem-solving skills aligned with industry expectations. Recognized under AICTE.
+
+### Front-End Web Development Internship - Edunet Foundation & IBM SkillsBuild (6 Weeks)
+Gained hands-on experience building responsive and interactive web pages, working with HTML, CSS, JavaScript, and modern frameworks. Strengthened UI/UX design principles and deployment skills. In collaboration with AICTE.
+
+### Emerging Technologies — AI & Cloud - Edunet Foundation & IBM (4 Weeks)
+Strengthened skills in AI and Cloud platforms while gaining hands-on exposure to real-world applications. In collaboration with AICTE and IBM.
+
+### UI/UX Design Internship - Snestron Systems Pvt. Ltd. (Jul 2025 – Aug 2025)
+Enhanced understanding of user-centered design and creative problem solving. Completed a 4-week online internship contributing meaningfully to design projects.
+
+### Web Development Internship - Abhimo Technologies (2026)
+Contributed to full-stack web development projects, building and debugging PHP backends and JavaScript frontends across multiple client products.
+
+## Certifications
+- AWS Academy Cloud Foundations: Graduate training badge in AWS cloud fundamentals and architecture — covering core services, pricing, and security. https://www.credly.com/badges/850a46b9-cd01-46eb-a853-35550567b86c/linked_in?t=t3kloq
+- Getting Started with AI: Comprehensive introduction to Artificial Intelligence concepts, ethical AI, and practical applications across industries. https://www.credly.com/badges/de0e7fd4-8593-48c7-95f6-104af1769c4e/linked_in?t=t3kl17
+- Journey to Cloud: Envisioning cloud-first solutions, digital transformation strategies, and enterprise architecture design. https://www.credly.com/badges/85e4145d-ecb3-4b8f-bb30-e4e47b4a26cc/linked_in?t=t3kkzf
+- Web Development Fundamentals: Full-stack web development covering front-end technologies, responsive design, and modern deployment pipelines. https://www.credly.com/badges/2977f3c8-acb9-4ad3-a4fb-37ce1220d25d/linked_in_profile
+- Solution Architecture: Job simulation in designing scalable, resilient solution architectures for enterprise-grade systems. https://media.licdn.com/dms/image/v2/D4E22AQEGpdCmKHz7zA/feedshare-shrink_800/B4EZddSqCDHYAg-/0/1749616862439?e=1766620800&v=beta&t=_TCJKrqS71aJvjW24OvR1IKrAknmvRVPPPjzfHIsnjY
+- Azure Fundamentals: Microsoft Azure cloud computing essentials — virtual machines, storage, networking, and identity management. https://skillsoft.digitalbadges.skillsoft.com/481daa56-525f-46d3-b249-ff884ef8ee85
+
+## Projects
+### Gesture Flow
+Control a presentation with your bare hands: the webcam tracks your gestures — open palm for the next slide, closed fist for the previous — so there is no clicker to lose.
+Tags: Computer Vision, Gesture Control, Web App
+Live: https://guestureflow.vercel.app/
+Source: https://github.com/sudeenjain/guesture_flow
+
+### FolioAI
+Turns a GitHub ID, LinkedIn data and a resume (or a short bio) into a professional portfolio website in seconds — no coding required.
+Tags: AI, Portfolio Generator, Web App
+Live: https://portfolio-ai-eta-dusky.vercel.app/
+Source: https://github.com/sudeenjain/folioAI
+
+### CareerReady
+An AI career workspace: skill verification, gap analysis, roadmaps and interview drills in one dashboard, with a personal assistant that plans your week.
+Tags: AI, Career Tools, Dashboard
+Live: https://dist-steel-beta-55.vercel.app/#/landing
+Source: https://github.com/sudeenjain/CarrerReady
+
+### Attendance Tracker
+Attendance marking with a live biometric face scanner — align your face and blink to pass the liveness check before attendance is recorded.
+Tags: Face Recognition, Liveness Check, Web App
+Live: https://attendance-tracker-eight-blush.vercel.app/
+Source: https://github.com/sudeenjain/attendence_tracker
+
+### CineAI — Movie Recommendation
+An AI-powered movie recommendation app behind a cinematic intro screen.
+Tags: AI, Recommendation Engine, Web App
+Live: https://movie-recommendation-plum-phi.vercel.app/
+Source: https://github.com/sudeenjain/Movie_Recommendation
+
+### NeuralCart — Product Recommendation
+An AI recommendation engine that suggests products to shoppers, presented as a neural-powered storefront.
+Tags: AI, Recommendation Engine, Web App
+Live: https://ai-recommendation-system-gamma.vercel.app/
+Source: https://github.com/sudeenjain/Product_Recommendation
+
+### Smart To-Do List (TaskFlow)
+An intelligent task manager with search, status filters (all / active / done), a high-priority filter and sorting.
+Tags: Productivity, Python, Web App
+Live: https://to-do-list-in-python.vercel.app/
+Source: https://github.com/sudeenjain/to-do-list-in-python
+
+### Currency Converter
+A real-time currency converter supporting 150+ currencies with instant conversion rates and a clean interface.
+Tags: JavaScript, Live APIs, Web App
+Live: https://currency-converter-phi-one.vercel.app/
+Source: https://github.com/sudeenjain/currency-converter
+
+## Client websites
+- Abhimo Technologies: Corporate website for a software product company serving the banking, oil & gas and cashew industries. Presents their custom software, IT consulting and outsourcing services, products, clients, internship programme, gallery and news, with an Abhi Bot chat assistant for visitors. https://abhimo.com/
+- Realindua: A video-sharing platform landing experience: discover, watch and share videos, with a video search bar, language switcher, login and sign-up, and floating poster cards over a cinematic dark hero. https://www.realindua.com/
+- Perks Properties: Real-estate website where visitors search properties or locations and browse buy, sell and rent listings, subscriptions, reviews and consultant pages, with a built-in assistant and user login. https://dev.perksproperty.com/
+- All In One Technology (Caltronics): Website for a laboratory engineering and statutory compliance enterprise (est. 2004, Morbi): Caltronics lab instruments, BIS / ISI certification consulting, calibration and government turn-key testing projects, with divisions, services, instruments and project pages. http://allinonetech.co.in/
+- Mahalaxmi Industrial Association: Association website with the tagline Empowering Industries, Promoting Innovation, Building Strong Business Networks, covering the association's about page, office bearers, activities and training programs. https://mahalaxmiindustrialassociation.org/about
+- Chinmaya School, Mangalore: School website that presents the campus, faculty, management, gallery, transport and activities, with Explore Programs and Contact calls to action and a WhatsApp chat button for parents. https://chinmayaschoolmangalore.in/
+- Kushal Industries Association: Website for a textile trade association supporting the technical textile sector and garment exports in Karnataka since 1988, with membership, office bearers, contact details and a Join Association call to action. https://kushalindustriesassociation.org/
+
+## Frequently asked questions
+**Who is Sudeen Jain H R?**
+Sudeen Jain H R is a B.Tech Artificial Intelligence and Machine Learning student at Srinivas University, Karnataka, India. He builds machine learning projects and full-stack web applications in Python and works with cloud platforms.
+
+**What skills does Sudeen have?**
+Sudeen's skills include Python, Machine Learning, Artificial Intelligence, Data Science, SQL & RDBMS, AWS Cloud, Azure, HTML/CSS, JavaScript, Java, Data Visualization, Algorithm Design, Deep Learning and Git & GitHub.
+
+**What projects has Sudeen built?**
+He has built 16 projects, including Game Level Difficulty Balancer, Book Recommender System, IBM ML Recommender, Interactive Recipe Finder and Currency Converter. Source code is available on GitHub at https://github.com/sudeenjain.
+
+**What internships has Sudeen completed?**
+AI & Machine Learning Internship at Averixis Solutions (Aug 2025 – Dec 2025), Front-End Web Development Internship at Edunet Foundation & IBM SkillsBuild (6 Weeks), Emerging Technologies — AI & Cloud at Edunet Foundation & IBM (4 Weeks), UI/UX Design Internship at Snestron Systems Pvt. Ltd. (Jul 2025 – Aug 2025) and Web Development Internship at Abhimo Technologies (2026).
+
+**What certifications does Sudeen hold?**
+His certifications include AWS Academy Cloud Foundations, Getting Started with AI, Journey to Cloud, Web Development Fundamentals, Solution Architecture and Azure Fundamentals. Badges can be verified on Credly at https://www.credly.com/users/sudeenjain.
+
+**How can I contact Sudeen?**
+By email at sudeenjainhr@gmail.com, on LinkedIn at https://www.linkedin.com/in/sudeenjain, or on GitHub at https://github.com/sudeenjain.
+
+**Is "sudeenjain" the same person as Sudeen Jain H R?**
+Yes. "sudeenjain" is the username Sudeen Jain H R uses on GitHub, LinkedIn, Instagram and Credly. Searches for Sudeen Jain, sudeenjain or Sudeen Jain H R all refer to him.
+
+**Where is Sudeen based?**
+He studies at Srinivas University in Karnataka, India.
+
+**Has Sudeen built websites for clients?**
+Yes. He has built 7 client websites, including Abhimo Technologies, Realindua, Perks Properties and All In One Technology (Caltronics). They are listed in the Projects section of the portfolio.
+
+**Where can I see Sudeen's source code?**
+His public repositories are at https://github.com/sudeenjain, and each project links to its own repository.
+
+**Where can I download Sudeen's resume?**
+The latest resume is available as a PDF at https://sudeenjain.github.io/portfolio/resume/resume.pdf.
+
+## Links
+- Portfolio: https://sudeenjain.github.io/portfolio/
+- Resume: https://sudeenjain.github.io/portfolio/resume/resume.pdf
+- [GitHub](https://github.com/sudeenjain)
+- [LinkedIn](https://www.linkedin.com/in/sudeenjain)
+- Email: sudeenjainhr@gmail.com

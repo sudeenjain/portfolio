@@ -1,0 +1,32 @@
+/* Styles for the crawler-readable HTML added by tools/build-seo.js.
+   .seo-static  = plain-HTML fallback sections (replaced at runtime by portfolio-renderer.js on laptop/mobile)
+   .seo-faq     = visible FAQ section (stays visible; backs the FAQPage JSON-LD)
+   .seo-page    = the root index.html text version */
+.seo-faq { position: relative; padding: 5rem 1.25rem; color: #f8fafc; font-family: Outfit, system-ui, sans-serif; }
+.seo-faq .seo-wrap { max-width: 860px; margin: 0 auto; }
+.seo-faq h2 { font-family: Orbitron, sans-serif; letter-spacing: .06em; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 1.5rem;
+  background: linear-gradient(120deg, #f8fafc 30%, #00f0ff 75%, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.seo-faq details { background: #0d1222; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; margin-bottom: .8rem; transition: border-color .25s; }
+.seo-faq details[open], .seo-faq details:hover { border-color: rgba(0,240,255,.4); }
+.seo-faq summary { cursor: pointer; padding: 1rem 1.2rem; font-weight: 500; list-style: none; }
+.seo-faq summary::-webkit-details-marker { display: none; }
+.seo-faq summary::after { content: "+"; float: right; color: #00f0ff; font-size: 1.2rem; line-height: 1; }
+.seo-faq details[open] summary::after { content: "\2212"; }
+.seo-faq summary:focus-visible { outline: 2px solid #00f0ff; outline-offset: 2px; border-radius: 14px; }
+.seo-faq details p { padding: 0 1.2rem 1.2rem; color: rgba(248,250,252,.72); line-height: 1.65; overflow-wrap: anywhere; }
+
+.seo-page { margin: 0; background: #070913; color: #f8fafc; font-family: Outfit, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.65; }
+.seo-page main { max-width: 900px; margin: 0 auto; padding: 3rem 1.25rem 1rem; }
+.seo-page h1 { font-family: Orbitron, sans-serif; font-size: clamp(2rem, 6vw, 3.2rem); letter-spacing: .04em; margin-bottom: 1rem;
+  background: linear-gradient(120deg, #f8fafc 30%, #00f0ff 75%, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.seo-page .lead { font-size: 1.1rem; color: rgba(248,250,252,.78); margin-bottom: 1.5rem; }
+.seo-page .cta { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.seo-page .btn { padding: .7rem 1.3rem; border-radius: 999px; background: #f8fafc; color: #070913; text-decoration: none; font-weight: 600; }
+.seo-page .btn.alt { background: transparent; color: #f8fafc; border: 1px solid rgba(255,255,255,.25); }
+.seo-page h2 { font-family: Orbitron, sans-serif; font-size: 1.05rem; letter-spacing: .15em; text-transform: uppercase; color: #00f0ff; margin: 2.2rem 0 .8rem; }
+.seo-page a { color: #00f0ff; }
+.seo-page .btn { color: #070913; } .seo-page .btn.alt { color: #f8fafc; }
+.seo-page ul { padding-left: 1.2rem; } .seo-page li { margin-bottom: .55rem; }
+.seo-page p { margin-bottom: .8rem; color: rgba(248,250,252,.8); }
+.seo-page .seo-faq { padding: 2rem 0; } .seo-page .seo-faq h2 { background: none; -webkit-text-fill-color: #00f0ff; color: #00f0ff; font-size: 1.05rem; letter-spacing: .15em; text-transform: uppercase; }
+.seo-foot { text-align: center; padding: 2rem 1rem 3rem; color: rgba(248,250,252,.55); font-size: .85rem; }

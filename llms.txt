@@ -1,0 +1,42 @@
+# Sudeen Jain H R
+
+> Sudeen Jain H R is a B.Tech Artificial Intelligence and Machine Learning student at Srinivas University, Karnataka, India. He builds machine learning projects and full-stack web applications in Python and works with cloud platforms.
+
+## Main pages
+- [Portfolio (interactive)](https://sudeenjain.github.io/portfolio/laptop/)
+- [Portfolio (text version)](https://sudeenjain.github.io/portfolio/)
+- [Full profile for AI (llms-full.txt)](https://sudeenjain.github.io/portfolio/llms-full.txt)
+- [Resume (PDF)](https://sudeenjain.github.io/portfolio/resume/resume.pdf)
+- [GitHub](https://github.com/sudeenjain)
+- [LinkedIn](https://www.linkedin.com/in/sudeenjain)
+
+## Projects
+- Game Level Difficulty Balancer: An algorithmic solution that dynamically optimizes game difficulty curves using DAA principles — ensuring engaging, balanced gameplay. (https://github.com/sudeenjain/DAA-miniproject)
+- Book Recommender System: An intelligent book recommendation engine built with Advanced Java that suggests titles based on user reading preferences and behavior patterns. (https://github.com/sudeenjain/Adavanced-Java-BookRecommender)
+- IBM ML Recommender: A Python-based collaborative filtering system that leverages machine learning to predict user preferences and generate personalized recommendations. (https://github.com/sudeenjain/IBM-miniproject)
+- Interactive Recipe Finder: A dynamic web application enabling users to search, filter, and discover recipes with real-time ingredient matching and beautiful UI. (https://github.com/sudeenjain/-interactive-recipe-finder)
+- Currency Converter: A real-time currency exchange tool that connects to live APIs — supporting 150+ currencies with instant conversion rates and clean interface. (https://github.com/sudeenjain/currency-converter)
+- Smart To-Do List: A Python-powered task management application with priority sorting, deadline tracking, and persistent storage for efficient productivity. (https://github.com/sudeenjain/to-do-list-in-python)
+- Gesture Flow: A gesture-controlled interface that interprets hand movements in real time to drive on-screen actions and interactions. (https://github.com/sudeenjain/guesture_flow)
+- Attendance Tracker: A web-based attendance management system for recording, tracking, and reviewing attendance records efficiently. (https://github.com/sudeenjain/attendence_tracker)
+- Movie Recommendation: A recommendation engine that suggests movies to users based on content similarity and viewing preferences. (https://github.com/sudeenjain/Movie_Recommendation)
+- Portfolio Website: An earlier version of this personal portfolio site, showcasing projects, certifications, and skills. (https://github.com/sudeenjain/portfolio)
+- FolioAI: An AI-powered portfolio assistant that helps generate and organize portfolio content automatically. (https://github.com/sudeenjain/folioAI)
+- CareerReady: A career-preparation platform helping users build job-readiness skills and track their progress. (https://github.com/sudeenjain/CarrerReady)
+- Product Recommendation: An AI-driven recommendation system that suggests products to users based on browsing and purchase behavior. (https://github.com/sudeenjain/Product_Recommendation)
+- Connects The Dots: An algorithmic visualization project exploring graph connectivity and pathfinding concepts, built as a DAA mini-project. (https://github.com/sudeenjain/Connect_the_Dots)
+- Amazon Bestseller Recommender: A machine learning model that analyzes Amazon bestseller data to recommend similar high-performing products. (https://github.com/sudeenjain/Amazon-Bestseller-Recommender)
+- AI Dictionary: An AI-powered dictionary tool offering smart word definitions, usage examples, and contextual understanding. (https://github.com/sudeenjain/AI_dictonary)
+
+## Internships
+- AI & Machine Learning Internship, Averixis Solutions (Aug 2025 – Dec 2025)
+- Front-End Web Development Internship, Edunet Foundation & IBM SkillsBuild (6 Weeks)
+- Emerging Technologies — AI & Cloud, Edunet Foundation & IBM (4 Weeks)
+- UI/UX Design Internship, Snestron Systems Pvt. Ltd. (Jul 2025 – Aug 2025)
+- Web Development Internship, Abhimo Technologies (2026)
+
+## Skills
+Python, Machine Learning, Artificial Intelligence, Data Science, SQL & RDBMS, AWS Cloud, Azure, HTML/CSS, JavaScript, Java, Data Visualization, Algorithm Design, Deep Learning, Git & GitHub
+
+## Contact
+- Email: sudeenjainhr@gmail.com
