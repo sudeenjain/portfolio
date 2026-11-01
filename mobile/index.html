@@ -418,11 +418,11 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/seo-static.css">
-    <link rel="stylesheet" href="../css/aos.css">
     <link rel="stylesheet" href="css/mobile.css">
     <!-- below-the-fold only: do not block first paint -->
+    <link rel="stylesheet" href="../css/aos.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="../css/showcase.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="../css/showcase.css"></noscript>
+    <noscript><link rel="stylesheet" href="../css/aos.css"><link rel="stylesheet" href="../css/showcase.css"></noscript>
     <!-- Font Awesome ships font-display:block (invisible icons while loading); override with swap -->
     <style>
         @font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2) format("woff2")}
@@ -443,14 +443,7 @@
 
 <body>
 
-    <!-- PRELOADER -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-logo">SJ</div>
-        <div class="preloader-bar"></div>
-    </div>
-
-
-    <!-- NEON LINE TAIL CURSOR (automatically inactive on mobile devices) -->
+<!-- NEON LINE TAIL CURSOR (automatically inactive on mobile devices) -->
     <canvas id="neonCursorCanvas"></canvas>
 
     <div id="canvas-container"></div>
@@ -461,9 +454,59 @@
 
     <main id="main">
     <section id="home">
-        <!-- Static fallback for crawlers / no-JS; replaced at runtime by js/portfolio-renderer.js -->
-        <div class="container">
-            <h1>Sudeen Jain H R</h1>
+        <!-- Pre-rendered hero (identical to renderHero() in js/portfolio-renderer.js): paints with the CSS alone,
+             without waiting for any JavaScript. The renderer detects .hero-wrapper and leaves it in place. -->
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <div class="hero-status-pill">
+                    <span class="status-pulse-dot"></span>
+                    <span class="status-text">HELLO, I AM</span>
+                </div>
+                <h1 class="hero-main-title">
+                    <span class="hero-first-name">SUDEEN JAIN H R</span>
+                </h1>
+                <p class="hero-degree-line">
+                    B.Tech in AI &amp; ML &mdash; Srinivas University
+                </p>
+                <div class="hero-role-badge">
+                    <span class="role-terminal-icon">&gt;_</span>
+                    <span class="typed-role-text" id="typedText"></span>
+                    <span class="terminal-cursor"></span>
+                </div>
+
+                <div class="hero-stats-row">
+                    <div class="hero-stat-box">
+                        <span class="stat-big-num">16+</span>
+                        <span class="stat-mini-label">Projects</span>
+                    </div>
+                    <div class="hero-stat-sep"></div>
+                    <div class="hero-stat-box">
+                        <span class="stat-big-num">12+</span>
+                        <span class="stat-mini-label">Credentials</span>
+                    </div>
+                    <div class="hero-stat-sep"></div>
+                    <div class="hero-stat-box">
+                        <span class="stat-big-num">5</span>
+                        <span class="stat-mini-label">Internships</span>
+                    </div>
+                </div>
+
+                <div class="hero-action-buttons">
+                    <a href="#projects" class="btn-hero-primary">
+                        <i class="fas fa-rocket"></i> Explore Work
+                    </a>
+                    <a href="#contact" class="btn-hero-secondary">
+                        <i class="fas fa-paper-plane"></i> Let's Connect
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="scroll-indicator" class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <div class="arrows"><span></span><span></span><span></span></div>
+        </div>
+        <!-- crawler text (visually hidden) -->
+        <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">
             <p>AI/ML Engineer &middot; Python Developer &middot; Cloud Computing. B.Tech Artificial Intelligence and Machine Learning student at Srinivas University, Karnataka, India.</p>
             <p>
                 <a href="https://www.linkedin.com/in/sudeenjain/" rel="me">LinkedIn</a> |
@@ -586,28 +629,37 @@
 
     <script defer src="../js/vendor/aos.js"></script>
 
-    <!-- Decorative 3D particle background: loaded only after the page is interactive and the browser is idle
-         (three.js is ~650 KB; it must never compete with the first paint). Skipped on Save-Data / reduced motion. -->
+    <!-- Non-essential extras are loaded only after the visitor first interacts (scroll / touch / key / mouse),
+         so they never compete with the first paint or count as main-thread blocking time:
+           - decorative 3D particle background (three.js, ~650 KB)  [skipped on Save-Data / reduced motion]
+           - the AI chatbot widget (~110 KB + its own icon font)     [also starts after 12 s if the visitor is idle] -->
     <script>
         (function () {
             var c = navigator.connection || {};
-            if (c.saveData || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-            function start() {
+            var lite = c.saveData || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+            var done = false;
+            function add(src, mod) {
+                var s = document.createElement('script');
+                s.src = src; if (mod) s.type = 'module'; else s.defer = true;
+                document.head.appendChild(s);
+            }
+            function startChat() { add('../chatbot/sudeen-chatbot.js'); }
+            function startParticles() {
+                if (lite) return;
                 var m = document.createElement('script');
                 m.type = 'importmap';
                 m.textContent = JSON.stringify({ imports: { three: new URL('../laptop/js/vendor/three.module.min.js', document.baseURI).href } });
                 document.head.appendChild(m);
-                var s = document.createElement('script');
-                s.type = 'module';
-                s.src = '../js/particles.js';
-                document.head.appendChild(s);
+                add('../js/particles.js', true);
             }
-            function schedule() {
-                if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 4000 });
-                else setTimeout(start, 2500);
+            function go() {
+                if (done) return; done = true;
+                ['scroll', 'touchstart', 'pointerdown', 'keydown', 'mousemove'].forEach(function (e) { removeEventListener(e, go); });
+                var idle = window.requestIdleCallback || function (f) { setTimeout(f, 200); };
+                idle(function () { startChat(); idle(startParticles, { timeout: 2000 }); }, { timeout: 1500 });
             }
-            if (document.readyState === 'complete') schedule();
-            else window.addEventListener('load', function () { setTimeout(schedule, 800); });
+            ['scroll', 'touchstart', 'pointerdown', 'keydown', 'mousemove'].forEach(function (e) { addEventListener(e, go, { passive: true, once: true }); });
+            window.addEventListener('load', function () { setTimeout(go, 12000); });
         })();
     </script>
 
@@ -626,8 +678,6 @@
     <!-- Lenis smooth scrolling (vendored, no CDN) -->
     <script defer src="../js/vendor/lenis.min.js"></script>
     <script defer src="js/mobile.js"></script>
-    <!-- Abhimo-Style AI Chatbot Floating Widget -->
-    <script defer src="../chatbot/sudeen-chatbot.js"></script>
 </body>
 
 </html>
