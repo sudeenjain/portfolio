@@ -507,7 +507,9 @@ const PortfolioRenderer = (() => {
         const navPlaceholder = document.getElementById('nav-placeholder');
         if (navPlaceholder) navPlaceholder.outerHTML = renderNav(data.nav);
 
-        setHTML('home', renderHero(data.hero));
+        // mobile/index.html ships a pre-rendered hero; re-rendering it would repaint the LCP element
+        const home = document.getElementById('home');
+        if (!(home && home.querySelector('.hero-wrapper'))) setHTML('home', renderHero(data.hero));
         setHTML('about', renderAbout(data.about));
     }
 
