@@ -19,6 +19,9 @@ const PortfolioDataService = (() => {
      * expected by PortfolioRenderer.
      */
     async function fetchDynamicData() {
+        if (!window.supabaseClient && window.ensureSupabase) {
+            await window.ensureSupabase();
+        }
         if (!window.supabaseClient) {
             throw new Error("Supabase client is not initialized.");
         }

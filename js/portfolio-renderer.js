@@ -75,7 +75,7 @@ const PortfolioRenderer = (() => {
             <span class="status-pulse-dot"></span>
             <span class="status-text">${d.greeting || 'Available for Opportunities'}</span>
         </div>
-        <h1 class="hero-main-title" data-aos="zoom-in" data-aos-duration="900">
+        <h1 class="hero-main-title">
             <span class="hero-first-name">${d.name}</span>
         </h1>
         <p class="hero-degree-line" data-aos="fade-up" data-aos-delay="150">
@@ -497,26 +497,36 @@ const PortfolioRenderer = (() => {
      * Returns once all synchronous DOM writes are done (no network
      * requests involved — the data is already loaded as a JS object).
      */
-    function renderAll(data) {
-        const set = (id, html) => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = html;
-        };
+    function setHTML(id, html) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = html;
+    }
 
+    /** Above-the-fold shell: nav, hero, about. Only needs the static local data, so it can paint immediately. */
+    function renderCore(data) {
         const navPlaceholder = document.getElementById('nav-placeholder');
         if (navPlaceholder) navPlaceholder.outerHTML = renderNav(data.nav);
 
-        set('home', renderHero(data.hero));
-        set('about', renderAbout(data.about));
-        set('skills', renderSkills(data.skills));
-        set('certifications', renderCertifications(data.certifications));
-        set('badges', renderBadges(data.badges));
-        set('internships', renderInternships(data.internships));
-        set('projects', renderProjects(data.projects));
-        set('resume', renderResume());
-        set('contact', renderContact(data.contact));
-        set('get-in-touch', renderGetInTouch(data.getInTouch));
+        setHTML('home', renderHero(data.hero));
+        setHTML('about', renderAbout(data.about));
     }
 
-    return { renderAll };
+    /** Everything below the fold (may use live Supabase data). */
+    function renderRest(data) {
+        setHTML('skills', renderSkills(data.skills));
+        setHTML('certifications', renderCertifications(data.certifications));
+        setHTML('badges', renderBadges(data.badges));
+        setHTML('internships', renderInternships(data.internships));
+        setHTML('projects', renderProjects(data.projects));
+        setHTML('resume', renderResume());
+        setHTML('contact', renderContact(data.contact));
+        setHTML('get-in-touch', renderGetInTouch(data.getInTouch));
+    }
+
+    function renderAll(data) {
+        renderCore(data);
+        renderRest(data);
+    }
+
+    return { renderAll, renderCore, renderRest };
 })();

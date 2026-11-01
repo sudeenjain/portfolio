@@ -1,12 +1,15 @@
 // =============================================
 // PRELOADER (independent of rendered content)
 // =============================================
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) preloader.classList.add('hidden');
-    }, 1500);
-});
+let __preloaderHidden = false;
+function hidePreloader() {
+    if (__preloaderHidden) return;
+    __preloaderHidden = true;
+    const preloader = document.getElementById('preloader');
+    if (preloader) preloader.classList.add('hidden');
+}
+// Safety net: never keep the overlay up if something below fails.
+window.addEventListener('load', () => setTimeout(hidePreloader, 600));
 
 // =============================================
 // NEON LINE TAIL CURSOR ANIMATION
@@ -210,29 +213,75 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Build every section dynamically from Supabase (or fallback portfolio-data.js) via js/portfolio-renderer.js.
     if (typeof PortfolioRenderer === 'undefined' || typeof PortfolioDataService === 'undefined') {
         console.error('PortfolioRenderer or PortfolioDataService not found — check script load order in index.html');
         return;
     }
 
-    // Load data from Supabase or fallback static config
+    // PHASE 1 — paint nav + hero + about right away from the local static data (no network wait).
+    const fastPath = typeof PortfolioRenderer.renderCore === 'function' && typeof portfolioData !== 'undefined';
+    if (fastPath) {
+        PortfolioRenderer.renderCore(portfolioData);
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
+            window.__aosReady = true;
+        }
+        initMobileMenu();
+        requestAnimationFrame(() => requestAnimationFrame(hidePreloader));
+    }
+
+    // PHASE 2 — fetch live Supabase data (falls back to the local copy) and render the rest.
     const data = await PortfolioDataService.loadPortfolioData();
 
-    PortfolioRenderer.renderAll(data);
+    if (fastPath) PortfolioRenderer.renderRest(data);
+    else PortfolioRenderer.renderAll(data);
 
-    // Everything below touches markup that renderAll() just created,
-    // so it can only run after that call returns.
-    initGeneralScripts(data);
+    // Everything below touches markup that has just been created.
+    initGeneralScripts(data, fastPath);
+    hidePreloader();
 });
+
+/** Hamburger menu wiring (needs only the nav, so it runs as soon as the shell is painted). */
+function initMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const links = document.querySelectorAll('.nav-links a');
+
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+        });
+
+        // Close when clicking outside menu
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks) navLinks.classList.remove('active');
+            if (hamburger) hamburger.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+}
 
 /**
  * All scripts that depend on the rendered sections (nav, hero, about,
  * projects, etc.) live here so they run after PortfolioRenderer.renderAll().
  */
-function initGeneralScripts(data) {
-    // --- AOS INIT (must run after content is in the DOM) ---
-    AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
+function initGeneralScripts(data, menuAlreadyWired) {
+    // --- AOS (initialised after the first paint on the fast path; just pick up the new sections) ---
+    if (window.__aosReady) AOS.refreshHard();
+    else AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
 
     // --- NEON CURSOR HOVER TARGETS ---
     if (typeof window.setNeonCursorHover === 'function') {
@@ -276,36 +325,8 @@ function initGeneralScripts(data) {
         });
     }
 
-    // --- MOBILE MENU ---
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    const links = document.querySelectorAll('.nav-links a');
-
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active', isOpen);
-            document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-        });
-
-        // Close when clicking outside menu
-        document.addEventListener('click', (e) => {
-            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-    }
-
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navLinks) navLinks.classList.remove('active');
-            if (hamburger) hamburger.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    });
+    // --- MOBILE MENU (wired early on the fast path) ---
+    if (!menuAlreadyWired) initMobileMenu();
 
     // --- TYPEWRITER EFFECT (#typedText lives in the rendered hero; roles come from data) ---
     const typedTextEl = document.getElementById('typedText');
